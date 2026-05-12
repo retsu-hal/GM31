@@ -61,3 +61,10 @@
 *.pidb
 *.svclog
 *.scc
+
+# User-specific project settings
+*.vcxproj.user
+
+# Build output
+x64/
+*.cso
