@@ -6,30 +6,23 @@
 
 void FIELD::Init()
 {
+	m_Position = { 0.0f, 0.0f, 0.0f };
+	m_Scale = {20.0f, 1.0f, 20.0f };
+	static const XMFLOAT4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	VERTEX_3D vertex[4];
-
+	static const FIELD::Vertex3D vertexData[] =
 	{
-		vertex[0].Position = XMFLOAT3(-30.0f, 0.0f, 30.0f);
-		vertex[0].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
-		vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		vertex[0].TexCoord = XMFLOAT2(0.0f, 0.0f);
+		// Position                      Normal                TexCoord
+		// 上面 (Y+)
+		{ {-1.0f,  1.0f,  1.0f }, { 0.0f,  1.0f,  0.0f }, color, {  0.25f,  0.75f } },
+		{ { 1.0f,  1.0f,  1.0f }, { 0.0f,  1.0f,  0.0f }, color, { 0.375f,  0.75f } },
+		{ {-1.0f,  1.0f, -1.0f }, { 0.0f,  1.0f,  0.0f }, color, {  0.25f, 1.0f } },
+		{ { 1.0f,  1.0f, -1.0f }, { 0.0f,  1.0f,  0.0f }, color, { 0.375f, 1.0f } },
+	};
+	Vertex3D vertex[4];
 
-		vertex[1].Position = XMFLOAT3(30.0f, 0.0f, 30.0f);
-		vertex[1].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
-		vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		vertex[1].TexCoord = XMFLOAT2(10.0f, 0.0f);
-
-		vertex[2].Position = XMFLOAT3(-30.0f, 0.0f, -30.0f);
-		vertex[2].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
-		vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		vertex[2].TexCoord = XMFLOAT2(0.0f, 10.0f);
-
-		vertex[3].Position = XMFLOAT3(30.0f, 0.0f, -30.0f);
-		vertex[3].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
-		vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		vertex[3].TexCoord = XMFLOAT2(10.0f, 10.0f);
-	}
+	// vertex配列へコピー
+	memcpy(vertex, vertexData, sizeof(vertexData));
 
 	// 頂点バッファ生成
 	D3D11_BUFFER_DESC bd{};
@@ -49,7 +42,7 @@ void FIELD::Init()
 	//テクスチャ読み込み
 	TexMetadata metadata;
 	ScratchImage image;
-	LoadFromWICFile(L"asset\\texture\\iaigami.jpg", WIC_FLAGS_NONE, &metadata, image);//テクスチャは変更可
+	LoadFromWICFile(L"asset\\texture\\TileA3.png", WIC_FLAGS_NONE, &metadata, image);//テクスチャは変更可
 	CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(),
 		image.GetImageCount(), metadata, &m_Texture);
 	assert(m_Texture);//読み込み失敗時にダイアログを表示

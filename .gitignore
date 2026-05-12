@@ -68,3 +68,6 @@
 # Build output
 x64/
 *.cso
+
+# igmui build/cache
+igmui/

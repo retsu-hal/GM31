@@ -5,6 +5,14 @@
 
 class FIELD : public GameObject
 {
+	public:
+	// 頂点構造体
+	struct Vertex3D {
+		XMFLOAT3 Position;
+		XMFLOAT3 Normal;
+		XMFLOAT4 Diffuse;
+		XMFLOAT2 TexCoord;
+	};
 private:
 	
 	ID3D11Buffer* m_vertexBuffer;					// 頂点バッファ
@@ -21,3 +29,5 @@ public:
 	void Draw() override;
 
 };
+
+

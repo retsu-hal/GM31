@@ -14,4 +14,16 @@ public:
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;
+	
+	void SetPosition(Vector3 position);
+	Vector3 GetPosition();
+
+	void SetTarget(Vector3 target);
+	Vector3 GetTarget();
+
+	void SetAngle(Vector3 angle);
+	Vector3 GetAngle();
+
+	void SetFov(float fov);
+	float GetFov();
 };

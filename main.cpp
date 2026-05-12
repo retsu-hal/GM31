@@ -7,6 +7,8 @@
 #include <thread>
 
 
+
+
 const char* CLASS_NAME = "AppClass";
 const char* WINDOW_NAME = "DX11ÉQÅ[ÉÄ";
 
@@ -117,6 +119,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+#if  _DEBUG
+	extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND, UINT, WPARAM, LPARAM);
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
+		return true;
+
+#endif //  _DEBUG
+
 	
 	switch(uMsg)
 	{

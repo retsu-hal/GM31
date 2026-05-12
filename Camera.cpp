@@ -7,16 +7,16 @@
 #define ANGLE_UP_MAX 1.5f
 #define ANGLE_UP_MIN -1.5f
 #define ANGLE_HEIGHT_MAX 80.0f
-#define ANGLE_HEIGHT_MIN -100.0f
-#define FOV_MAX 2.0f
-#define FOV_MIN 0.5f
+#define ANGLE_HEIGHT_MIN -80.0f
+#define FOV_MAX 46.0f
+#define FOV_MIN 44.0f
 
 void CAMERA::Init()
 {
 	m_Position = { 0.0f, 10.0f, -15.0f };
 	m_Target = { 0.0f, 0.0f, 0.0f };
 	m_Angle = { 0.0f, 0.0f, 0.0f };
-	m_Fov = 1.0f;
+	m_Fov = 45.0f;
 }
 
 void CAMERA::Uninit()
@@ -121,6 +121,12 @@ void CAMERA::Update()
     m_Target.x = m_Position.x + dirX;
     m_Target.y = m_Position.y + dirY;
     m_Target.z = m_Position.z + dirZ;
+
+
+    if (Keyboard_IsKeyDown(KK_R))
+    {
+		CAMERA::Init(); // ÉJÉÅÉâÇÃèâä˙âª
+    }
 }
 
 void CAMERA::Draw()
@@ -133,4 +139,45 @@ void CAMERA::Draw()
 	XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
 	XMMATRIX view = XMMatrixLookAtLH(XMLoadFloat3((XMFLOAT3*)&m_Position), XMLoadFloat3((XMFLOAT3*)&m_Target), XMLoadFloat3(&up));
 	Renderer::SetViewMatrix(view);
+}
+
+
+void CAMERA::SetPosition(Vector3 position)
+{
+    m_Position = position;
+}
+
+Vector3 CAMERA::GetPosition()
+{
+    return m_Position;
+}
+
+void CAMERA::SetTarget(Vector3 target)
+{
+	m_Target = target;
+}
+
+Vector3 CAMERA::GetTarget()
+{
+    return m_Angle;
+}
+
+void CAMERA::SetAngle(Vector3 angle)
+{
+	m_Angle = angle;
+}
+
+Vector3 CAMERA::GetAngle()
+{
+	return m_Angle;
+}
+
+void CAMERA::SetFov(float fov)
+{
+	m_Fov = fov;
+}
+
+float CAMERA::GetFov()
+{
+    return m_Fov;
 }

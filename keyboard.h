@@ -414,8 +414,6 @@ void Keyboard_Reset(void);
 // キーボード制御のためのウォンどうメッセージプロシージャフック関数
 void Keyboard_ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam);
 
-
-
 //トリガー用
 bool Keyboard_IsKeyDownTrigger(Keyboard_Keys key);
 void    keycopy();
