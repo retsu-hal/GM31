@@ -39,3 +39,25 @@
 
 # debug information files
 *.dwo
+
+# Visual Studio
+.vs/
+*.VC.db
+*.VC.opendb
+*.ipch
+*.idb
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
