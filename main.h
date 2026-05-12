@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <assert.h>
 #include <functional>
+#include <list>
 
 #include <d3d11.h>
 #pragma comment (lib, "d3d11.lib")
@@ -15,8 +16,13 @@
 #include <DirectXMath.h>
 using namespace DirectX;
 
+#include "DirectXTex.h"
 
-
+#if _DEBUG
+#pragma comment (lib, "DirectXTex_Debug.lib")
+#else
+#pragma comment (lib, "DirectXTex_Release.lib")
+#endif
 
 
 

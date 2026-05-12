@@ -2,6 +2,8 @@
 
 #include "main.h"
 #include "manager.h"
+#include "renderer.h"
+#include "keyboard.h"
 #include <thread>
 
 
@@ -115,14 +117,23 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-
+	
 	switch(uMsg)
 	{
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
+
+	case WM_ACTIVATEAPP:
+    case WM_SYSKEYDOWN:
+    case WM_KEYUP:
+    case WM_SYSKEYUP:
+        Keyboard_ProcessMessage(uMsg, wParam, lParam);
+        break;
+
 	case WM_KEYDOWN:
-		switch(wParam)
+		Keyboard_ProcessMessage(uMsg, wParam, lParam);
+		switch (wParam)
 		{
 		case VK_ESCAPE:
 			//DestroyWindow(hWnd);
@@ -130,6 +141,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		break;
+	
 	case WM_CLOSE:	
 		if (
 			MessageBox(hWnd, "ñ{ìñÇ…èIÇÌÇÈÇÒÇ©ÅH",

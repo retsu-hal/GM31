@@ -34,7 +34,7 @@ void Renderer::Init()
 	HRESULT hr = S_OK;
 
 
-
+	
 
 	// デバイス、スワップチェーン作成
 	DXGI_SWAP_CHAIN_DESC swapChainDesc{};
