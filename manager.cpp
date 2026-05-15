@@ -7,7 +7,8 @@
 #include "Cube.h"
 #include "keyboard.h"
 
-std::list<GameObject*> Manager::m_GameObjects;
+
+std::list<GameObject* > Manager::m_GameObjects;
 
 void Manager::Init()
 {
@@ -86,12 +87,12 @@ void Manager::Draw()
 	}
 
 #if _DEBUG
-	// ƒtƒŒ[ƒ€ŠJn
+	// ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Jï¿½n
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	// ---- ƒEƒBƒWƒFƒbƒg‚ğ‚±‚±‚É‘‚­ ----
+	// ---- ï¿½Eï¿½Bï¿½Wï¿½Fï¿½bï¿½gï¿½`ï¿½Ê‚Í‚ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ ----
 	ImGui::Begin("Debug");
 	ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
 
@@ -107,7 +108,7 @@ void Manager::Draw()
 	ImGui::End();
 	// ----------------------------------
 
-	// ƒŒƒ“ƒ_ƒŠƒ“ƒO
+	// ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½O
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 

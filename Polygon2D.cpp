@@ -2,8 +2,6 @@
 #include "renderer.h"
 #include "Polygon2D.h"
 
-
-
 void Polygon2D::Init()
 {
 	VERTEX_3D vertex[4];

@@ -7,8 +7,13 @@
 
 void CUBE::Init()
 {
-	m_Position = { 0.0f, 10.0f, 0.0f };
-	m_Scale = { 2.0f, 2.0f, 2.0f };
+	//==================
+	// èâä˙âª
+	//==================
+	m_Position = { -5.0f, 10.0f, 0.0f };
+	m_Scale = { 1.0f, 1.0f, 1.0f };
+	m_Velocity = { 0.0f, 0.0f, 0.0f };
+
 	static const XMFLOAT4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	static const CUBE::Vertex3D vertexData[] =
@@ -118,8 +123,12 @@ void CUBE::Uninit()
 
 void CUBE::Update()
 {
-	m_Rotation.x += 0.06;
-	m_Rotation.y += 0.06;
+	float deltaTime = 1.0f / 60.0f;
+
+	m_Velocity += Vector3(5.0f, 0.0f, 0.0f) * deltaTime;
+
+	m_Position += m_Velocity * deltaTime;
+	m_Rotation.z += -m_Velocity.x * deltaTime;
 }
 
 void CUBE::Draw()

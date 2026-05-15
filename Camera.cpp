@@ -4,10 +4,8 @@
 #include "Camera.h"
 #include "keyboard.h"
 
-#define ANGLE_UP_MAX 1.5f
-#define ANGLE_UP_MIN -1.5f
-#define ANGLE_HEIGHT_MAX 80.0f
-#define ANGLE_HEIGHT_MIN -80.0f
+#define POS_MAX 100.0f
+#define POS_MIN -100.0f
 #define FOV_MAX 46.0f
 #define FOV_MIN 44.0f
 
@@ -26,117 +24,78 @@ void CAMERA::Uninit()
 
 void CAMERA::Update()
 {
-    float rotSpeed = 0.03f;
     float moveSpeed = 0.5f;
-	float fovSpeed = 0.01f;
-
-    //ズーム
-    if(Keyboard_IsKeyDown(KK_Q))
+    
+    if (Keyboard_IsKeyDown(KK_R))
     {
-        m_Fov += fovSpeed;
-        if (m_Fov > FOV_MAX)
-        {
-            m_Fov = FOV_MAX; // 上限
-        }
-    }
-    else if (Keyboard_IsKeyDown(KK_E))
-    {
-        m_Fov  -= fovSpeed;
-        if (m_Fov < FOV_MIN)
-        {
-            m_Fov = FOV_MIN; // 下限
-        }
+        CAMERA::Init();
+        return;
     }
 
-    // 左右回転
-    if (Keyboard_IsKeyDown(KK_LEFT))
-    {
-        m_Angle.y -= rotSpeed;
-    }
-    else if (Keyboard_IsKeyDown(KK_RIGHT))
-    {
-        m_Angle.y += rotSpeed;
-    }
-
-	// 上下回転
-    if (Keyboard_IsKeyDown(KK_UP))
-    {
-		m_Angle.x += rotSpeed;
-        if (m_Angle.x > ANGLE_UP_MAX)
-        {
-			m_Angle.x = ANGLE_UP_MAX; // 上限
-        }
-    }
-    else if (Keyboard_IsKeyDown(KK_DOWN))
-	{
-		m_Angle.x -= rotSpeed;
-        if (m_Angle.x < ANGLE_UP_MIN)
-		{
-            m_Angle.x = ANGLE_UP_MIN; // 下限
-        }
-	}
-
-    // カメラの向きベクトルを計算
-    float dirX = sinf(m_Angle.y)*cosf(m_Angle.x);
+    float dirX = sinf(m_Angle.y) * cosf(m_Angle.x);
     float dirY = sinf(m_Angle.x);
-    float dirZ = cosf(m_Angle.y )*cosf(m_Angle.x);
+    float dirZ = cosf(m_Angle.y) * cosf(m_Angle.x);
 
-    // 前後移動（W/S）：向いている方向に移動
+	//前後の移動
     if (Keyboard_IsKeyDown(KK_W)) {
         m_Position.x += dirX * moveSpeed;
         m_Position.z += dirZ * moveSpeed;
+        if (m_Position.z > POS_MAX) m_Position.z = POS_MAX;
     }
     else if (Keyboard_IsKeyDown(KK_S)) {
         m_Position.x -= dirX * moveSpeed;
         m_Position.z -= dirZ * moveSpeed;
+        if (m_Position.z < POS_MIN) m_Position.z = POS_MIN;
     }
-
-    // 左右移動（A/D）：向きに対して横方向に移動
+	//左右の移動
     if (Keyboard_IsKeyDown(KK_A)) {
         m_Position.x -= dirZ * moveSpeed;
         m_Position.z += dirX * moveSpeed;
+        if (m_Position.x < POS_MIN) m_Position.x = POS_MIN;
     }
     else if (Keyboard_IsKeyDown(KK_D)) {
         m_Position.x += dirZ * moveSpeed;
         m_Position.z -= dirX * moveSpeed;
+        if (m_Position.x > POS_MAX) m_Position.x = POS_MAX;
     }
 
-	// 上下移動（スペース/Shift）：Y軸方向に移動
+	//上下の移動
     if (Keyboard_IsKeyDown(KK_LEFTSHIFT)) {
         m_Position.y += moveSpeed;
-        if (m_Position.y > ANGLE_HEIGHT_MAX)
-        {
-            m_Position.y = ANGLE_HEIGHT_MAX; // 上限
-        }
+        if (m_Position.y > POS_MAX) m_Position.y = POS_MAX;
     }
     else if (Keyboard_IsKeyDown(KK_SPACE)) {
         m_Position.y -= moveSpeed;
-        if (m_Position.y < ANGLE_HEIGHT_MIN)
-        {
-            m_Position.y = ANGLE_HEIGHT_MIN; // 下限
-        }
+        if (m_Position.y < POS_MIN) m_Position.y = POS_MIN;
+    }
+
+	//カメラの角度
+    if (Keyboard_IsKeyDown(KK_UP)) {
+        m_Angle.x += 0.03f;
+        if (m_Angle.x > XM_PIDIV2) m_Angle.x = XM_PIDIV2;
+    }
+    else if (Keyboard_IsKeyDown(KK_DOWN)) {
+        m_Angle.x -= 0.03f;
+        if (m_Angle.x < -XM_PIDIV2) m_Angle.x = -XM_PIDIV2;
+	}
+    if (Keyboard_IsKeyDown(KK_LEFT)) {
+        m_Angle.y -= 0.03f;
+    }
+    else if (Keyboard_IsKeyDown(KK_RIGHT)) {
+        m_Angle.y += 0.03f;
 	}
 
-    // 注視点をカメラの向きに合わせて更新
     m_Target.x = m_Position.x + dirX;
     m_Target.y = m_Position.y + dirY;
     m_Target.z = m_Position.z + dirZ;
-
-
-    if (Keyboard_IsKeyDown(KK_R))
-    {
-		CAMERA::Init(); // カメラの初期化
-    }
 }
 
 void CAMERA::Draw()
 {
-	//プロジェクションマトリクス
 	XMMATRIX projection = XMMatrixPerspectiveFovLH(m_Fov, (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 1.0f, 1000.0f);
 	Renderer::SetProjectionMatrix(projection);
-
-	//ビュー行列
-	XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
+    
+    XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
 	XMMATRIX view = XMMatrixLookAtLH(XMLoadFloat3((XMFLOAT3*)&m_Position), XMLoadFloat3((XMFLOAT3*)&m_Target), XMLoadFloat3(&up));
 	Renderer::SetViewMatrix(view);
 }

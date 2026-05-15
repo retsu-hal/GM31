@@ -5,6 +5,8 @@
 
 class CUBE : public GameObject
 {
+private:
+	Vector3 m_Velocity;		
 public:
 	// í∏ì_ç\ë¢ëÃ
 	struct Vertex3D {

@@ -14,10 +14,10 @@ void FIELD::Init()
 	{
 		// Position                      Normal                TexCoord
 		// 上面 (Y+)
-		{ {-1.0f,  1.0f,  1.0f }, { 0.0f,  1.0f,  0.0f }, color, {  0.25f,  0.75f } },
-		{ { 1.0f,  1.0f,  1.0f }, { 0.0f,  1.0f,  0.0f }, color, { 0.375f,  0.75f } },
-		{ {-1.0f,  1.0f, -1.0f }, { 0.0f,  1.0f,  0.0f }, color, {  0.25f, 1.0f } },
-		{ { 1.0f,  1.0f, -1.0f }, { 0.0f,  1.0f,  0.0f }, color, { 0.375f, 1.0f } },
+		{ {-1.0f,  1.0f,  1.0f }, { 0.0f,  1.0f,  0.0f }, color, {  0.0f,  0.0f } },
+		{ { 1.0f,  1.0f,  1.0f }, { 0.0f,  1.0f,  0.0f }, color, { 1.0f,  0.0f } },
+		{ {-1.0f,  1.0f, -1.0f }, { 0.0f,  1.0f,  0.0f }, color, {  0.0f, 1.0f } },
+		{ { 1.0f,  1.0f, -1.0f }, { 0.0f,  1.0f,  0.0f }, color, { 1.0f, 1.0f } },
 	};
 	Vertex3D vertex[4];
 
@@ -42,7 +42,7 @@ void FIELD::Init()
 	//テクスチャ読み込み
 	TexMetadata metadata;
 	ScratchImage image;
-	LoadFromWICFile(L"asset\\texture\\TileA3.png", WIC_FLAGS_NONE, &metadata, image);//テクスチャは変更可
+	LoadFromWICFile(L"asset\\texture\\iaigami.jpg", WIC_FLAGS_NONE, &metadata, image);//テクスチャは変更可
 	CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(),
 		image.GetImageCount(), metadata, &m_Texture);
 	assert(m_Texture);//読み込み失敗時にダイアログを表示
@@ -65,6 +65,18 @@ void FIELD::Update()
 
 void FIELD::Draw()
 {
+	// カリング無効化（両面描画）
+	D3D11_RASTERIZER_DESC rasterDesc{};
+	rasterDesc.FillMode = D3D11_FILL_SOLID;
+	rasterDesc.CullMode = D3D11_CULL_NONE;  // ← 裏面もカリングしない
+	rasterDesc.FrontCounterClockwise = FALSE;
+	rasterDesc.DepthClipEnable = TRUE;
+
+	ID3D11RasterizerState* pRasterState = nullptr;
+	Renderer::GetDevice()->CreateRasterizerState(&rasterDesc, &pRasterState);
+	Renderer::GetDeviceContext()->RSSetState(pRasterState);
+
+
 	//入力レイアウト設定
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 

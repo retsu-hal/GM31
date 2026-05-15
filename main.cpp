@@ -134,10 +134,27 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_ACTIVATEAPP:
+        Keyboard_ProcessMessage(uMsg, wParam, lParam);
+        break;
+
     case WM_SYSKEYDOWN:
     case WM_KEYUP:
     case WM_SYSKEYUP:
         Keyboard_ProcessMessage(uMsg, wParam, lParam);
+        break;
+
+    case WM_INPUT:
+    case WM_MOUSEMOVE:
+    case WM_LBUTTONDOWN:
+    case WM_LBUTTONUP:
+    case WM_RBUTTONDOWN:
+    case WM_RBUTTONUP:
+    case WM_MBUTTONDOWN:
+    case WM_MBUTTONUP:
+    case WM_MOUSEWHEEL:
+    case WM_XBUTTONDOWN:
+    case WM_XBUTTONUP:
+    case WM_MOUSEHOVER:
         break;
 
 	case WM_KEYDOWN:
@@ -145,16 +162,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case VK_ESCAPE:
-			//DestroyWindow(hWnd);
-			SendMessage(hWnd, WM_CLOSE, 0, 0);
 			break;
 		}
 		break;
 	
 	case WM_CLOSE:	
 		if (
-			MessageBox(hWnd, "本当に終わるんか？",
-				"最終確認", MB_OKCANCEL | MB_DEFBUTTON2) == IDOK
+			MessageBoxW(hWnd, L"本当に終了しますか？", L"確認", MB_OKCANCEL | MB_DEFBUTTON2) == IDOK
 			)
 		{
 			DestroyWindow(hWnd);
