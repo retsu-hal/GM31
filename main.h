@@ -12,19 +12,19 @@
 #include <d3d11.h>
 #pragma comment (lib, "d3d11.lib")
 
-
+#include "input.h"
 
 #include <DirectXMath.h>
 using namespace DirectX;
 
 #include "DirectXTex.h"
 
-#if _DEBUG
-#pragma comment (lib, "DirectXTex_Debug.lib")
-
 #include "imgui.h"
 #include "backends/imgui_impl_win32.h"
 #include "backends/imgui_impl_dx11.h"
+
+#if _DEBUG
+#pragma comment (lib, "DirectXTex_Debug.lib")
 #else
 #pragma comment (lib, "DirectXTex_Release.lib")
 #endif

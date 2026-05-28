@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_win32.cpp" />
@@ -141,14 +142,18 @@
     <ClCompile Include="imgui-master\imgui-master\imgui_draw.cpp" />
     <ClCompile Include="imgui-master\imgui-master\imgui_tables.cpp" />
     <ClCompile Include="imgui-master\imgui-master\imgui_widgets.cpp" />
-    <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
+    <ClCompile Include="modelRenderer.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Polygon2D.cpp" />
     <ClCompile Include="renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="component.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_dx11.h" />
@@ -159,9 +164,11 @@
     <ClInclude Include="imgui-master\imgui-master\imstb_rectpack.h" />
     <ClInclude Include="imgui-master\imgui-master\imstb_textedit.h" />
     <ClInclude Include="imgui-master\imgui-master\imstb_truetype.h" />
-    <ClInclude Include="keyboard.h" />
+    <ClInclude Include="input.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
+    <ClInclude Include="modelRenderer.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Polygon2D.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="Vector3.h" />

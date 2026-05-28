@@ -1,5 +1,7 @@
 #pragma once
 
+#include "main.h"
+#include "renderer.h"
 #include "Vector3.h"
 #include "GameObject.h"
 class CAMERA : public GameObject
@@ -8,6 +10,7 @@ public:
 	Vector3 m_Target;		// 注視点
 	Vector3 m_Angle;			// カメラの角度
 	float  m_Fov;					// カメラの視野角
+	float m_MoveSpeed ;
 
 public:
 	void Init() override;

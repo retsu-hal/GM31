@@ -3,7 +3,6 @@
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
-#include "keyboard.h"
 #include <thread>
 
 
@@ -134,13 +133,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_ACTIVATEAPP:
-        Keyboard_ProcessMessage(uMsg, wParam, lParam);
         break;
 
     case WM_SYSKEYDOWN:
     case WM_KEYUP:
     case WM_SYSKEYUP:
-        Keyboard_ProcessMessage(uMsg, wParam, lParam);
         break;
 
     case WM_INPUT:
@@ -158,7 +155,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         break;
 
 	case WM_KEYDOWN:
-		Keyboard_ProcessMessage(uMsg, wParam, lParam);
 		switch (wParam)
 		{
 		case VK_ESCAPE:

@@ -13,14 +13,6 @@ class FIELD : public GameObject
 		XMFLOAT4 Diffuse;
 		XMFLOAT2 TexCoord;
 	};
-private:
-	
-	ID3D11Buffer* m_vertexBuffer;					// 頂点バッファ
-
-	ID3D11InputLayout* m_VertexLayout;		// 頂点レイアウト
-	ID3D11VertexShader* m_VertexShader;		// 頂点シェーダー
-	ID3D11PixelShader* m_PixelShader;			// ピクセルシェーダー	
-	ID3D11ShaderResourceView* m_Texture;	// テクスチャ
 
 public:
 	void Init() override;

@@ -1,18 +1,15 @@
 #include "main.h"
 #include "renderer.h"
-#include "Keyboard.h"
 #include "Cube.h"
 
 
 
 void CUBE::Init()
 {
-	//==================
-	// èâä˙âª
-	//==================
-	m_Position = { -5.0f, 10.0f, 0.0f };
+	m_Position = { 0.0f, 10.0f, 0.0f };
 	m_Scale = { 1.0f, 1.0f, 1.0f };
 	m_Velocity = { 0.0f, 0.0f, 0.0f };
+	m_RotSpeed = { 0.1f, 0.0f, 0.1f };
 
 	static const XMFLOAT4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -123,12 +120,9 @@ void CUBE::Uninit()
 
 void CUBE::Update()
 {
-	float deltaTime = 1.0f / 60.0f;
-
-	m_Velocity += Vector3(5.0f, 0.0f, 0.0f) * deltaTime;
-
-	m_Position += m_Velocity * deltaTime;
-	m_Rotation.z += -m_Velocity.x * deltaTime;
+	m_Rotation.x += m_RotSpeed.x;
+	m_Rotation.y += m_RotSpeed.y;
+	m_Rotation.z += m_RotSpeed.z;
 }
 
 void CUBE::Draw()
