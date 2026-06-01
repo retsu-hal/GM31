@@ -17,6 +17,10 @@ public:
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;
+
+	//ImGuiŠÖ˜A
+	const char* GetName() const  override{ return "Camera"; }
+	void DrawImGui() override;
 	
 	void SetPosition(Vector3 position);
 	Vector3 GetPosition();

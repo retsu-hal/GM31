@@ -86,6 +86,20 @@ void Manager::Draw()
 		}
 	}
 
+	ImGui::Begin("Inspector");
+	ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
+	for (GameObject* gameObject : m_GameObjects)
+	{
+		if (gameObject == nullptr) continue;
+
+		ImGui::PushID(gameObject);                       // 同名ヘッダーのID衝突を防ぐ
+		if (ImGui::CollapsingHeader(gameObject->GetName()))
+		{
+			gameObject->DrawImGui();
+		}
+		ImGui::PopID();
+	}
+	ImGui::End();
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 

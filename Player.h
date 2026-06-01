@@ -19,6 +19,9 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	const char* GetName() const  override{ return "Player"; }
+	void DrawImGui() override;
+
 };
 
 

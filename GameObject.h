@@ -27,6 +27,34 @@ public:
 	void SetRotation(const Vector3& rotation) { m_Rotation = rotation; }
 	Vector3 GetRotation() const { return m_Rotation; }
 
+	//ImGuiŠÖ˜A
+	virtual const char* GetName() const { return "GameObject"; }
+	virtual void DrawImGui()
+	{
+		float w = (ImGui::CalcItemWidth() - ImGui::GetStyle().ItemSpacing.x * 2.0f) / 3.0f;
+
+		ImGui::PushItemWidth(w);
+		ImGui::SliderFloat("##PositionX", &m_Position.x, -50.0f, 50.0f, "X %.1f"); ImGui::SameLine();
+		ImGui::SliderFloat("##PositionY", &m_Position.y, -50.0f, 50.0f, "Y %.1f"); ImGui::SameLine();
+		ImGui::SliderFloat("##PositionZ", &m_Position.z, -50.0f, 50.0f, "Z %.1f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Position");
+
+		ImGui::PushItemWidth(w);
+		ImGui::SliderFloat("##RotationX", &m_Rotation.x, -50.0f, 50.0f, "X %.1f"); ImGui::SameLine();
+		ImGui::SliderFloat("##RotationY", &m_Rotation.y, -50.0f, 50.0f, "Y %.1f"); ImGui::SameLine();
+		ImGui::SliderFloat("##RotationZ", &m_Rotation.z, -50.0f, 50.0f, "Z %.1f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Rotation");
+
+		ImGui::PushItemWidth(w);
+		ImGui::SliderFloat("##ScaleX", &m_Scale.x, -50.0f, 50.0f, "X %.1f"); ImGui::SameLine();
+		ImGui::SliderFloat("##ScaleY", &m_Scale.y, -50.0f, 50.0f, "Y %.1f"); ImGui::SameLine();
+		ImGui::SliderFloat("##ScaleZ", &m_Scale.z, -50.0f, 50.0f, "Z %.1f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Scale");
+	};
+
 	virtual void Init() {};
 	virtual void Uninit() 
 	{

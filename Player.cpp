@@ -83,15 +83,6 @@ void Player::Update()
 
 void Player::Draw()
 {
-	ImGui::Begin("PlayerDebug");
-	ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
-	ImGui::Text("Position: (%.2f, %.2f, %.2f)", m_Position.x, m_Position.y, m_Position.z);
-	ImGui::Text("Rotation: (%.2f, %.2f, %.2f)", m_Rotation.x, m_Rotation.y, m_Rotation.z);
-	ImGui::SliderFloat("Speed", &m_Speed, 0.0f, 100.0f);
-	ImGui::SliderFloat("Jump Power", &m_jumpPower, 0.0f, 100.0f);
-	ImGui::SliderFloat("Gravity", &m_Gravity, 0.0f, 100.0f);
-	ImGui::End();
-
 	//入力レイアウト設定
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
@@ -109,4 +100,13 @@ void Player::Draw()
 	Renderer::SetWorldMatrix(WorldMatrix);
 
 	GameObject::Draw();
+}
+
+void Player::DrawImGui()
+{
+	GameObject::DrawImGui();
+
+	ImGui::SliderFloat("Speed", &m_Speed, 0.0f, 100.0f);
+	ImGui::SliderFloat("Jump Power", &m_jumpPower, 0.0f, 100.0f);
+	ImGui::SliderFloat("Gravity", &m_Gravity, 0.0f, 100.0f);
 }

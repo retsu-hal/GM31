@@ -113,3 +113,8 @@ void FIELD::Draw()
 	//•`‰æ
 	Renderer::GetDeviceContext()->Draw(4, 0);
 }
+
+void FIELD::DrawImGui()
+{
+	GameObject::DrawImGui();
+}

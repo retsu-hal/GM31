@@ -20,6 +20,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	const char* GetName() const override { return "Field"; }
+	void DrawImGui() override;
 };
 
 

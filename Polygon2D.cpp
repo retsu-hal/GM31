@@ -79,9 +79,9 @@ void Polygon2D::Draw()
 	Renderer::SetWorldViewProjection2D();
 
 	XMMATRIX WorldMatrix,ScaleMatrix,RotMatrix,TransMatrix;
-	ScaleMatrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);								//Šg‘åk¬
-	RotMatrix = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);		//‰ñ“]
-	TransMatrix = XMMatrixTranslation(0.0f, 0.0f, 0.0f);						//•½sˆÚ“®
+	ScaleMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);								//Šg‘åk¬
+	RotMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);		//‰ñ“]
+	TransMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);						//•½sˆÚ“®
 	WorldMatrix = ScaleMatrix * RotMatrix * TransMatrix;
 
 	Renderer::SetWorldMatrix(WorldMatrix);
@@ -105,4 +105,33 @@ void Polygon2D::Draw()
 
 	//•`‰æ
 	Renderer::GetDeviceContext()->Draw(4, 0);
+}
+
+void Polygon2D::DrawImGui()
+{
+	float w = ImGui::CalcItemWidth() * 0.5f - 4.0f;
+
+	ImGui::PushItemWidth(w);
+	ImGui::SliderFloat("##PosX", &m_Position.x, 0.0f, SCREEN_WIDTH - 200.0f, "X %.1f");
+	ImGui::SameLine();
+	ImGui::SliderFloat("##PosY", &m_Position.y, 0.0f, SCREEN_HEIGHT - 200.0f, "Y %.1f");
+	ImGui::PopItemWidth();
+	ImGui::SameLine(); ImGui::Text("Position");
+
+	w = (ImGui::CalcItemWidth() - ImGui::GetStyle().ItemSpacing.x * 2.0f) / 3.0f;
+
+	ImGui::PushItemWidth(w);
+	ImGui::SliderFloat("##RotX", &m_Rotation.x, 0.0f, 360.0f, "X %.1f"); ImGui::SameLine();
+	ImGui::SliderFloat("##RotY", &m_Rotation.y, 0.0f, 360.0f, "Y %.1f"); ImGui::SameLine();
+	ImGui::SliderFloat("##RotZ", &m_Rotation.z, 0.0f, 360.0f, "Z %.1f");
+	ImGui::PopItemWidth();
+	ImGui::SameLine(); ImGui::Text("Rotation");
+
+
+	ImGui::PushItemWidth(w);
+	ImGui::SliderFloat("##ScaleX", &m_Scale.x, 0.0f, 1.0f, "X %.1f"); ImGui::SameLine();
+	ImGui::SliderFloat("##ScaleY", &m_Scale.y, 0.0f, 1.0f, "Y %.1f"); ImGui::SameLine();
+	ImGui::SliderFloat("##ScaleZ", &m_Scale.z, 0.0f, 1.0f, "Z %.1f"); ImGui::SameLine();
+	ImGui::PopItemWidth();
+	ImGui::SameLine(); ImGui::Text("Scale");
 }

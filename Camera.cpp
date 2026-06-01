@@ -42,6 +42,35 @@ void CAMERA::Draw()
 	Renderer::SetViewMatrix(view);
 }
 
+void CAMERA::DrawImGui()
+{
+	float w = (ImGui::CalcItemWidth() - ImGui::GetStyle().ItemSpacing.x * 2.0f) / 3.0f;
+
+	ImGui::PushItemWidth(w);
+	ImGui::SliderFloat("##PositionX", &m_Position.x, -50.0f, 50.0f, "X %.1f"); ImGui::SameLine();
+	ImGui::SliderFloat("##PositionY", &m_Position.y, -50.0f, 50.0f, "Y %.1f"); ImGui::SameLine();
+	ImGui::SliderFloat("##PositionZ", &m_Position.z, -50.0f, 50.0f, "Z %.1f");
+	ImGui::PopItemWidth();
+	ImGui::SameLine(); ImGui::Text("Position");
+
+	ImGui::PushItemWidth(w);
+	ImGui::SliderFloat("##TargetX", &m_Target.x, -50.0f, 50.0f, "X %.1f"); ImGui::SameLine();
+	ImGui::SliderFloat("##TargetY", &m_Target.y, -50.0f, 50.0f, "Y %.1f"); ImGui::SameLine();
+	ImGui::SliderFloat("##TargetZ", &m_Target.z, -50.0f, 50.0f, "Z %.1f");
+	ImGui::PopItemWidth();
+	ImGui::SameLine(); ImGui::Text("Target");
+
+	ImGui::PushItemWidth(w);
+	ImGui::SliderFloat("##AnglesX", &m_Angle.x, -50.0f, 50.0f, "X %.1f"); ImGui::SameLine();
+	ImGui::SliderFloat("##AnglesY", &m_Angle.y, -50.0f, 50.0f, "Y %.1f"); ImGui::SameLine();
+	ImGui::SliderFloat("##AnglesZ", &m_Angle.z, -50.0f, 50.0f, "Z %.1f");
+	ImGui::PopItemWidth();
+	ImGui::SameLine(); ImGui::Text("Angle");
+
+	ImGui::SliderFloat("Fov", &m_Fov, FOV_MIN, FOV_MAX);
+	ImGui::SliderFloat("Move Speed", &m_MoveSpeed, 0.1f, 10.0f);
+}
+
 
 void CAMERA::SetPosition(Vector3 position)
 {

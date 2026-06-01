@@ -9,4 +9,7 @@ public:
 	void Uninit() override;
 	void Update() override;
 	void Draw() override	;
+
+	const char* GetName() const override { return "Polygon2D"; }
+	void DrawImGui() override;
 };

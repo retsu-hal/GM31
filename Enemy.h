@@ -7,5 +7,8 @@ public:
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;
+
+	const char* GetName() const override { return "Enemy"; }
+	void DrawImGui() override;
 };
 
