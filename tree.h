@@ -1,11 +1,9 @@
 #pragma once
-#include "GameObject.h"
-class Tree :public GameObject
+#include "Billboard.h"
+
+// Billboardを継承した木。サイズとテクスチャを指定するだけ
+class Tree : public Billboard
 {
 public:
 	void Init() override;
-	void Uninit() override;
-	void Update() override;
-	void Draw() override;
 };
-

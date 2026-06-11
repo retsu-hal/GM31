@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Billboard.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cube.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="tree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Billboard.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="Cube.h" />
