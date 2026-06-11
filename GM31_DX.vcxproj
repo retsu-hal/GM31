@@ -131,9 +131,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_win32.cpp" />
@@ -149,11 +151,14 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Polygon2D.cpp" />
     <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="tree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_dx11.h" />
@@ -171,6 +176,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Polygon2D.h" />
     <ClInclude Include="renderer.h" />
+    <ClInclude Include="tree.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Camera.h" />
   </ItemGroup>

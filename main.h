@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <functional>
 #include <list>
+#include <vector>
 
 #include <d3d11.h>
 #pragma comment (lib, "d3d11.lib")

@@ -7,9 +7,11 @@
 #include "Cube.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Tree.h"
 
 
 std::list<GameObject* > Manager::m_GameObjects;
+float Manager::m_DeltaTime = 1.0f / 60.0f;
 
 void Manager::Init()
 {
@@ -26,14 +28,21 @@ void Manager::Init()
 	GameObject* gameObject;
 	
 	AddGameObject<CAMERA>();
-	//AddGameObject<CUBE>();
+
 	AddGameObject<FIELD>();
 	AddGameObject<Player>();
-	//AddGameObject<Enemy>()->SetPosition({ -2.0f, 2.0f, 1.0f });
-	//AddGameObject<Enemy>()->SetPosition({ 0.0f, 2.0f, 1.0f });
-	//AddGameObject<Enemy>()->SetPosition({ 2.0f, 2.0f, 1.0f });
+	AddGameObject<Enemy>()->SetPosition({ -2.0f, 1.0f, 1.0f });
+	AddGameObject<Enemy>()->SetPosition({ 0.0f, 1.0f, 1.0f });
+	AddGameObject<Enemy>()->SetPosition({ 2.0f, 1.0f, 1.0f });
 
-	AddGameObject<Polygon2D>();
+
+	for (int i = 0; i < 20; i++)
+	{
+		Vector3 pos = { (float)(rand() % 40 - 20),1.0f,(float)(rand() % 40 - 20) };
+		AddGameObject<Tree>()->SetPosition(pos);
+	}
+
+	//AddGameObject<Polygon2D>();
 
 
 }
@@ -60,15 +69,21 @@ void Manager::Uninit()
 
 void Manager::Update()
 {
+	m_DeltaTime = 1.0f / 60.0f;
 	Input::Update();
-	for(GameObject* gameObject : m_GameObjects)
+	for (GameObject* gameObject : m_GameObjects)
 	{
-		if(gameObject != nullptr)
+		if (gameObject != nullptr)
 		{
 			gameObject->Update();
 		}
 	}
-}
+
+	m_GameObjects.remove_if([](GameObject* object)
+		{
+			return object->Destroy();
+		});
+};
 
 void Manager::Draw()
 {

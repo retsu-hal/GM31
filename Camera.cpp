@@ -27,9 +27,15 @@ void CAMERA::Update()
 	Vector3 playerPos = player->GetPosition();
 	Vector3 playerForward = player->GetFront();
 
+	float dt = Manager::GetDeltaTime();
+	if(Input::GetKeyPress(VK_RIGHT))
+		m_Rotation.y -= 5.0f * dt;
+	if (Input::GetKeyPress(VK_LEFT))
+		m_Rotation.y += 5.0f * dt;
+
 	m_Target = playerPos;
 
-	m_Position = m_Target - playerForward * 5.0f + Vector3{0.0f,5.0f,0.0f};
+	m_Position = m_Target + Vector3(-sinf(m_Rotation.y) * 10.0f, 5.0f, -cos(m_Rotation.y) * 10.0f);
 }
 
 void CAMERA::Draw()
@@ -38,47 +44,8 @@ void CAMERA::Draw()
 	Renderer::SetProjectionMatrix(projection);
     
     XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
-	XMMATRIX view = XMMatrixLookAtLH(XMLoadFloat3((XMFLOAT3*)&m_Position), XMLoadFloat3((XMFLOAT3*)&m_Target), XMLoadFloat3(&up));
-	Renderer::SetViewMatrix(view);
-}
-
-
-void CAMERA::SetPosition(Vector3 position)
-{
-    m_Position = position;
-}
-
-Vector3 CAMERA::GetPosition()
-{
-    return m_Position;
-}
-
-void CAMERA::SetTarget(Vector3 target)
-{
-	m_Target = target;
-}
-
-Vector3 CAMERA::GetTarget()
-{
-    return m_Angle;
-}
-
-void CAMERA::SetAngle(Vector3 angle)
-{
-	m_Angle = angle;
-}
-
-Vector3 CAMERA::GetAngle()
-{
-	return m_Angle;
-}
-
-void CAMERA::SetFov(float fov)
-{
-	m_Fov = fov;
-}
-
-float CAMERA::GetFov()
-{
-    return m_Fov;
+	m_ViewMatrix= XMMatrixLookAtLH(XMLoadFloat3((XMFLOAT3*)&m_Position), XMLoadFloat3((XMFLOAT3*)&m_Target), XMLoadFloat3(&up));
+	
+	
+	Renderer::SetViewMatrix(m_ViewMatrix);
 }

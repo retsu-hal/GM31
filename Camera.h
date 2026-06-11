@@ -10,23 +10,44 @@ public:
 	Vector3 m_Target;		// 注視点
 	Vector3 m_Angle;			// カメラの角度
 	float  m_Fov;					// カメラの視野角
-	float m_MoveSpeed ;
+	float m_MoveSpeed;
+	XMMATRIX m_ViewMatrix;		// ビュー行列
 
 public:
 	void Init() override;
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;
-	
-	void SetPosition(Vector3 position);
-	Vector3 GetPosition();
 
-	void SetTarget(Vector3 target);
-	Vector3 GetTarget();
+	void SetPosition(Vector3 position) { m_Position = position; }
+	Vector3 GetPosition() { return m_Position; }
 
-	void SetAngle(Vector3 angle);
-	Vector3 GetAngle();
+	void SetTarget(Vector3 target) { m_Target = target; }
+	Vector3 GetTarget() { return m_Target; }
 
-	void SetFov(float fov);
-	float GetFov();
+	void SetAngle(Vector3 angle) { m_Angle = angle; }
+	Vector3 GetAngle() { return m_Angle; }
+
+	void SetFov(float fov) { m_Fov = fov; }
+	float GetFov() { return m_Fov; }
+
+	XMMATRIX GetViewMatrix() { return m_ViewMatrix; }
+
+	Vector3 GetFront() override
+	{
+		Vector3 forward = m_Target - m_Position;
+		forward.normalize();
+
+		return forward;
+	}
+
+	Vector3 GetRight() override
+	{
+		Vector3 forward = m_Target - m_Position;
+		Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
+		Vector3 right = Vector3::cross(up, forward);
+		right.normalize();
+
+		return right;
+	}
 };

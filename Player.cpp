@@ -1,15 +1,20 @@
 #include "main.h"
 #include "renderer.h"
 #include "Player.h"
+#include "Camera.h"
+#include "manager.h"
 #include "ModelRenderer.h"
-
+#include "Bullet.h"
 
 
 void Player::Init()
 {
-	m_Position = { 0.0f, 2.0f, 0.0f };
+	m_Position = { 0.0f, 1.0f, 0.0f };
 	m_Scale = { 1.0f, 1.0f, 1.0f };
 	m_Velocity = { 0.0f, 0.0f, 0.0f };
+	m_Speed = 50.0f;
+	m_jumpPower = 20.0f;
+	m_Gravity = 9.8f;
 	
 	//m_ModelRenderer = new ModelRenderer();
 	ModelRenderer* modelRenderer = AddComponent<ModelRenderer>(this);
@@ -32,13 +37,18 @@ void Player::Uninit()
 
 void Player::Update()
 {
-	float dt = 1.0f / 60.0f; 
+	float dt = Manager::GetDeltaTime();
 	
+	CAMERA* camera = Manager::GetGameObject<CAMERA>();
+	Vector3 forward = camera->GetFront();
+	Vector3 right = camera->GetRight();
 
+	forward.y = 0.0f;
+	forward.normalize();
+	
+	right.y = 0.0f;
+	right.normalize();
 
-
-	Vector3 forward = GetFront();
-	Vector3 right = GetRight();
 	//ì¸óÕÇ…ÇÊÇÈâ¡ë¨
 	if(Input::GetKeyPress('W'))
 		m_Velocity += forward * m_Speed * dt; 
@@ -49,12 +59,7 @@ void Player::Update()
 	if(Input::GetKeyPress('A'))
 	    m_Velocity -= right * m_Speed * dt; 
 
-
-	//ì¸óÕÇ…ÇÊÇÈâÒì]
-	if(Input::GetKeyPress('Q'))
-		m_Rotation.y += 5.0f * dt;
-	if (Input::GetKeyPress('E'))
-		m_Rotation.y -= 5.0f * dt;
+	m_Rotation.y = atan2f(m_Velocity.x,m_Velocity.z);
 
 	//ÉWÉÉÉìÉv
 	if (Input::GetKeyTrigger(VK_SPACE))
@@ -69,15 +74,22 @@ void Player::Update()
 
 	//íÔçRóÕ
 	m_Velocity.x += -m_Velocity.x * m_Friction * dt;
-	m_Velocity.y += -m_Velocity.y * m_Friction * dt;
 	m_Velocity.z += -m_Velocity.z * m_Friction	 * dt;
 
-	if (m_Position.y < 2.0f)
+	if (m_Position.y < 1.0f)
 	{
-			m_Position.y = 2.0f;
+			m_Position.y = 1.0f;
 			m_Velocity.y = 0.0f;		
 	}
 	
+	//íeî≠éÀ
+	if (Input::GetKeyTrigger('F'))
+	{
+		Bullet* bullet = Manager::AddGameObject<Bullet>();
+		bullet->SetPosition(m_Position);
+		bullet->SetVelocity(GetFront()*10.0f);
+	}
+
 	GameObject::Update();
 }
 

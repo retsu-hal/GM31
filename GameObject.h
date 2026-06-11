@@ -1,7 +1,6 @@
 #pragma once
 
 #include "main.h"
-#include "renderer.h"
 #include "Vector3.h"
 #include "Component.h"
 
@@ -11,6 +10,7 @@ protected://外部からアクセスできないが、継承したクラスからアクセスできる
 	Vector3 m_Position{ 0.0f, 0.0f, 0.0f };
 	Vector3 m_Rotation{ 0.0f, 0.0f, 0.0f };
 	Vector3 m_Scale{ 1.0f, 1.0f, 1.0f };
+	bool m_Destroy = false;
 
 	ID3D11Buffer* m_vertexBuffer;					// 頂点バッファ
 	ID3D11InputLayout* m_VertexLayout;		// 頂点レイアウト
@@ -26,6 +26,7 @@ public:
 	Vector3 GetPosition() const { return m_Position; }
 	void SetRotation(const Vector3& rotation) { m_Rotation = rotation; }
 	Vector3 GetRotation() const { return m_Rotation; }
+	void SetDestroy() { m_Destroy = true; }
 
 	virtual void Init() {};
 	virtual void Uninit() 
@@ -89,5 +90,19 @@ public:
 		XMStoreFloat3((XMFLOAT3*)&Forward, RotMatrix.r[0]);
 		return Forward;
 
+	}
+
+	bool Destroy()
+	{
+		if (m_Destroy)
+		{
+			Uninit();
+			delete this;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 };
