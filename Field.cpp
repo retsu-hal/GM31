@@ -6,6 +6,7 @@
 
 void FIELD::Init()
 {
+	m_Layer = 1;
 	m_Position = { 0.0f, 0.0f, 0.0f };
 	m_Scale = {20.0f, 1.0f, 20.0f };
 	static const XMFLOAT4 color = { 1.0f, 1.0f, 1.0f, 1.0f };

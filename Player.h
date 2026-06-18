@@ -10,6 +10,8 @@ private:
 	float m_jumpPower ;
 	float m_Gravity;
 	float m_Friction = 5.0f;
+	bool m_Ground = true;
+	float m_MoveAnimation = 0.0f;
 
 	//class ModelRenderer* m_ModelRenderer;
 

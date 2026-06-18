@@ -1,18 +1,19 @@
 #include "main.h"
 #include "renderer.h"
-#include "Enemy.h"
+#include "Box.h"
 #include "ModelRenderer.h"
 
 
 
-void Enemy::Init()
+void Box::Init()
 {
+	m_Layer = 1;
 	m_Position = { 0.0f, 5.0f, 0.0f };
 	m_Scale = { 1.0f, 1.0f, 1.0f };
 
 	//m_ModelRenderer = new ModelRenderer();
 	ModelRenderer* modelRenderer = AddComponent<ModelRenderer>(this);
-	modelRenderer->Load("asset\\model\\player.obj");
+	modelRenderer->Load("asset\\model\\box.obj");
 
 	//シェーダー読み込み
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
@@ -20,7 +21,7 @@ void Enemy::Init()
 
 }
 
-void Enemy::Uninit()
+void Box::Uninit()
 {
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
@@ -29,13 +30,13 @@ void Enemy::Uninit()
 	GameObject::Uninit();
 }
 
-void Enemy::Update()
+void Box::Update()
 {
 
 	GameObject::Update();
 }
 
-void Enemy::Draw()
+void Box::Draw()
 {
 	//入力レイアウト設定
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);

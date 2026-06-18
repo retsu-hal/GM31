@@ -9,6 +9,7 @@
 
 void CAMERA::Init()
 {
+	m_Layer = 0;
 	m_Position = { 0.0f, 10.0f, -10.0f };
 	m_Target = { 0.0f, 0.0f, 0.0f };
 	m_Angle = { 0.0f, 0.0f, 0.0f };
@@ -25,7 +26,7 @@ void CAMERA::Update()
 {
 	Player* player = Manager::GetGameObject<Player>();
 	Vector3 playerPos = player->GetPosition();
-	Vector3 playerForward = player->GetFront();
+	Vector3 playerForward = player->GetForward();
 
 	float dt = Manager::GetDeltaTime();
 	if(Input::GetKeyPress(VK_RIGHT))

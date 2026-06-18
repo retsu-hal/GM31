@@ -1,19 +1,21 @@
 #include "main.h"
 #include "renderer.h"
-#include "Bullet.h"
-#include "Enemy.h"
-#include "manager.h"
+#include "Sky.h"
 #include "ModelRenderer.h"
-#include "Explosion.h"
+#include "camera.h"
+#include "manager.h"
 
 
 
-void Bullet::Init()
+void Sky::Init()
 {
 	m_Layer = 1;
+	m_Position = { 0.0f, 5.0f, 0.0f };
+	m_Scale = { 100.0f, 100.0f, 100.0f };
+
 	//m_ModelRenderer = new ModelRenderer();
 	ModelRenderer* modelRenderer = AddComponent<ModelRenderer>(this);
-	modelRenderer->Load("asset\\model\\bullet.obj");
+	modelRenderer->Load("asset\\model\\sky.obj");
 
 	//シェーダー読み込み
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
@@ -21,7 +23,7 @@ void Bullet::Init()
 
 }
 
-void Bullet::Uninit()
+void Sky::Uninit()
 {
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
@@ -30,40 +32,16 @@ void Bullet::Uninit()
 	GameObject::Uninit();
 }
 
-void Bullet::Update()
+void Sky::Update()
 {
-	float dt = Manager::GetDeltaTime();
+	CAMERA* camera = Manager::GetGameObject<CAMERA>();
 
-	m_Position += m_Velocity * dt;
-
-	//敵との当たり判定
-	auto enemies = Manager::GetGameObjects<Enemy>();
-	for (auto enemy : enemies)
-	{
-		Vector3 direction = enemy->GetPosition() - m_Position;
-		float lenght = direction.lenght();
-
-		if (lenght < 1.0f)
-		{
-			enemy->SetDestroy();
-			SetDestroy();
-
-			Manager::AddGameObject<Explosion>()->SetPosition(enemy->GetPosition());
-
-			break;
-		}
-	}
-
-	m_Lifetime -= dt;
-	if (m_Lifetime <= 0.0f)
-	{
-		SetDestroy();
-	}
+	m_Position = camera->GetPosition();
 
 	GameObject::Update();
 }
 
-void Bullet::Draw()
+void Sky::Draw()
 {
 	//入力レイアウト設定
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);

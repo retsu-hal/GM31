@@ -6,6 +6,7 @@
 
 void Explosion::Init()
 {
+	m_Layer = 2;
 	VERTEX_3D vertex[4];
 
 	{

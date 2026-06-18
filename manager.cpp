@@ -8,6 +8,8 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Tree.h"
+#include "Sky.h"
+#include "Box.h"
 
 
 std::list<GameObject* > Manager::m_GameObjects;
@@ -29,7 +31,13 @@ void Manager::Init()
 	
 	AddGameObject<CAMERA>();
 
+	AddGameObject<Sky> ();
+
 	AddGameObject<FIELD>();
+	Box* box = AddGameObject<Box>();
+	box->SetPosition({ 2.0f, 1.0f, -3.0f });
+	box->SetScale({ 1.0f, 1.0f, 1.0f });
+
 	AddGameObject<Player>();
 	AddGameObject<Enemy>()->SetPosition({ -2.0f, 1.0f, 1.0f });
 	AddGameObject<Enemy>()->SetPosition({ 0.0f, 1.0f, 1.0f });
@@ -93,13 +101,39 @@ void Manager::Draw()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
+	//Z値計算
+	CAMERA* camera = GetGameObject<CAMERA>();
+	Vector3 forward = camera->GetForward();
+	Vector3 position = camera->GetPosition();
+
+	//Z値計算
 	for (GameObject* gameObject : m_GameObjects)
 	{
 		if (gameObject != nullptr)
 		{
-			gameObject->Draw();
+			gameObject->CalcCameraZ(position,forward);
 		}
 	}
+
+	//Z値でソート
+	m_GameObjects.sort([](GameObject* a, GameObject* b)
+		{
+			return a->GetCameraZ() > b->GetCameraZ();
+		});
+
+	//レイヤー順で描画
+	for (int layer = 0; layer < 4; layer++)
+	{
+		for (GameObject* gameObject : m_GameObjects)
+		{
+			if (gameObject != nullptr)
+			{
+				if(gameObject->GetLayer()==layer)
+				gameObject->Draw();
+			}
+		}
+	}
+	
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

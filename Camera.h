@@ -33,7 +33,7 @@ public:
 
 	XMMATRIX GetViewMatrix() { return m_ViewMatrix; }
 
-	Vector3 GetFront() override
+	Vector3 GetForward() override
 	{
 		Vector3 forward = m_Target - m_Position;
 		forward.normalize();

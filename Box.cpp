@@ -1,19 +1,19 @@
 #include "main.h"
 #include "renderer.h"
-#include "Bullet.h"
 #include "Enemy.h"
-#include "manager.h"
 #include "ModelRenderer.h"
-#include "Explosion.h"
 
 
 
-void Bullet::Init()
+void Enemy::Init()
 {
 	m_Layer = 1;
+	m_Position = { 0.0f, 5.0f, 0.0f };
+	m_Scale = { 1.0f, 1.0f, 1.0f };
+
 	//m_ModelRenderer = new ModelRenderer();
 	ModelRenderer* modelRenderer = AddComponent<ModelRenderer>(this);
-	modelRenderer->Load("asset\\model\\bullet.obj");
+	modelRenderer->Load("asset\\model\\player.obj");
 
 	//シェーダー読み込み
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
@@ -21,7 +21,7 @@ void Bullet::Init()
 
 }
 
-void Bullet::Uninit()
+void Enemy::Uninit()
 {
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
@@ -30,40 +30,13 @@ void Bullet::Uninit()
 	GameObject::Uninit();
 }
 
-void Bullet::Update()
+void Enemy::Update()
 {
-	float dt = Manager::GetDeltaTime();
-
-	m_Position += m_Velocity * dt;
-
-	//敵との当たり判定
-	auto enemies = Manager::GetGameObjects<Enemy>();
-	for (auto enemy : enemies)
-	{
-		Vector3 direction = enemy->GetPosition() - m_Position;
-		float lenght = direction.lenght();
-
-		if (lenght < 1.0f)
-		{
-			enemy->SetDestroy();
-			SetDestroy();
-
-			Manager::AddGameObject<Explosion>()->SetPosition(enemy->GetPosition());
-
-			break;
-		}
-	}
-
-	m_Lifetime -= dt;
-	if (m_Lifetime <= 0.0f)
-	{
-		SetDestroy();
-	}
 
 	GameObject::Update();
 }
 
-void Bullet::Draw()
+void Enemy::Draw()
 {
 	//入力レイアウト設定
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
