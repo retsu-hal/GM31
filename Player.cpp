@@ -7,8 +7,6 @@
 #include "Bullet.h"
 #include "Tree.h"
 #include "Box.h"
-#include "Collision.h"
-
 
 
 void Player::Init()
@@ -18,7 +16,7 @@ void Player::Init()
 	m_Scale = { 1.0f, 1.0f, 1.0f };
 	m_Velocity = { 0.0f, 0.0f, 0.0f };
 	m_Speed = 50.0f;
-	m_jumpPower = 20.0f;
+	m_jumpPower = 7.0f;
 	m_Gravity = 9.8f;
 
 	//m_ModelRenderer = new ModelRenderer();
@@ -44,6 +42,7 @@ void Player::Update()
 	Vector3 oldPosition = m_Position;
 
 	float dt = Manager::GetDeltaTime();
+	Vector3 bulletoffset = { m_Position.x, m_Position.y + m_Scale.y, m_Position.z };	//
 
 	CAMERA* camera = Manager::GetGameObject<CAMERA>();
 	Vector3 forward = camera->GetForward();
@@ -71,6 +70,11 @@ void Player::Update()
 	if (Input::GetKeyTrigger(VK_SPACE))
 	{
 		m_Velocity.y += m_jumpPower;
+		
+		//ジャンプのアニメーション
+		m_Scale.x = 2.0f;
+		m_Scale.y = 0.5f;
+		m_Scale.z = 0.5f;
 	}
 
 	//ジャンプ後のアニメーション
@@ -99,32 +103,18 @@ void Player::Update()
 			m_Ground = true;
 	}
 
-	Vector3 center = { m_Position.x, m_Position.y + m_Scale.y, m_Position.z };
-
 	//木の衝突
 	auto trees = Manager::GetGameObjects<Tree>();
 	for (auto tree : trees)
 	{
-		Vector3 push;
-		if (Collision::RectAndCircle(center, m_Scale, tree->GetPosition(), 1.0f, push))
-			m_Position += push;   // push.y は 0 なので水平にだけ押し戻す
+		
 	}
 
 	//boxとの衝突
 	auto boxes = Manager::GetGameObjects<Box>();
 	for (auto box : boxes)
 	{
-		Vector3 push;
-		if (Collision::RectAndRect(center, m_Scale, box->GetPosition(), box->GetScale(), push))
-		{
-			m_Position += push;
-
-			if (push.x != 0.0f) m_Velocity.x = 0.0f;
-			if (push.y != 0.0f) m_Velocity.y = 0.0f;
-			if (push.z != 0.0f) m_Velocity.z = 0.0f;
-
-			if (push.y > 0.0f) m_Ground = true;   // 上に押し戻された → 箱の上に乗っている
-		}
+		
 	}
 
 	if (!oldGraund && m_Ground)
@@ -139,7 +129,7 @@ void Player::Update()
 	if (Input::GetKeyTrigger('F'))
 	{
 		Bullet* bullet = Manager::AddGameObject<Bullet>();
-		bullet->SetPosition(m_Position);
+		bullet->SetPosition(bulletoffset);
 		bullet->SetVelocity(GetForward()*10.0f);
 	}
 
@@ -158,10 +148,12 @@ void Player::Draw()
 	ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
 	ImGui::Text("Position: (%.2f, %.2f, %.2f)", m_Position.x, m_Position.y, m_Position.z);
 	ImGui::Text("Rotation: (%.2f, %.2f, %.2f)", m_Rotation.x, m_Rotation.y, m_Rotation.z);
+	ImGui::Text("Scale: (%.2f, %.2f, %.2f)", m_Scale.x, m_Scale.y, m_Scale.z);
 	ImGui::SliderFloat("Speed", &m_Speed, 0.0f, 100.0f);
 	ImGui::SliderFloat("Jump Power", &m_jumpPower, 0.0f, 100.0f);
 	ImGui::SliderFloat("Gravity", &m_Gravity, 0.0f, 100.0f);
 	ImGui::End();
+
 
 	//入力レイアウト設定
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);

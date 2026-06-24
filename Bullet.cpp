@@ -43,12 +43,13 @@ void Bullet::Update()
 		Vector3 direction = enemy->GetPosition() - m_Position;
 		float lenght = direction.lenght();
 
-		if (lenght < 1.0f)
+		if (lenght < 1.5f)
 		{
 			enemy->SetDestroy();
 			SetDestroy();
-
-			Manager::AddGameObject<Explosion>()->SetPosition(enemy->GetPosition());
+			Vector3 pos = enemy->GetPosition();
+			pos.y += 1.0f;
+			Manager::AddGameObject<Explosion>()->SetPosition(pos);
 
 			break;
 		}

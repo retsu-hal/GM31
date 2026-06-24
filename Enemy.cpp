@@ -1,11 +1,12 @@
+
 #include "main.h"
 #include "renderer.h"
-#include "Box.h"
+#include "Enemy.h"
 #include "ModelRenderer.h"
 
 
 
-void Box::Init()
+void Enemy::Init()
 {
 	m_Layer = 1;
 	m_Position = { 0.0f, 5.0f, 0.0f };
@@ -13,7 +14,7 @@ void Box::Init()
 
 	//m_ModelRenderer = new ModelRenderer();
 	ModelRenderer* modelRenderer = AddComponent<ModelRenderer>(this);
-	modelRenderer->Load("asset\\model\\box.obj");
+	modelRenderer->Load("asset\\model\\player.obj");
 
 	//シェーダー読み込み
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
@@ -21,7 +22,7 @@ void Box::Init()
 
 }
 
-void Box::Uninit()
+void Enemy::Uninit()
 {
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
@@ -30,14 +31,20 @@ void Box::Uninit()
 	GameObject::Uninit();
 }
 
-void Box::Update()
+void Enemy::Update()
 {
-
 	GameObject::Update();
 }
 
-void Box::Draw()
+void Enemy::Draw()
 {
+
+	ImGui::Begin("Enemy");
+	ImGui::Text("Position: (%.2f, %.2f, %.2f)", m_Position.x, m_Position.y, m_Position.z);
+	ImGui::Text("Rotation: (%.2f, %.2f, %.2f)", m_Rotation.x, m_Rotation.y, m_Rotation.z);
+	ImGui::Text("Scale: (%.2f, %.2f, %.2f)", m_Scale.x, m_Scale.y, m_Scale.z);
+	ImGui::End();
+
 	//入力レイアウト設定
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 

@@ -155,7 +155,7 @@ inline float vectorMag(const Vector3& a)
 }
 
 //ベクトルの外積
-inline Vector3 croosProduct(const Vector3& a, const Vector3& b)
+inline Vector3 crossProduct(const Vector3& a, const Vector3& b)
 {
 	return Vector3(
 		a.y * b.z - a.z * b.y,

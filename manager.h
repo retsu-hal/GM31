@@ -1,17 +1,21 @@
 #pragma once
 
 #include "main.h"
-#include "GameObject.h"
-#include "GameObject.h"
 
-class GameObject;	// ‘O•ûéŒ¾
+// ‘O•ûéŒ¾
+class GameObject;
+class Scene;
 
 class Manager
 {
 
 private:
 	static std::list<GameObject*> m_GameObjects;
+	
 	static float m_DeltaTime;
+	static Scene* m_Scene;
+	static Scene* m_NextScene;
+	static float m_ChangeSceneTime;
 
 public:
 	static void Init();
@@ -64,5 +68,15 @@ public:
 			}
 		}
 		return gameObjects;
+	}
+
+	template<typename T>
+	static void ChangeScene(float Time=0.0f)
+	{
+		if(m_NextScene == nullptr)
+		{
+			m_ChangeSceneTime = Time;
+			m_NextScene = new T();
+		}
 	}
 };

@@ -1,18 +1,18 @@
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
-#include "Polygon2D.h"
 #include "Camera.h"
-#include "Field.h"
-#include "Cube.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Tree.h"
-#include "Sky.h"
-#include "Box.h"
+#include "GameObject.h"
+#include "GameScene.h"
+#include "TitleScene.h"
 
 
+//staticメンバー変数はcppで定義する必要がある
 std::list<GameObject* > Manager::m_GameObjects;
+Scene* Manager::m_Scene=nullptr;
+Scene* Manager::m_NextScene=nullptr;
+float Manager::m_ChangeSceneTime = 5.0f;
+
 float Manager::m_DeltaTime = 1.0f / 60.0f;
 
 void Manager::Init()
@@ -24,35 +24,9 @@ void Manager::Init()
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
 	ImGui_ImplWin32_Init(GetWindow());
-	ImGui_ImplDX11_Init(Renderer::GetDevice(),Renderer::GetDeviceContext());
-	
+	ImGui_ImplDX11_Init(Renderer::GetDevice(), Renderer::GetDeviceContext());
 
-	GameObject* gameObject;
-	
-	AddGameObject<CAMERA>();
-
-	AddGameObject<Sky> ();
-
-	AddGameObject<FIELD>();
-	Box* box = AddGameObject<Box>();
-	box->SetPosition({ 2.0f, 1.0f, -3.0f });
-	box->SetScale({ 1.0f, 1.0f, 1.0f });
-
-	AddGameObject<Player>();
-	AddGameObject<Enemy>()->SetPosition({ -2.0f, 1.0f, 1.0f });
-	AddGameObject<Enemy>()->SetPosition({ 0.0f, 1.0f, 1.0f });
-	AddGameObject<Enemy>()->SetPosition({ 2.0f, 1.0f, 1.0f });
-
-
-	for (int i = 0; i < 20; i++)
-	{
-		Vector3 pos = { (float)(rand() % 40 - 20),1.0f,(float)(rand() % 40 - 20) };
-		AddGameObject<Tree>()->SetPosition(pos);
-	}
-
-	//AddGameObject<Polygon2D>();
-
-
+	ChangeScene<TitleScene>();
 }
 
 
@@ -71,14 +45,24 @@ void Manager::Uninit()
 			delete gameObject;
 		}
 	}
+	
+	if(m_Scene!=nullptr)
+	{
+		m_Scene->Uninit();
+		delete m_Scene;
+	}
+
 	Renderer::Uninit();
 	Input::Uninit();
 }
 
 void Manager::Update()
 {
-	m_DeltaTime = 1.0f / 60.0f;
+	float  dt =GetDeltaTime();
 	Input::Update();
+
+	if (m_Scene != nullptr)	m_Scene->Update();
+
 	for (GameObject* gameObject : m_GameObjects)
 	{
 		if (gameObject != nullptr)
@@ -87,10 +71,40 @@ void Manager::Update()
 		}
 	}
 
+	//ゲームオブジェクトの削除　【ラムダ式】
 	m_GameObjects.remove_if([](GameObject* object)
 		{
 			return object->Destroy();
 		});
+
+	//シーンの切り替え
+	if (m_NextScene != nullptr)
+	{
+		m_ChangeSceneTime -= dt;
+
+		if(m_ChangeSceneTime <= 0.0f)
+		{
+			//現在のシーンを破棄
+			if (m_Scene != nullptr)
+			{
+				m_Scene->Uninit();
+				delete m_Scene;
+			}
+
+			//ゲームオブジェクトの削除
+			for (GameObject* gameObject : m_GameObjects)
+			{
+				gameObject->Uninit();
+				delete gameObject;
+			}
+			m_GameObjects.clear();
+
+			m_Scene = m_NextScene;
+			m_Scene->Init();
+
+			m_NextScene = nullptr;
+		}
+	}
 };
 
 void Manager::Draw()
@@ -103,23 +117,28 @@ void Manager::Draw()
 
 	//Z値計算
 	CAMERA* camera = GetGameObject<CAMERA>();
-	Vector3 forward = camera->GetForward();
-	Vector3 position = camera->GetPosition();
 
-	//Z値計算
-	for (GameObject* gameObject : m_GameObjects)
+	if (camera)
 	{
-		if (gameObject != nullptr)
+		Vector3 forward = camera->GetForward();
+		Vector3 position = camera->GetPosition();
+
+		//Z値計算
+		for (GameObject* gameObject : m_GameObjects)
 		{
-			gameObject->CalcCameraZ(position,forward);
+			if (gameObject != nullptr)
+			{
+				gameObject->CalcCameraZ(position, forward);
+			}
 		}
+
+		//Z値でソート
+		m_GameObjects.sort([](GameObject* a, GameObject* b)
+			{
+				return a->GetCameraZ() > b->GetCameraZ();
+			});
 	}
 
-	//Z値でソート
-	m_GameObjects.sort([](GameObject* a, GameObject* b)
-		{
-			return a->GetCameraZ() > b->GetCameraZ();
-		});
 
 	//レイヤー順で描画
 	for (int layer = 0; layer < 4; layer++)
