@@ -67,6 +67,8 @@ void Explosion::Uninit()
 	m_VertexShader->Release();
 	m_PixelShader->Release();
 	m_Texture->Release();
+
+	GameObject::Uninit();
 }
 
 void Explosion::Update()
