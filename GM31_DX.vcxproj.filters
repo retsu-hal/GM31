@@ -83,6 +83,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="オブジェクトファイル\Particle">
+      <UniqueIdentifier>{e034a038-5dc3-4cc6-b479-920b1a0b9a19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp">
@@ -165,6 +168,9 @@
     </ClCompile>
     <ClCompile Include="ResultScene.cpp">
       <Filter>フレームファイル\Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>オブジェクトファイル\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,6 +269,9 @@
     </ClInclude>
     <ClInclude Include="ResultScene.h">
       <Filter>フレームファイル\Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>オブジェクトファイル\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

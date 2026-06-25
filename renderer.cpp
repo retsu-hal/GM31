@@ -24,6 +24,7 @@ ID3D11DepthStencilState* Renderer::m_DepthStateDisable{};
 
 
 ID3D11BlendState*		Renderer::m_BlendState{};
+ID3D11BlendState*		Renderer::m_BlendStateAdd{};
 ID3D11BlendState*		Renderer::m_BlendStateATC{};
 
 
@@ -146,6 +147,9 @@ void Renderer::Init()
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	m_Device->CreateBlendState( &blendDesc, &m_BlendState );
+
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+	m_Device->CreateBlendState(&blendDesc, &m_BlendStateAdd);
 
 	blendDesc.AlphaToCoverageEnable = TRUE;
 	m_Device->CreateBlendState( &blendDesc, &m_BlendStateATC );
@@ -297,7 +301,16 @@ void Renderer::SetDepthEnable( bool Enable )
 
 }
 
+void Renderer::SetAddEnable(bool Enable)
+{
+	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
+	if (Enable)
+		m_DeviceContext->OMSetBlendState(m_BlendStateAdd, blendFactor, 0xffffffff);
+	else
+		m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
+
+}
 
 void Renderer::SetATCEnable( bool Enable )
 {

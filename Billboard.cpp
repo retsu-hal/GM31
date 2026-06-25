@@ -6,28 +6,27 @@
 
 void Billboard::Init()
 {
-	// 中心を原点とした板ポリゴン（X:幅, Y:高さ）
-	float hw = m_Width * 0.5f;
+	m_Layer = 2;
 
 	VERTEX_3D vertex[4];
 
 	{
-		vertex[0].Position = XMFLOAT3(-hw, m_Height, 0.0f);
+		vertex[0].Position = XMFLOAT3(-4.0f, 10.0f, 0.0f);
 		vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[0].TexCoord = XMFLOAT2(0.0f, 0.0f);
 
-		vertex[1].Position = XMFLOAT3(hw, m_Height, 0.0f);
+		vertex[1].Position = XMFLOAT3(4.0f, 10.0f, 0.0f);
 		vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
 
-		vertex[2].Position = XMFLOAT3(-hw, 0.0f, 0.0f);
+		vertex[2].Position = XMFLOAT3(-4.0f, 0.0f, 0.0f);
 		vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
 
-		vertex[3].Position = XMFLOAT3(hw, 0.0f, 0.0f);
+		vertex[3].Position = XMFLOAT3(4.0f, 0.0f, 0.0f);
 		vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
@@ -35,6 +34,7 @@ void Billboard::Init()
 
 	m_Scale = Vector3(1.0f, 1.0f, 1.0f);
 	m_Rotation = Vector3(0.0f, 0.0f, 0.0f);
+
 
 	// 頂点バッファ生成
 	D3D11_BUFFER_DESC bd{};
@@ -54,7 +54,7 @@ void Billboard::Init()
 	//テクスチャ読み込み
 	TexMetadata metadata;
 	ScratchImage image;
-	LoadFromWICFile(m_TexturePath, WIC_FLAGS_NONE, &metadata, image);//テクスチャは変更可
+	LoadFromWICFile(L"asset\\texture\\tree.png", WIC_FLAGS_NONE, &metadata, image);//テクスチャは変更可
 	CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(),
 		image.GetImageCount(), metadata, &m_Texture);
 	assert(m_Texture);//読み込み失敗時にダイアログを表示

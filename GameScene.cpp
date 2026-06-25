@@ -8,6 +8,7 @@
 #include "Tree.h"
 #include "Sky.h"
 #include "Box.h"
+#include "Particle.h"
 
 #include "GameScene.h"
 #include "ResultScene.h"
@@ -25,15 +26,17 @@ void GameScene::Init()
 	box->SetScale({ 1.0f, 1.0f, 1.0f });
 
 	Manager::AddGameObject<Player>();
-	Manager::AddGameObject<Enemy>()->SetPosition({ -2.0f, 0.0f, 1.0f });
+	//Manager::AddGameObject<Enemy>()->SetPosition({ -2.0f, 0.0f, 1.0f });
 	Manager::AddGameObject<Enemy>()->SetPosition({ 0.0f, 0.0f, 1.0f });
-	Manager::AddGameObject<Enemy>()->SetPosition({ 2.0f, 0.0f, 1.0f });
+	//Manager::AddGameObject<Enemy>()->SetPosition({ 2.0f, 0.0f, 1.0f });
+
+	Manager::AddGameObject<Particle>()->SetPosition({ 0.0f, 0.0f, 1.0f });
 
 
 	for (int i = 0; i < 20; i++)
 	{
 		Vector3 pos = { (float)(rand() % 40 - 20),0.0f,(float)(rand() % 40 - 20) };
-		Manager::AddGameObject<Tree>()->SetPosition(pos);
+		//Manager::AddGameObject<Tree>()->SetPosition(pos);
 	}
 
 	//Manager::AddGameObject<Polygon2D>();
