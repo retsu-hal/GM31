@@ -9,7 +9,7 @@
 
 void TitleScene::Init()
 {
-	Manager::AddGameObject<Polygon2D>()->Init(0.0f,0.0f,SCREEN_WIDTH,SCREEN_HEIGHT,L"asset\\texture\\iaigami.jpg");
+	Manager::AddGameObject<Polygon2D>()->Init(0.0f,0.0f,SCREEN_WIDTH,SCREEN_HEIGHT,L"asset\\texture\\DemoLogo.png");
 }
 
 void TitleScene::Uninit()

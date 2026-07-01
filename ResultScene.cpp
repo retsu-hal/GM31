@@ -9,7 +9,7 @@
 
 void ResultScene::Init()
 {
-	Manager::AddGameObject<Polygon2D>()->Init(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, L"asset\\texture\\isigami3.jpg");
+	Manager::AddGameObject<Polygon2D>()->Init(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, L"asset\\texture\\DemoResult.png");
 }
 
 void ResultScene::Uninit()
