@@ -7,6 +7,8 @@
 #include "Bullet.h"
 #include "Tree.h"
 #include "Box.h"
+#include "Collision.h"
+#include "Enemy.h"
 
 
 void Player::Init()
@@ -98,24 +100,61 @@ void Player::Update()
 	//地面に衝突
 	if (m_Position.y < 0.0f)
 	{
-			m_Position.y = .0f;
+			m_Position.y = 0.0f;
 			m_Velocity.y = 0.0f;
 			m_Ground = true;
 	}
 
-	//木の衝突
+	//木の当たり判定
 	auto trees = Manager::GetGameObjects<Tree>();
 	for (auto tree : trees)
 	{
-		
+		Vector3 pushVector;
+		if (Collision::Circle2D(m_Position, m_Scale.x * 0.5f, tree->GetPosition(), 1.0f, pushVector))
+		{
+			m_Position += pushVector;
+			float dot = m_Velocity.x * (pushVector.x) + m_Velocity.z * (pushVector.z);
+		}
 	}
 
-	//boxとの衝突
+	//boxとの当たり判定
 	auto boxes = Manager::GetGameObjects<Box>();
 	for (auto box : boxes)
 	{
-		
+		Vector3 pushVector;
+
+		Vector3 playerCenter = { m_Position.x, m_Position.y + m_Scale.y, m_Position.z };
+		Vector3 playerSize   = { m_Scale.x, m_Scale.y * 2.0f, m_Scale.z };
+
+		Vector3 boxPos = box->GetPosition();
+		Vector3 boxScl = box->GetScale();
+		Vector3 boxCenter = { boxPos.x, boxPos.y + boxScl.y, boxPos.z };
+		Vector3 boxSize   = { boxScl.x * 2.0f, boxScl.y * 2.0f, boxScl.z * 2.0f };
+
+		if (Collision::AABB(playerCenter, playerSize, boxCenter, boxSize, pushVector, m_Ground))
+		{
+			m_Position += pushVector;
+			if (pushVector.x != 0.0f) m_Velocity.x = 0.0f;
+			if (pushVector.y != 0.0f) m_Velocity.y = 0.0f;
+			if (pushVector.z != 0.0f) m_Velocity.z = 0.0f;
+			if (m_Ground) m_Ground = true;
+		}
 	}
+
+	//敵との当たり判定
+	auto enemies = Manager::GetGameObjects<Enemy>();
+	for (auto enemy : enemies)
+	{
+		Vector3 pushVector;
+		if (Collision::Circle2D(m_Position, m_Scale.x * 0.5f, enemy->GetPosition(), enemy->GetScale().x * 0.5f, pushVector))
+		{
+			enemy->SetPosition(enemy->GetPosition() - pushVector);
+			m_HitTimer = 1.0f;
+		}
+	}
+
+	//
+	if(m_HitTimer>0.0f) m_HitTimer -= dt;
 
 	if (!oldGraund && m_Ground)
 	{
@@ -135,7 +174,7 @@ void Player::Update()
 
 	if (m_Ground)
 	{
-		m_MoveAnimation += m_Velocity.lenght() * dt;
+		m_MoveAnimation += m_Velocity.length() * dt;
 		m_Scale.y += sinf(m_MoveAnimation*3.0f)*0.03f;
 	}
 
@@ -154,6 +193,12 @@ void Player::Draw()
 	ImGui::SliderFloat("Gravity", &m_Gravity, 0.0f, 100.0f);
 	ImGui::End();
 
+	// 点滅
+	if (m_HitTimer > 0.0f)
+	{
+		if (((int)(m_HitTimer * 10.0f)) % 2 == 0)
+			return;
+	}
 
 	//入力レイアウト設定
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);

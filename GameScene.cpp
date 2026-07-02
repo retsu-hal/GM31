@@ -1,6 +1,17 @@
+/*==============================================================================
+
+[GameScene.cpp]
+														Author :Watanabe Retsu
+														Date   :
+--------------------------------------------------------------------------------
+
+==============================================================================*/
+
+//==============================================================================
+//インクルード
+//==============================================================================
 #include "main.h"
 #include "manager.h"
-#include "renderer.h"
 #include "Camera.h"
 #include "Field.h"
 #include "Player.h"
@@ -9,11 +20,26 @@
 #include "Sky.h"
 #include "Box.h"
 #include "Particle.h"
+#include "Score.h"
 
 #include "GameScene.h"
 #include "ResultScene.h"
 
+//==============================================================================
+//マクロ宣言
+//==============================================================================
 
+//==============================================================================
+//プロトタイプ宣言
+//==============================================================================
+
+//==============================================================================
+//グローバル変数
+//==============================================================================
+
+//==============================================================================
+//初期化処理
+//==============================================================================
 void GameScene::Init()
 {
 	Manager::AddGameObject<CAMERA>();
@@ -26,39 +52,50 @@ void GameScene::Init()
 	box->SetScale({ 1.0f, 1.0f, 1.0f });
 
 	Manager::AddGameObject<Player>();
-	//Manager::AddGameObject<Enemy>()->SetPosition({ -2.0f, 0.0f, 1.0f });
-	Manager::AddGameObject<Enemy>()->SetPosition({ 0.0f, 0.0f, 1.0f });
-	//Manager::AddGameObject<Enemy>()->SetPosition({ 2.0f, 0.0f, 1.0f });
+	for (int i = 0; i < 5; i++)
+	{
+		Vector3 pos = { (float)(rand() % 40 - 20),0.0f,(float)(rand() % 40 - 20) };
+		Manager::AddGameObject<Enemy>()->SetPosition(pos);
+	}
 
 	Manager::AddGameObject<Particle>()->SetPosition({ 0.0f, 0.0f, 1.0f });
 
 
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		Vector3 pos = { (float)(rand() % 40 - 20),0.0f,(float)(rand() % 40 - 20) };
-		//Manager::AddGameObject<Tree>()->SetPosition(pos);
+		Manager::AddGameObject<Tree>()->SetPosition(pos);
 	}
 
 	//Manager::AddGameObject<Polygon2D>();
+	Manager::AddGameObject<Score>()->SetPosition({ 100.0f, 100.0f, 0.0f });
 }
 
+//==============================================================================
+//終了処理
+//==============================================================================
 void GameScene::Uninit()
 {
 
 }
 
+//==============================================================================
+//更新処理
+//==============================================================================
 void GameScene::Update()
 {
 	auto enemies = Manager::GetGameObjects<Enemy>();
 
-	if(enemies.size() == 0)
+	if (enemies.size() == 0)
 	{
-		Manager::ChangeScene<ResultScene>(2.0f);
+		//Manager::ChangeScene<ResultScene>(2.0f);
 	}
 }
 
+//==============================================================================
+//描画処理
+//==============================================================================
 void GameScene::Draw()
 {
 
 }
-

@@ -5,6 +5,7 @@
 #include "manager.h"
 #include "ModelRenderer.h"
 #include "Explosion.h"
+#include "Score.h"
 
 
 
@@ -41,7 +42,7 @@ void Bullet::Update()
 	for (auto enemy : enemies)
 	{
 		Vector3 direction = enemy->GetPosition() - m_Position;
-		float lenght = direction.lenght();
+		float lenght = direction.length();
 
 		if (lenght < 1.5f)
 		{
@@ -50,6 +51,12 @@ void Bullet::Update()
 			Vector3 pos = enemy->GetPosition();
 			pos.y += 1.0f;
 			Manager::AddGameObject<Explosion>()->SetPosition(pos);
+
+			auto scores = Manager::GetGameObjects<Score>();
+			for (auto score : scores)
+			{
+				score->AddScore(100);
+			}
 
 			break;
 		}

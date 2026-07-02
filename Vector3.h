@@ -130,7 +130,7 @@ public:
 			a.x * b.y - a.y * b.x);
 	}
 
-	float lenght() const
+	float length() const
 	{
 		return sqrtf(x * x + y * y + z * z);
 	}

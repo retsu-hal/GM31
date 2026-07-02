@@ -12,8 +12,7 @@ private:
 	float m_Friction = 5.0f;
 	bool m_Ground = true;
 	float m_MoveAnimation = 0.0f;
-
-	//class ModelRenderer* m_ModelRenderer;
+	float m_HitTimer = 0.0f;
 
 public:
 	void Init() override;

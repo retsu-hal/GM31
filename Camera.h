@@ -6,6 +6,8 @@
 #include "GameObject.h"
 class CAMERA : public GameObject
 {
+private:
+	XMMATRIX m_ProjectionMatrix;	
 public:
 	Vector3 m_Target;		// ’‹“_
 	Vector3 m_Angle;			// ƒJƒƒ‰‚ÌŠp“x
@@ -32,6 +34,7 @@ public:
 	float GetFov() { return m_Fov; }
 
 	XMMATRIX GetViewMatrix() { return m_ViewMatrix; }
+	XMMATRIX GetProjectionMatrix() const { return m_ProjectionMatrix; }
 
 	Vector3 GetForward() override
 	{

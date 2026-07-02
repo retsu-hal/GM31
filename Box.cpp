@@ -38,6 +38,15 @@ void Box::Update()
 
 void Box::Draw()
 {
+	Vector3 bMin = { m_Position.x - m_Scale.x * 0.5f, m_Position.y - m_Scale.y * 0.5f, m_Position.z - m_Scale.z * 0.5f };
+	Vector3 bMax = { m_Position.x + m_Scale.x * 0.5f, m_Position.y + m_Scale.y * 0.5f, m_Position.z + m_Scale.z * 0.5f };
+
+	ImGui::Begin("BoxDebug");
+	ImGui::Text("Position: (%.2f, %.2f, %.2f)", m_Position.x, m_Position.y, m_Position.z);
+	ImGui::Text("AABB Min: (%.2f, %.2f, %.2f)", bMin.x, bMin.y, bMin.z);
+	ImGui::Text("AABB Max: (%.2f, %.2f, %.2f)", bMax.x, bMax.y, bMax.z);
+	ImGui::End();
+
 	//入力レイアウト設定
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 

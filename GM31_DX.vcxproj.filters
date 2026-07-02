@@ -86,6 +86,12 @@
     <Filter Include="オブジェクトファイル\Particle">
       <UniqueIdentifier>{e034a038-5dc3-4cc6-b479-920b1a0b9a19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="オブジェクトファイル\Score">
+      <UniqueIdentifier>{863f8cc6-0fae-4ef6-9cc7-7805b53493af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="オブジェクトファイル\Collision">
+      <UniqueIdentifier>{5f511db4-68df-4ebd-8af6-fd6ef84828f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp">
@@ -171,6 +177,12 @@
     </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>オブジェクトファイル\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>オブジェクトファイル\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>オブジェクトファイル\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +284,12 @@
     </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>オブジェクトファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>オブジェクトファイル\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>オブジェクトファイル\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

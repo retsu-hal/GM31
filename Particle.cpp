@@ -60,10 +60,6 @@ void Particle::Init()
 		vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
 	}
 
-	m_Scale = Vector3(1.0f, 1.0f, 1.0f);
-	m_Rotation = Vector3(0.0f, 0.0f, 0.0f);
-
-
 	// 頂点バッファ生成
 	D3D11_BUFFER_DESC bd{};
 	bd.Usage = D3D11_USAGE_DEFAULT;
@@ -143,7 +139,7 @@ void Particle::Update()
 		if (m_Particle[i].Enable)
 		{
 			m_Particle[i].Velocity += gravity * dt; 
-			m_Particle[i].Velocity += m_Particle[i].Velocity * -5.0f * dt;  
+			m_Particle[i].Velocity += m_Particle[i].Velocity * -1.0f * dt;  
 			m_Particle[i].Position += m_Particle[i].Velocity * dt;
 
 			m_Particle[i].Life--;
