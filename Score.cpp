@@ -20,7 +20,10 @@
 //==============================================================================
 #define TEXTURE_NUM_WIDTH 5
 #define TEXTURE_NUM_HEIGHT 5
-#define DIGIT_SIZE 50.0f
+#define SCORE_MAX 999999
+#define DIGIT_WIDTH  50.0f   // 1桁の横幅
+#define DIGIT_HEIGHT 50.0f   // 1桁の高さ
+#define DIGIT_STEP   30.0f   // 次の桁までの送り幅（詰める/空けるを調整）
 
 //==============================================================================
 //プロトタイプ宣言
@@ -37,29 +40,28 @@ void Score::Init()
 {
 	m_Layer = 3;
 
-	// 4桁分＝16頂点（TRIANGLESTRIPは桁ごとに分けるのでDrawInstancedかDrawを桁数分呼ぶ）
 	VERTEX_3D vertex[4 * DIGIT_NUM];
 
 	for (int i = 0; i < DIGIT_NUM; i++)
 	{
-		float offsetX = DIGIT_SIZE * i;
+		float offsetX = DIGIT_STEP * i;
 
 		vertex[i * 4 + 0].Position = XMFLOAT3(offsetX, 0.0f, 0.0f);
 		vertex[i * 4 + 0].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		vertex[i * 4 + 0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[i * 4 + 0].TexCoord = XMFLOAT2(0.0f, 0.0f);
 
-		vertex[i * 4 + 1].Position = XMFLOAT3(offsetX + DIGIT_SIZE, 0.0f, 0.0f);
+		vertex[i * 4 + 1].Position = XMFLOAT3(offsetX + DIGIT_WIDTH, 0.0f, 0.0f);
 		vertex[i * 4 + 1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		vertex[i * 4 + 1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[i * 4 + 1].TexCoord = XMFLOAT2(1.0f, 0.0f);
 
-		vertex[i * 4 + 2].Position = XMFLOAT3(offsetX, DIGIT_SIZE, 0.0f);
+		vertex[i * 4 + 2].Position = XMFLOAT3(offsetX, DIGIT_HEIGHT, 0.0f);
 		vertex[i * 4 + 2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		vertex[i * 4 + 2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[i * 4 + 2].TexCoord = XMFLOAT2(0.0f, 1.0f);
 
-		vertex[i * 4 + 3].Position = XMFLOAT3(offsetX + DIGIT_SIZE, DIGIT_SIZE, 0.0f);
+		vertex[i * 4 + 3].Position = XMFLOAT3(offsetX + DIGIT_WIDTH, DIGIT_HEIGHT, 0.0f);
 		vertex[i * 4 + 3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		vertex[i * 4 + 3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[i * 4 + 3].TexCoord = XMFLOAT2(1.0f, 1.0f);
@@ -128,8 +130,15 @@ void Score::Update()
 			m_PopTimer = 0.15f; // カウントするたびにポップさせる
 		}
 	}
+
+	if (m_PopTimer > 0.0f)
+	{
+		m_PopTimer -= dt;
+		if (m_PopTimer < 0.0f) m_PopTimer = 0.0f;
+	}
+
 	//上限
-	if (m_Score > 999999) m_Score = 999999;
+	if (m_Score > SCORE_MAX) m_Score = SCORE_MAX;
 }
 
 //==============================================================================
@@ -152,7 +161,7 @@ void Score::Draw()
 	if (m_PopTimer > 0.0f)
 	{
 		float t = m_PopTimer / 0.15f; // 1.0→0.0で減衰
-		popScale = 1.0f + 0.3f * t;   // 最大1.3倍まで膨らむ
+		popScale = 1.0f + 0.2f * t;   // 最大1.2倍まで膨らむ
 	}
 
 	XMMATRIX WorldMatrix, ScaleMatrix, RotMatrix, TransMatrix, PopScaleMatrix;
@@ -189,7 +198,7 @@ void Score::Draw()
 	float sizeX = 1.0f / TEXTURE_NUM_WIDTH;
 	float sizeY = 1.0f / TEXTURE_NUM_HEIGHT;
 
-	// スコアを4桁に分解（上位桁から順に取り出す）
+	// スコアを桁に分解（上位桁から順に取り出す）
 	int digit[DIGIT_NUM];
 	int score = m_Score;
 	for (int i = DIGIT_NUM - 1; i >= 0; i--)
@@ -200,7 +209,7 @@ void Score::Draw()
 
 	for (int i = 0; i < DIGIT_NUM; i++)
 	{
-		float offsetX = DIGIT_SIZE * i;
+		float offsetX = DIGIT_STEP * i;
 		int num = digit[i];
 		float u = sizeX * (num % TEXTURE_NUM_WIDTH);
 		float v = sizeY * (num / TEXTURE_NUM_WIDTH);
@@ -211,17 +220,17 @@ void Score::Draw()
 		vertex[i * 4 + 0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[i * 4 + 0].TexCoord = XMFLOAT2(u, v);
 
-		vertex[i * 4 + 1].Position = XMFLOAT3(offsetX + DIGIT_SIZE, 0.0f, 0.0f);
+		vertex[i * 4 + 1].Position = XMFLOAT3(offsetX + DIGIT_WIDTH, 0.0f, 0.0f);
 		vertex[i * 4 + 1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		vertex[i * 4 + 1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[i * 4 + 1].TexCoord = XMFLOAT2(u + sizeX, v);
 
-		vertex[i * 4 + 2].Position = XMFLOAT3(offsetX, DIGIT_SIZE, 0.0f);
+		vertex[i * 4 + 2].Position = XMFLOAT3(offsetX, DIGIT_HEIGHT, 0.0f);
 		vertex[i * 4 + 2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		vertex[i * 4 + 2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[i * 4 + 2].TexCoord = XMFLOAT2(u, v + sizeY);
 
-		vertex[i * 4 + 3].Position = XMFLOAT3(offsetX + DIGIT_SIZE, DIGIT_SIZE, 0.0f);
+		vertex[i * 4 + 3].Position = XMFLOAT3(offsetX + DIGIT_WIDTH, DIGIT_HEIGHT, 0.0f);
 		vertex[i * 4 + 3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		vertex[i * 4 + 3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[i * 4 + 3].TexCoord = XMFLOAT2(u + sizeX, v + sizeY);

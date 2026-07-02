@@ -18,8 +18,8 @@ void Player::Init()
 	m_Scale = { 1.0f, 1.0f, 1.0f };
 	m_Velocity = { 0.0f, 0.0f, 0.0f };
 	m_Speed = 50.0f;
-	m_jumpPower = 7.0f;
-	m_Gravity = 9.8f;
+	m_jumpPower = 16.0f;
+	m_Gravity = 40.0f;
 
 	//m_ModelRenderer = new ModelRenderer();
 	ModelRenderer* modelRenderer = AddComponent<ModelRenderer>(this);
@@ -44,7 +44,7 @@ void Player::Update()
 	Vector3 oldPosition = m_Position;
 
 	float dt = Manager::GetDeltaTime();
-	Vector3 bulletoffset = { m_Position.x, m_Position.y + m_Scale.y, m_Position.z };	//
+	Vector3 bulletoffset = { m_Position.x, m_Position.y + m_Scale.y, m_Position.z };
 
 	CAMERA* camera = Manager::GetGameObject<CAMERA>();
 	Vector3 forward = camera->GetForward();
@@ -66,7 +66,11 @@ void Player::Update()
 	if (Input::GetKeyPress('A'))
 		m_Velocity -= right * m_Speed * dt;
 
-	m_Rotation.y = atan2f(m_Velocity.x, m_Velocity.z);
+	float horizontalSpeedSq = m_Velocity.x * m_Velocity.x + m_Velocity.z * m_Velocity.z;
+	if (horizontalSpeedSq > 0.01f)   // 動いているときだけ向きを更新
+	{
+		m_Rotation.y = atan2f(m_Velocity.x, m_Velocity.z);
+	}
 
 	//ジャンプ
 	if (Input::GetKeyTrigger(VK_SPACE))
@@ -148,13 +152,17 @@ void Player::Update()
 		Vector3 pushVector;
 		if (Collision::Circle2D(m_Position, m_Scale.x * 0.5f, enemy->GetPosition(), enemy->GetScale().x * 0.5f, pushVector))
 		{
-			enemy->SetPosition(enemy->GetPosition() - pushVector);
-			m_HitTimer = 1.0f;
+			if(m_HitTimer <= 0.0f)
+			{
+				enemy->SetPosition(enemy->GetPosition() - pushVector);
+				m_HitTimer = 1.0f;
+			}
 		}
 	}
 
 	//
 	if(m_HitTimer>0.0f) m_HitTimer -= dt;
+	if(m_HitTimer<0.0f) m_HitTimer = 0.0f;
 
 	if (!oldGraund && m_Ground)
 	{
@@ -188,6 +196,7 @@ void Player::Draw()
 	ImGui::Text("Position: (%.2f, %.2f, %.2f)", m_Position.x, m_Position.y, m_Position.z);
 	ImGui::Text("Rotation: (%.2f, %.2f, %.2f)", m_Rotation.x, m_Rotation.y, m_Rotation.z);
 	ImGui::Text("Scale: (%.2f, %.2f, %.2f)", m_Scale.x, m_Scale.y, m_Scale.z);
+	ImGui::Text("Hit Timer: %.2f", m_HitTimer);
 	ImGui::SliderFloat("Speed", &m_Speed, 0.0f, 100.0f);
 	ImGui::SliderFloat("Jump Power", &m_jumpPower, 0.0f, 100.0f);
 	ImGui::SliderFloat("Gravity", &m_Gravity, 0.0f, 100.0f);

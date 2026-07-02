@@ -57,6 +57,8 @@ void FIELD::Uninit()
 	m_VertexShader->Release();
 	m_PixelShader->Release();
 	m_Texture->Release();
+
+	GameObject::Uninit();
 }
 
 void FIELD::Update()

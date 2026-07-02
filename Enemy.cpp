@@ -67,66 +67,115 @@ void Enemy::Uninit()
 //==============================================================================
 void Enemy::Update()
 {
+	float dt = Manager::GetDeltaTime();
 
+	//------------------------------------------------------------
+	// プレイヤー追従（XZ平面のみ。ジャンプに繋げない）
+	//------------------------------------------------------------
 	auto players = Manager::GetGameObjects<Player>();
 	if (!players.empty())
 	{
 		Player* player = players[0];
 
-		// プレイヤーへの方向ベクトルを計算
 		Vector3 direction = player->GetPosition() - m_Position;
-		float length = direction.length();
+		direction.y = 0.0f;
 
-		// 近すぎる場合は正規化時のゼロ除算を防ぐ
+		float length = direction.length();
 		if (length > 0.01f)
 		{
-			direction = direction / length; // 正規化
-
-			float dt = Manager::GetDeltaTime();
+			direction = direction / length;
 			m_Position += direction * m_Speed * dt;
-
-			// プレイヤーの方を向かせたい場合（Y軸回転のみ）
 			m_Rotation.y = atan2f(-direction.x, -direction.z);
 		}
 	}
 
-	//boxとの当たり判定
+	//------------------------------------------------------------
+	// 重力
+	//------------------------------------------------------------
+	m_Velocity.y += -m_Gravity * dt;
+	m_Position.y += m_Velocity.y * dt;
+
+	bool oldGround = m_Ground;   // 着地判定用に前フレームの接地状態を保存
+	m_Ground = false;
+
+	// 地面
+	if (m_Position.y < 0.0f)
+	{
+		m_Position.y = 0.0f;
+		m_Velocity.y = 0.0f;
+		m_Ground = true;
+	}
+
+	//------------------------------------------------------------
+	// boxとの当たり判定（側面に当たったらジャンプして上に乗る）
+	//------------------------------------------------------------
 	auto boxes = Manager::GetGameObjects<Box>();
 	for (auto box : boxes)
 	{
 		Vector3 pushVector;
+		bool onBoxTop = false;
 
-		Vector3 playerCenter = { m_Position.x, m_Position.y + m_Scale.y, m_Position.z };
-		Vector3 playerSize = { m_Scale.x, m_Scale.y * 2.0f, m_Scale.z };
+		Vector3 enemyCenter = { m_Position.x, m_Position.y + m_Scale.y, m_Position.z };
+		Vector3 enemySize = { m_Scale.x, m_Scale.y * 2.0f, m_Scale.z };
 
 		Vector3 boxPos = box->GetPosition();
 		Vector3 boxScl = box->GetScale();
 		Vector3 boxCenter = { boxPos.x, boxPos.y + boxScl.y, boxPos.z };
 		Vector3 boxSize = { boxScl.x * 2.0f, boxScl.y * 2.0f, boxScl.z * 2.0f };
 
-		if (Collision::AABB(playerCenter, playerSize, boxCenter, boxSize, pushVector, m_Ground))
+		if (Collision::AABB(enemyCenter, enemySize, boxCenter, boxSize, pushVector, onBoxTop))
 		{
+			// めり込みを解消する（ボックスの上に乗れるようにする）
 			m_Position += pushVector;
-			if (pushVector.x != 0.0f) m_Velocity.x = 0.0f;
-			if (pushVector.y != 0.0f) m_Velocity.y = 0.0f;
-			if (pushVector.z != 0.0f) m_Velocity.z = 0.0f;
-			if (m_Ground) m_Ground = true;
+
+			if (onBoxTop)
+			{
+				// 上面に着地して乗る（ボックスの上に立つ）
+				m_Velocity.y = 0.0f;
+				m_Ground = true;
+			}
+			else if (pushVector.y != 0.0f)
+			{
+				// 下面に当たった（天井）→縦速度を止める
+				m_Velocity.y = 0.0f;
+			}
+			else if (m_Ground)
+			{
+				// 接地中に側面へ当たった→ボックスに乗ろうとジャンプ
+				m_Velocity.y = 16.0f;
+				m_Ground = false;
+			}
 		}
 	}
 
-	//敵との当たり判定
+	//------------------------------------------------------------
+	// 着地アニメーション（空中→接地に変わった瞬間に潰す）
+	//------------------------------------------------------------
+	if (!oldGround && m_Ground)
+	{
+		m_Scale.x = 2.0f;
+		m_Scale.y = 0.5f;
+		m_Scale.z = 2.0f;
+	}
+
+	// 元のサイズへ戻す（毎フレーム）
+	m_Scale.x += (1.0f - m_Scale.x) * 0.1f;
+	m_Scale.y += (1.0f - m_Scale.y) * 0.1f;
+	m_Scale.z += (1.0f - m_Scale.z) * 0.1f;
+
+	//------------------------------------------------------------
+	// エネミー同士の当たり判定
+	//------------------------------------------------------------
 	auto enemies = Manager::GetGameObjects<Enemy>();
 	for (auto other : enemies)
 	{
-		if (other == this) continue; // 自分自身は無視
+		if (other == this) continue;
 		Vector3 pushVector;
 		if (Collision::Circle2D(m_Position, m_Scale.x * 0.5f, other->GetPosition(), other->GetScale().x * 0.5f, pushVector))
 		{
 			m_Position += pushVector;
-			float dot = m_Velocity.x * (pushVector.x) + m_Velocity.z * (pushVector.z);
 		}
 	}
-
 
 	GameObject::Update();
 }

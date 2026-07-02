@@ -78,7 +78,7 @@ void Particle::Init()
 	//テクスチャ読み込み
 	TexMetadata metadata;
 	ScratchImage image;
-	LoadFromWICFile(L"asset\\texture\\tree.png", WIC_FLAGS_NONE, &metadata, image);//テクスチャは変更可
+	LoadFromWICFile(L"asset\\texture\\particle.png", WIC_FLAGS_NONE, &metadata, image);//テクスチャは変更可
 	CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(),
 		image.GetImageCount(), metadata, &m_Texture);
 	assert(m_Texture);//読み込み失敗時にダイアログを表示
@@ -101,6 +101,8 @@ void Particle::Uninit()
 	m_VertexShader->Release();
 	m_PixelShader->Release();
 	m_Texture->Release();
+
+	GameObject::Uninit();
 }
 
 //==============================================================================

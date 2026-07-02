@@ -5,7 +5,9 @@
 
 class FIELD : public GameObject
 {
-	public:
+private:
+
+public:
 	// í∏ì_ç\ë¢ëÃ
 	struct Vertex3D {
 		XMFLOAT3 Position;

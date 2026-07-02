@@ -28,7 +28,8 @@
 //==============================================================================
 //マクロ宣言
 //==============================================================================
-
+#define ENEMY_COUNT 5
+#define TREE_COUNT 5
 //==============================================================================
 //プロトタイプ宣言
 //==============================================================================
@@ -52,23 +53,25 @@ void GameScene::Init()
 	box->SetScale({ 1.0f, 1.0f, 1.0f });
 
 	Manager::AddGameObject<Player>();
-	for (int i = 0; i < 5; i++)
+
+	//敵の生成
+	for (int i = 0; i < ENEMY_COUNT; i++)
 	{
 		Vector3 pos = { (float)(rand() % 40 - 20),0.0f,(float)(rand() % 40 - 20) };
 		Manager::AddGameObject<Enemy>()->SetPosition(pos);
 	}
 
-	Manager::AddGameObject<Particle>()->SetPosition({ 0.0f, 0.0f, 1.0f });
+	//Manager::AddGameObject<Particle>()->SetPosition({ 0.0f, 0.0f, 1.0f });
 
-
-	for (int i = 0; i < 5; i++)
+	//木の生成
+	for (int i = 0; i < TREE_COUNT; i++)
 	{
 		Vector3 pos = { (float)(rand() % 40 - 20),0.0f,(float)(rand() % 40 - 20) };
 		Manager::AddGameObject<Tree>()->SetPosition(pos);
 	}
 
 	//Manager::AddGameObject<Polygon2D>();
-	Manager::AddGameObject<Score>()->SetPosition({ 100.0f, 100.0f, 0.0f });
+	Manager::AddGameObject<Score>()->SetPosition({ 0.0f, 0.0f, 0.0f });
 }
 
 //==============================================================================
