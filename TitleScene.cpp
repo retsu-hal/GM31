@@ -44,8 +44,8 @@ void TitleScene::Init()
 
 	//スタートボタン
 	float startX = (SCREEN_WIDTH - LogoWidth) * 0.5f;
-	float startY = (SCREEN_HEIGHT - LogoHeight) * 0.7f;
-	//Manager::AddGameObject<Polygon2D>()->Init(startX, startY, LogoWidth, LogoHeight, L"asset\\texture\\DemoTitleStart.png");
+	float startY = (SCREEN_HEIGHT - LogoHeight) * 1.1f;
+	Manager::AddGameObject<Polygon2D>()->Init(startX, startY, LogoWidth, LogoHeight, L"asset\\texture\\DemoTitleStart.png");
 
 }
 

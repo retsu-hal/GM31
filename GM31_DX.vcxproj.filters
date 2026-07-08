@@ -92,6 +92,9 @@
     <Filter Include="オブジェクトファイル\Collision">
       <UniqueIdentifier>{5f511db4-68df-4ebd-8af6-fd6ef84828f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="フレームファイル\Audio">
+      <UniqueIdentifier>{320a1787-153d-4c3b-af66-0584da9c7802}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp">
@@ -183,6 +186,9 @@
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>オブジェクトファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="audio.cpp">
+      <Filter>フレームファイル\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -290,6 +296,9 @@
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>オブジェクトファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="audio.h">
+      <Filter>フレームファイル\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

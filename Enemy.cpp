@@ -18,6 +18,7 @@
 #include "Player.h"
 #include "Box.h"
 #include "Collision.h"
+#include "Tree.h"
 
 //==============================================================================
 //マクロ宣言
@@ -174,6 +175,21 @@ void Enemy::Update()
 		if (Collision::Circle2D(m_Position, m_Scale.x * 0.5f, other->GetPosition(), other->GetScale().x * 0.5f, pushVector))
 		{
 			m_Position += pushVector;
+		}
+	}
+
+	//------------------------------------------------------------
+	// ツリーとの当たり判定
+	//------------------------------------------------------------
+	//木の当たり判定
+	auto trees = Manager::GetGameObjects<Tree>();
+	for (auto tree : trees)
+	{
+		Vector3 pushVector;
+		if (Collision::Circle2D(m_Position, m_Scale.x * 0.5f, tree->GetPosition(), 1.0f, pushVector))
+		{
+			m_Position += pushVector;
+			float dot = m_Velocity.x * (pushVector.x) + m_Velocity.z * (pushVector.z);
 		}
 	}
 
