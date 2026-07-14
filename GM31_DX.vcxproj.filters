@@ -118,76 +118,76 @@
     <ClCompile Include="imgui-master\imgui-master\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Billboard.cpp">
+    <ClCompile Include="Object\Billboard.cpp">
       <Filter>オブジェクトファイル\Billboard</Filter>
     </ClCompile>
-    <ClCompile Include="Box.cpp">
+    <ClCompile Include="Object\Box.cpp">
       <Filter>オブジェクトファイル\Box</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
+    <ClCompile Include="Object\Bullet.cpp">
       <Filter>オブジェクトファイル\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="Object\Camera.cpp">
       <Filter>オブジェクトファイル\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Cube.cpp">
+    <ClCompile Include="Object\Cube.cpp">
       <Filter>オブジェクトファイル\Cube</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
+    <ClCompile Include="Object\Enemy.cpp">
       <Filter>オブジェクトファイル\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Explosion.cpp">
+    <ClCompile Include="Object\Explosion.cpp">
       <Filter>オブジェクトファイル\Effect\Explosion</Filter>
     </ClCompile>
-    <ClCompile Include="Field.cpp">
+    <ClCompile Include="Object\Field.cpp">
       <Filter>オブジェクトファイル\Field</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="Object\Player.cpp">
       <Filter>オブジェクトファイル\Player</Filter>
     </ClCompile>
-    <ClCompile Include="tree.cpp">
+    <ClCompile Include="Object\tree.cpp">
       <Filter>オブジェクトファイル\Tree</Filter>
     </ClCompile>
-    <ClCompile Include="Sky.cpp">
+    <ClCompile Include="Object\Sky.cpp">
       <Filter>オブジェクトファイル\Sky</Filter>
     </ClCompile>
-    <ClCompile Include="Polygon2D.cpp">
+    <ClCompile Include="Object\Polygon2D.cpp">
       <Filter>オブジェクトファイル\Polygon2D</Filter>
     </ClCompile>
-    <ClCompile Include="TitleScene.cpp">
+    <ClCompile Include="Scene\TitleScene.cpp">
       <Filter>フレームファイル\Scene\Title</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene.cpp">
+    <ClCompile Include="Scene\GameScene.cpp">
       <Filter>フレームファイル\Scene\Game</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>フレームファイル\main</Filter>
     </ClCompile>
-    <ClCompile Include="manager.cpp">
+    <ClCompile Include="Frame\manager.cpp">
       <Filter>フレームファイル\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="input.cpp">
+    <ClCompile Include="Frame\input.cpp">
       <Filter>フレームファイル\Input</Filter>
     </ClCompile>
-    <ClCompile Include="renderer.cpp">
+    <ClCompile Include="Frame\renderer.cpp">
       <Filter>フレームファイル\rendrer</Filter>
     </ClCompile>
-    <ClCompile Include="modelRenderer.cpp">
+    <ClCompile Include="Frame\modelRenderer.cpp">
       <Filter>フレームファイル\modelRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="ResultScene.cpp">
+    <ClCompile Include="Scene\ResultScene.cpp">
       <Filter>フレームファイル\Scene\Result</Filter>
     </ClCompile>
-    <ClCompile Include="Particle.cpp">
+    <ClCompile Include="Object\Particle.cpp">
       <Filter>オブジェクトファイル\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Score.cpp">
+    <ClCompile Include="Object\Score.cpp">
       <Filter>オブジェクトファイル\Score</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
+    <ClCompile Include="Object\Collision.cpp">
       <Filter>オブジェクトファイル\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="audio.cpp">
+    <ClCompile Include="Frame\audio.cpp">
       <Filter>フレームファイル\Audio</Filter>
     </ClCompile>
   </ItemGroup>
@@ -216,88 +216,88 @@
     <ClInclude Include="imgui-master\imgui-master\imstb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
+    <ClInclude Include="Object\GameObject.h">
       <Filter>オブジェクトファイル</Filter>
     </ClInclude>
-    <ClInclude Include="component.h">
+    <ClInclude Include="Frame\component.h">
       <Filter>フレームファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Vector3.h">
+    <ClInclude Include="Frame\Vector3.h">
       <Filter>フレームファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Billboard.h">
+    <ClInclude Include="Object\Billboard.h">
       <Filter>オブジェクトファイル\Billboard</Filter>
     </ClInclude>
-    <ClInclude Include="Box.h">
+    <ClInclude Include="Object\Box.h">
       <Filter>オブジェクトファイル\Box</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
+    <ClInclude Include="Object\Bullet.h">
       <Filter>オブジェクトファイル\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="Object\Camera.h">
       <Filter>オブジェクトファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Cube.h">
+    <ClInclude Include="Object\Cube.h">
       <Filter>オブジェクトファイル\Cube</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
+    <ClInclude Include="Object\Enemy.h">
       <Filter>オブジェクトファイル\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Explosion.h">
+    <ClInclude Include="Object\Explosion.h">
       <Filter>オブジェクトファイル\Effect\Explosion</Filter>
     </ClInclude>
-    <ClInclude Include="Field.h">
+    <ClInclude Include="Object\Field.h">
       <Filter>オブジェクトファイル\Field</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="Object\Player.h">
       <Filter>オブジェクトファイル\Player</Filter>
     </ClInclude>
-    <ClInclude Include="tree.h">
+    <ClInclude Include="Object\tree.h">
       <Filter>オブジェクトファイル\Tree</Filter>
     </ClInclude>
-    <ClInclude Include="Sky.h">
+    <ClInclude Include="Object\Sky.h">
       <Filter>オブジェクトファイル\Sky</Filter>
     </ClInclude>
-    <ClInclude Include="Polygon2D.h">
+    <ClInclude Include="Object\Polygon2D.h">
       <Filter>オブジェクトファイル\Polygon2D</Filter>
     </ClInclude>
-    <ClInclude Include="TitleScene.h">
+    <ClInclude Include="Scene\TitleScene.h">
       <Filter>フレームファイル\Scene\Title</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
+    <ClInclude Include="Scene\Scene.h">
       <Filter>フレームファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="GameScene.h">
+    <ClInclude Include="Scene\GameScene.h">
       <Filter>フレームファイル\Scene\Game</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
       <Filter>フレームファイル\main</Filter>
     </ClInclude>
-    <ClInclude Include="manager.h">
+    <ClInclude Include="Frame\manager.h">
       <Filter>フレームファイル\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="input.h">
+    <ClInclude Include="Frame\input.h">
       <Filter>フレームファイル\Input</Filter>
     </ClInclude>
-    <ClInclude Include="renderer.h">
+    <ClInclude Include="Frame\renderer.h">
       <Filter>フレームファイル\rendrer</Filter>
     </ClInclude>
-    <ClInclude Include="modelRenderer.h">
+    <ClInclude Include="Frame\modelRenderer.h">
       <Filter>フレームファイル\modelRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="ResultScene.h">
+    <ClInclude Include="Scene\ResultScene.h">
       <Filter>フレームファイル\Scene\Result</Filter>
     </ClInclude>
-    <ClInclude Include="Particle.h">
+    <ClInclude Include="Object\Particle.h">
       <Filter>オブジェクトファイル\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Score.h">
+    <ClInclude Include="Object\Score.h">
       <Filter>オブジェクトファイル\Score</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
+    <ClInclude Include="Object\Collision.h">
       <Filter>オブジェクトファイル\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="audio.h">
+    <ClInclude Include="Frame\audio.h">
       <Filter>フレームファイル\Audio</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "GameScene.h"
 #include "TitleScene.h"
+#include "Audio.h"
 
 
 //staticメンバー変数はcppで定義する必要がある
@@ -19,6 +20,7 @@ void Manager::Init()
 {
 	Input::Init();
 	Renderer::Init();
+	Audio::InitMaster();
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -54,6 +56,7 @@ void Manager::Uninit()
 
 	Renderer::Uninit();
 	Input::Uninit();
+	Audio::UninitMaster();
 }
 
 void Manager::Update()
