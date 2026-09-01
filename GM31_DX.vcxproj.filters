@@ -95,6 +95,9 @@
     <Filter Include="フレームファイル\Audio">
       <UniqueIdentifier>{320a1787-153d-4c3b-af66-0584da9c7802}</UniqueIdentifier>
     </Filter>
+    <Filter Include="フレームファイル\Animation">
+      <UniqueIdentifier>{1939276a-db70-44c1-8c9c-7be0eeb6ec64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp">
@@ -189,6 +192,9 @@
     </ClCompile>
     <ClCompile Include="Frame\audio.cpp">
       <Filter>フレームファイル\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="animationModel.cpp">
+      <Filter>フレームファイル\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -299,6 +305,9 @@
     </ClInclude>
     <ClInclude Include="Frame\audio.h">
       <Filter>フレームファイル\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="animationModel.h">
+      <Filter>フレームファイル\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

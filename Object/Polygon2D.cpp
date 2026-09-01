@@ -83,7 +83,7 @@ void Polygon2D::Draw()
 	XMMATRIX WorldMatrix,ScaleMatrix,RotMatrix,TransMatrix;
 	ScaleMatrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);								//Šg‘åk¬
 	RotMatrix = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);		//‰ñ“]
-	TransMatrix = XMMatrixTranslation(0.0f, 0.0f, 0.0f);						//•½sˆÚ“®
+	TransMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);						//•½sˆÚ“®
 	WorldMatrix = ScaleMatrix * RotMatrix * TransMatrix;
 
 	Renderer::SetWorldMatrix(WorldMatrix);

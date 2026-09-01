@@ -61,6 +61,11 @@ void Manager::Uninit()
 
 void Manager::Update()
 {
+
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
 	float  dt =GetDeltaTime();
 	Input::Update();
 
@@ -114,9 +119,7 @@ void Manager::Draw()
 {
 	Renderer::Begin();
 
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
+	
 
 	//Z値計算
 	CAMERA* camera = GetGameObject<CAMERA>();

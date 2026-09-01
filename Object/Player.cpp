@@ -3,31 +3,36 @@
 #include "Player.h"
 #include "Camera.h"
 #include "manager.h"
-#include "ModelRenderer.h"
+#include "animationModel.h"
 #include "Bullet.h"
 #include "Tree.h"
 #include "Box.h"
 #include "Collision.h"
 #include "Enemy.h"
+#include "Audio.h"
 
 
 void Player::Init()
 {
 	m_Layer = 1;
 	m_Position = { 0.0f, 1.0f, 0.0f };
-	m_Scale = { 1.0f, 1.0f, 1.0f };
+	m_Scale = { 0.01f, 0.01f, 0.01f };
 	m_Velocity = { 0.0f, 0.0f, 0.0f };
 	m_Speed = 50.0f;
 	m_jumpPower = 16.0f;
 	m_Gravity = 40.0f;
 
-	//m_ModelRenderer = new ModelRenderer();
-	ModelRenderer* modelRenderer = AddComponent<ModelRenderer>(this);
-	modelRenderer->Load("asset\\model\\player.obj");
+	m_animationModel = AddComponent<AnimationModel>(this);
+	m_animationModel->Load("asset\\model\\Akai.fbx");
 
 	//シェーダー読み込み
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
+
+	//SE
+	m_JumpSE = AddComponent<Audio>(this);
+	m_JumpSE->Load("asset\\audio\\wan.wav");
+
 }
 
 void Player::Uninit()
@@ -78,15 +83,18 @@ void Player::Update()
 		m_Velocity.y += m_jumpPower;
 		
 		//ジャンプのアニメーション
-		m_Scale.x = 2.0f;
+		/*m_Scale.x = 2.0f;
 		m_Scale.y = 0.5f;
-		m_Scale.z = 0.5f;
+		m_Scale.z = 0.5f;*/
+
+		//ジャンプSE
+		m_JumpSE->Play();
 	}
 
 	//ジャンプ後のアニメーション
-	m_Scale.x += (1.0f - m_Scale.x) * 0.1f;
+	/*m_Scale.x += (1.0f - m_Scale.x) * 0.1f;
 	m_Scale.y += (1.0f - m_Scale.y) * 0.1f;
-	m_Scale.z += (1.0f - m_Scale.z) * 0.1f;
+	m_Scale.z += (1.0f - m_Scale.z) * 0.1f;*/
 
 
 	//重力
@@ -173,7 +181,7 @@ void Player::Update()
 	}
 
 	//弾発射
-	if (Input::GetKeyTrigger('F'))
+	if (Input::GetMouseTrigger(Input::MOUSE_LEFT))
 	{
 		Bullet* bullet = Manager::AddGameObject<Bullet>();
 		bullet->SetPosition(bulletoffset);
@@ -182,9 +190,11 @@ void Player::Update()
 
 	if (m_Ground)
 	{
-		m_MoveAnimation += m_Velocity.length() * dt;
-		m_Scale.y += sinf(m_MoveAnimation*3.0f)*0.03f;
+		/*m_MoveAnimation += m_Velocity.length() * dt;
+		m_Scale.y += sinf(m_MoveAnimation*3.0f)*0.03f;*/
 	}
+
+	m_AnimationFrame++;
 
 	GameObject::Update();
 }
@@ -224,6 +234,8 @@ void Player::Draw()
 	WorldMatrix = ScaleMatrix * RotMatrix * TransMatrix;
 
 	Renderer::SetWorldMatrix(WorldMatrix);
+
+	m_animationModel->Update("Run", m_AnimationFrame);
 
 	GameObject::Draw();
 }

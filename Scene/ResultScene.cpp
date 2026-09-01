@@ -19,7 +19,7 @@ void ResultScene::Uninit()
 
 void ResultScene::Update()
 {
-	if (Input::GetKeyTrigger(VK_RETURN))
+	if (Input::GetKeyTrigger(VK_RETURN) || Input::GetMouseTrigger(Input::MOUSE_LEFT))
 	{
 		Manager::ChangeScene<TitleScene>();
 	}

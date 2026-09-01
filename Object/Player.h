@@ -1,7 +1,7 @@
 #pragma once
-#include "main.h"
 #include "Vector3.h"
 #include "GameObject.h"
+
 class Player : public GameObject
 {
 private:
@@ -13,6 +13,10 @@ private:
 	bool m_Ground = true;
 	float m_MoveAnimation = 0.0f;
 	float m_HitTimer = 0.0f;
+	class Audio* m_JumpSE = nullptr;
+
+	class AnimationModel* m_animationModel;
+	int m_AnimationFrame = 0;
 
 public:
 	void Init() override;

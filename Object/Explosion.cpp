@@ -169,9 +169,8 @@ void Explosion::Draw()
 
 
 	//マトリックス設定
-	XMMATRIX WorldMatrix, ScaleMatrix, RotMatrix, TransMatrix;
+	XMMATRIX WorldMatrix, ScaleMatrix, TransMatrix;
 	ScaleMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);		//拡大縮小
-	//RotMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x,m_Rotation.y,m_Rotation.z);		//回転
 	TransMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);						//平行移動
 	WorldMatrix = ScaleMatrix * invViewMatrix * TransMatrix;
 

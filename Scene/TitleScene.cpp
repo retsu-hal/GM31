@@ -38,14 +38,16 @@ void TitleScene::Init()
 	Manager::AddGameObject<Polygon2D>()->Init(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, L"asset\\texture\\DemoTitleBG.png");
 
 	//タイトルロゴ
-	float logoX = (SCREEN_WIDTH - LogoWidth) * 0.5f ;
-	float logoY = (SCREEN_HEIGHT - LogoHeight) * 0.1f ;
-	Manager::AddGameObject<Polygon2D>()->Init(logoX, logoY, LogoWidth, LogoHeight,L"asset\\texture\\DemoTitleLogo.png");
+	float LogoX = (SCREEN_WIDTH - LogoWidth) * 0.5f ;
+	float LogoY = (SCREEN_HEIGHT - LogoHeight) * 0.1f ;
+	m_Logo = Manager::AddGameObject<Polygon2D>();
+	m_Logo->Init(LogoX, LogoY, LogoWidth, LogoHeight,L"asset\\texture\\DemoTitleLogo.png");
 
 	//スタートボタン
-	float startX = (SCREEN_WIDTH - LogoWidth) * 0.5f;
-	float startY = (SCREEN_HEIGHT - LogoHeight) * 1.1f;
-	Manager::AddGameObject<Polygon2D>()->Init(startX, startY, LogoWidth, LogoHeight, L"asset\\texture\\DemoTitleStart.png");
+	float StartX = (SCREEN_WIDTH - LogoWidth) * 0.5f;
+	float StartY = (SCREEN_HEIGHT - LogoHeight) * 1.1f;
+	m_startButton = Manager::AddGameObject<Polygon2D>();
+	m_startButton->Init(StartX, StartY, LogoWidth, LogoHeight, L"asset\\texture\\DemoTitleStart.png");
 
 }
 
@@ -62,10 +64,12 @@ void TitleScene::Uninit()
 //==============================================================================
 void TitleScene::Update()
 {
-	if (Input::GetKeyTrigger(VK_RETURN))
+
+	if (Input::GetKeyTrigger(VK_RETURN) || Input::GetMouseTrigger(Input::MOUSE_LEFT))
 	{
 		Manager::ChangeScene<GameScene>();
 	}
+
 }
 
 //==============================================================================

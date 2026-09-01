@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animationModel.cpp" />
     <ClCompile Include="Frame\audio.cpp" />
     <ClCompile Include="Object\Billboard.cpp" />
     <ClCompile Include="Object\Box.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Object\tree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animationModel.h" />
     <ClInclude Include="Frame\audio.h" />
     <ClInclude Include="Object\Billboard.h" />
     <ClInclude Include="Object\Box.h" />

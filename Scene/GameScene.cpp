@@ -91,7 +91,7 @@ void GameScene::Update()
 
 	if (enemies.size() == 0)
 	{
-		//Manager::ChangeScene<ResultScene>(2.0f);
+		Manager::ChangeScene<ResultScene>();
 	}
 }
 

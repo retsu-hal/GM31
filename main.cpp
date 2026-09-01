@@ -152,6 +152,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_XBUTTONDOWN:
     case WM_XBUTTONUP:
     case WM_MOUSEHOVER:
+		Input::ProcessMessage(uMsg, wParam, lParam);
         break;
 
 	case WM_KEYDOWN:

@@ -23,7 +23,7 @@ public:
 
 	using Component::Component;
 
-	void Uninit();
+	void Uninit() override;
 
 	void Load(const char *FileName);
 	void Play(bool Loop = false);

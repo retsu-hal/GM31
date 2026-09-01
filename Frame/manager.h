@@ -1,6 +1,7 @@
 #pragma once
 
 #include "main.h"
+#include "GameObject.h"
 
 // ‘O•ûéŒ¾
 class GameObject;

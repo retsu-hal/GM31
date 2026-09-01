@@ -36,7 +36,7 @@ void CAMERA::Update()
 
 	m_Target = playerPos;
 
-	m_Position = m_Target + Vector3(-sinf(m_Rotation.y) * 10.0f, 5.0f, -cos(m_Rotation.y) * 10.0f);
+	m_Position = m_Target + Vector3(-sinf(m_Rotation.y) * 10.0f, 5.0f, -cosf(m_Rotation.y) * 10.0f);
 }
 
 void CAMERA::Draw()

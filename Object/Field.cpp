@@ -1,6 +1,8 @@
 #include "main.h"
 #include "renderer.h"
 #include "Field.h"
+#include "Component.h"
+#include "Audio.h"
 
 
 
@@ -47,6 +49,10 @@ void FIELD::Init()
 	CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(),
 		image.GetImageCount(), metadata, &m_Texture);
 	assert(m_Texture);//読み込み失敗時にダイアログを表示
+
+	Audio* bgm = AddComponent<Audio>(this);
+	bgm->Load("asset\\audio\\bgm.wav");
+	bgm->Play(true);
 }
 
 void FIELD::Uninit()
@@ -63,7 +69,7 @@ void FIELD::Uninit()
 
 void FIELD::Update()
 {
-
+	GameObject::Update();
 }
 
 void FIELD::Draw()
