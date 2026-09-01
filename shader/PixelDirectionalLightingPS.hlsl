@@ -7,10 +7,10 @@ SamplerState g_SamplerState : register(s0);
 void main(in PS_IN In, out float4 OutDiffuse : SV_TARGET)
 {
     float4 normal = normalize(In.Normal);
-    float light = max(0.0, dot(normal, -Light.Direction)); //ƒ‰ƒCƒg‚Ì•ûŒü‚Æ–@ü‚Ì“àÏ
-    light = saturate(light); //light‚Ì’l‚ğ0`1‚Éû‚ß‚é
+    float light = max(0.0, dot(normal, -Light.Direction)); //ãƒ©ã‚¤ãƒˆã®æ–¹å‘ã¨æ³•ç·šã®å†…ç©
+    light = saturate(light); //lightã®å€¤ã‚’0ï½1ã«åã‚ã‚‹
     
     OutDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
-    OutDiffuse.rgb *= light; //ƒeƒNƒXƒ`ƒƒ‚ÌF‚Éƒ‰ƒCƒg‚Ì–¾‚é‚³‚ğæZ
-    OutDiffuse.a = In.Diffuse.a; //’¸“_F‚ÌƒAƒ‹ƒtƒ@‚ğo—Í
+    OutDiffuse.rgb *= light; //ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®è‰²ã«ãƒ©ã‚¤ãƒˆã®æ˜ã‚‹ã•ã‚’ä¹—ç®—
+    OutDiffuse.a = In.Diffuse.a; //é ‚ç‚¹è‰²ã®ã‚¢ãƒ«ãƒ•ã‚¡ã‚’å‡ºåŠ›
 }

@@ -9,7 +9,7 @@ void main(in VS_IN In, out PS_IN Out)
     wvp = mul(wvp, Projection);
     Out.Position = mul(In.Position, wvp);
     
-    //ŒõŒ¹ŒvZ
+    //å…‰æºè¨ˆç®—
     float4 WorldNormal, Normal;
     
     Normal = float4(In.Normal.xyz, 0.0);
@@ -22,17 +22,17 @@ void main(in VS_IN In, out PS_IN Out)
         normal.xyz=In.Normal.xyz;
         normal.w=0.0;
     -----------------------------------------*/
-    WorldNormal = mul(Normal, World);                   //–@ü‚ğ‰ñ“]
-    WorldNormal = normalize(WorldNormal);           //–@ü‚ğ³‹K‰»
-    Out.Normal = WorldNormal;                                //–@ü‚ğo—Í
+    WorldNormal = mul(Normal, World);                   //æ³•ç·šã‚’å›è»¢
+    WorldNormal = normalize(WorldNormal);           //æ³•ç·šã‚’æ­£è¦åŒ–
+    Out.Normal = WorldNormal;                                //æ³•ç·šã‚’å‡ºåŠ›
     
-    //–¾‚é‚³‚ğŒvZ@ŒõƒxƒNƒgƒ‹‚Æ–@ü‚Ì“àÏŒvZ
+    //æ˜ã‚‹ã•ã‚’è¨ˆç®—ã€€å…‰ãƒ™ã‚¯ãƒˆãƒ«ã¨æ³•ç·šã®å†…ç©è¨ˆç®—
     float light = -dot(Light.Direction.xyz,WorldNormal.xyz);
-    light = saturate(light); //light‚Ì’l‚ğ0`1‚Éû‚ß‚é
-    //light‚É’¸“_‚Ì–¾‚é‚³‚ª‚Å‚«‚é
+    light = saturate(light); //lightã®å€¤ã‚’0ï½1ã«åã‚ã‚‹
+    //lightã«é ‚ç‚¹ã®æ˜ã‚‹ã•ãŒã§ãã‚‹
     
-    //–¾‚é‚³Aƒ¿’lAƒeƒNƒXƒ`ƒƒÀ•W‚Ìo—Í
-    Out.Diffuse.rgb = light*In.Diffuse;                //–¾‚é‚³*’¸“_F
-    Out.Diffuse.a = In.Diffuse.a;         //ƒ¿‚Í’¸“_ƒJƒ‰[‚ğ‚Â‚©‚¤
+    //æ˜ã‚‹ã•ã€Î±å€¤ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™ã®å‡ºåŠ›
+    Out.Diffuse.rgb = light*In.Diffuse;                //æ˜ã‚‹ã•*é ‚ç‚¹è‰²
+    Out.Diffuse.a = In.Diffuse.a;         //Î±ã¯é ‚ç‚¹ã‚«ãƒ©ãƒ¼ã‚’ã¤ã‹ã†
     Out.TexCoord = In.TexCoord;   
 }

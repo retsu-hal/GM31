@@ -9,12 +9,12 @@ void main(in PS_IN In, out float4 outDiffuse : SV_TARGET)
 
     outDiffuse *= g_Texture.Sample(g_SamplerState, In.TexCoord);
     
-    //Yi‹P“x•ÏXj
+    //Yï¼ˆè¼åº¦å¤‰æ›´ï¼‰
     float Y;
     Y = outDiffuse.r * 0.299f + outDiffuse.g * 0.587f + outDiffuse.b * 0.114f;
     outDiffuse.rgb = Y;
     
-    //ƒZƒsƒA’²•ÏŠ·
+    //ã‚»ãƒ”ã‚¢èª¿å¤‰æ›
     float4 sepia = float4(0.96f, 0.784f, 0.58f, 1.0f);
     outDiffuse *= sepia;
     

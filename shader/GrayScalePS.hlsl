@@ -8,7 +8,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_TARGET)
 
     outDiffuse *= g_Texture.Sample(g_SamplerState, In.TexCoord);
     
-    //Yi‹P“x•ÏXj
+    //Yï¼ˆè¼åº¦å¤‰æ›´ï¼‰
     float Y;
     Y = outDiffuse.r * 0.299f + outDiffuse.g * 0.587f + outDiffuse.b * 0.114f;
     outDiffuse.rgb = Y;

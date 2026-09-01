@@ -1,4 +1,4 @@
-#include "main.h"
+Ôªø#include "main.h"
 #include "renderer.h"
 #include "Cube.h"
 
@@ -16,37 +16,37 @@ void CUBE::Init()
 	static const CUBE::Vertex3D vertexData[] =
 	{
 		// Position                      Normal                TexCoord
-		// è„ñ  (Y+)Å@ÉTÉCÉRÉçÅiÇPÅj
+		// ‰∏äÈù¢ (Y+)„ÄÄ„Çµ„Ç§„Ç≥„É≠ÔºàÔºëÔºâ
 		{ {-1.0f,  1.0f,  1.0f }, { 0.0f,  1.0f,  0.0f }, color, {  0.25f,  0.0f } },
 		{ { 1.0f,  1.0f,  1.0f }, { 0.0f,  1.0f,  0.0f }, color, { 0.5f,  0.0f } },
 		{ {-1.0f,  1.0f, -1.0f }, { 0.0f,  1.0f,  0.0f }, color, {  0.25f, 0.333f } },
 		{ { 1.0f,  1.0f, -1.0f }, { 0.0f,  1.0f,  0.0f }, color, { 0.5f, 0.333f } },
 
-		// â∫ñ  (Y-)Å@ÉTÉCÉRÉçÅiÇUÅj
+		// ‰∏ãÈù¢ (Y-)„ÄÄ„Çµ„Ç§„Ç≥„É≠ÔºàÔºñÔºâ
 		{ {1.0f, -1.0f,  1.0f }, { 0.0f, -1.0f,  0.0f }, color, {  0.25f,  0.666f } },
 		{ {-1.0f, -1.0f,  1.0f }, { 0.0f, -1.0f,  0.0f }, color, { 0.50f,  0.666f } },
 		{ {1.0f, -1.0f, -1.0f }, { 0.0f, -1.0f,  0.0f }, color, {  0.25f, 1.0f } },
 		{ {- 1.0f, -1.0f, -1.0f }, { 0.0f, -1.0f,  0.0f }, color, { 0.5f, 1.0f } },
 
-		// ëOñ  (Z+) ÉTÉCÉRÉç(ÇQ)
+		// ÂâçÈù¢ (Z+) „Çµ„Ç§„Ç≥„É≠(Ôºí)
 		{ {1.0f,  1.0f,  1.0f }, { 0.0f,  0.0f,  1.0f }, color, {  0.0f,  0.333f } },
 		{ {-1.0f, 1.0f,  1.0f }, { 0.0f,  0.0f,  1.0f }, color, { 0.25f,  0.333f } },
 		{ { 1.0f,  -1.0f,  1.0f }, { 0.0f,  0.0f,  1.0f }, color, {  0.0f, 0.666f } },
 		{ { -1.0f, -1.0f,  1.0f }, { 0.0f,  0.0f,  1.0f }, color, { 0.25f, 0.666f } },
 
-		// å„ñ  (Z-) ÉTÉCÉRÉçÅiÇTÅj
+		// ÂæåÈù¢ (Z-) „Çµ„Ç§„Ç≥„É≠ÔºàÔºïÔºâ
 		{ {-1.0f,  1.0f, -1.0f }, { 0.0f,  0.0f, -1.0f }, color, {  0.75f,  0.333f } },
 		{ { 1.0f,  1.0f, -1.0f }, { 0.0f,  0.0f, -1.0f }, color, { 0.75f,  0.666f } },
 		{ {-1.0f, -1.0f, -1.0f }, { 0.0f,  0.0f, -1.0f }, color, {  1.0f, 0.333f } },
 		{ { 1.0f, -1.0f, -1.0f }, { 0.0f,  0.0f, -1.0f }, color, { 1.0f, 0.666f } },
 
-		// âEñ  (X+) ÉTÉCÉRÉçÅiÇRÅj
+		// Âè≥Èù¢ (X+) „Çµ„Ç§„Ç≥„É≠ÔºàÔºìÔºâ
 		{ { 1.0f,  1.0f, -1.0f }, { 1.0f,  0.0f,  0.0f }, color, {  0.25f,  0.333f } },
 		{ { 1.0f,  1.0f,  1.0f }, { 1.0f,  0.0f,  0.0f }, color, { 0.5f,  0.333f } },
 		{ { 1.0f, -1.0f, -1.0f }, { 1.0f,  0.0f,  0.0f }, color, {  0.25f, 0.666f } },
 		{ { 1.0f, -1.0f,  1.0f }, { 1.0f,  0.0f,  0.0f }, color, { 0.5f, 0.666f } },
 
-		// ç∂ñ  (X-)
+		// Â∑¶Èù¢ (X-)
 		{ {-1.0f,  1.0f,  1.0f }, { -1.0f, 0.0f,  0.0f }, color, {  0.5f,  0.333f } },
 		{ {-1.0f,  1.0f, -1.0f }, { -1.0f, 0.0f,  0.0f }, color, { 0.75f,  0.333f } },
 		{ {-1.0f, -1.0f,  1.0f }, { -1.0f, 0.0f,  0.0f }, color, {  0.5f, 0.666f } },
@@ -54,17 +54,17 @@ void CUBE::Init()
 	};
 	Vertex3D vertex[24];
 
-	// vertexîzóÒÇ÷ÉRÉsÅ[
+	// vertexÈÖçÂàó„Å∏„Ç≥„Éî„Éº
 	memcpy(vertex, vertexData, sizeof(vertexData));
 
-	// í∏ì_ÉoÉbÉtÉ@ê∂ê¨
+	// È†ÇÁÇπ„Éê„ÉÉ„Éï„Ç°ÁîüÊàê
 	D3D11_BUFFER_DESC bd{};
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(VERTEX_3D) * 24;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags = 0;
 
-	// ÉCÉìÉfÉbÉNÉXÉoÉbÉtÉ@ê∂ê¨
+	// „Ç§„É≥„Éá„ÉÉ„ÇØ„Çπ„Éê„ÉÉ„Éï„Ç°ÁîüÊàê
 	WORD index[36];
 	for (int i = 0; i < 6; i++)
 	{
@@ -94,17 +94,17 @@ void CUBE::Init()
 	sd.pSysMem = vertex;
 
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
-	//ÉVÉFÅ[É_Å[ì«Ç›çûÇ›
+	//„Ç∑„Çß„Éº„ÉÄ„ÉºË™≠„ÅøËæº„Åø
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
 
-	//ÉeÉNÉXÉ`ÉÉì«Ç›çûÇ›
+	//„ÉÜ„ÇØ„Çπ„ÉÅ„É£Ë™≠„ÅøËæº„Åø
 	TexMetadata metadata;
 	ScratchImage image;
-	LoadFromWICFile(L"asset\\texture\\dice.jpg", WIC_FLAGS_NONE, &metadata, image);//ÉeÉNÉXÉ`ÉÉÇÕïœçXâ¬
+	LoadFromWICFile(L"asset\\texture\\dice.jpg", WIC_FLAGS_NONE, &metadata, image);//„ÉÜ„ÇØ„Çπ„ÉÅ„É£„ÅØÂ§âÊõ¥ÂèØ
 	CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(),
 		image.GetImageCount(), metadata, &m_Texture);
-	assert(m_Texture);//ì«Ç›çûÇ›é∏îséûÇ…É_ÉCÉAÉçÉOÇï\é¶
+	assert(m_Texture);//Ë™≠„ÅøËæº„ÅøÂ§±ÊïóÊôÇ„Å´„ÉÄ„Ç§„Ç¢„É≠„Ç∞„ÇíË°®Á§∫
 }
 
 void CUBE::Uninit()
@@ -127,14 +127,14 @@ void CUBE::Update()
 
 void CUBE::Draw()
 {
-	//ì¸óÕÉåÉCÉAÉEÉgê›íË
+	//ÂÖ•Âäõ„É¨„Ç§„Ç¢„Ç¶„ÉàË®≠ÂÆö
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
-	//ÉVÉFÅ[É_Å[ê›íË
+	//„Ç∑„Çß„Éº„ÉÄ„ÉºË®≠ÂÆö
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
-	//É}ÉgÉäÉbÉNÉXê›íË
+	//„Éû„Éà„É™„ÉÉ„ÇØ„ÇπË®≠ÂÆö
 	XMMATRIX WorldMatrix, ScaleMatrix, RotMatrix, TransMatrix;
 	ScaleMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 	RotMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
@@ -143,24 +143,24 @@ void CUBE::Draw()
 
 	Renderer::SetWorldMatrix(WorldMatrix);
 
-	//É}ÉeÉäÉAÉãê›íË
+	//„Éû„ÉÜ„É™„Ç¢„É´Ë®≠ÂÆö
 	MATERIAL material{};
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	material.TextureEnable = true;			//true:ÉeÉNÉXÉ`ÉÉÇégópÇ∑ÇÈÅAfalse:ÉeÉNÉXÉ`ÉÉÇégópÇµÇ»Ç¢
+	material.TextureEnable = true;			//true:„ÉÜ„ÇØ„Çπ„ÉÅ„É£„Çí‰ΩøÁî®„Åô„Çã„ÄÅfalse:„ÉÜ„ÇØ„Çπ„ÉÅ„É£„Çí‰ΩøÁî®„Åó„Å™„ÅÑ
 	Renderer::SetMaterial(material);
 
 
-	//ÉeÉNÉXÉ`ÉÉê›íË
+	//„ÉÜ„ÇØ„Çπ„ÉÅ„É£Ë®≠ÂÆö
 	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
 
-	//í∏ì_ÉoÉbÉtÉ@ê›íË
+	//È†ÇÁÇπ„Éê„ÉÉ„Éï„Ç°Ë®≠ÂÆö
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
 	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 	Renderer::GetDeviceContext()->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R16_UINT, 0);
-	//ÉvÉäÉ~ÉeÉBÉuÉgÉ|ÉçÉWê›íË
+	//„Éó„É™„Éü„ÉÜ„Ç£„Éñ„Éà„Éù„É≠„Ç∏Ë®≠ÂÆö
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	//ï`âÊ
+	//ÊèèÁîª
 	Renderer::GetDeviceContext()->DrawIndexed(36, 0, 0);
 }

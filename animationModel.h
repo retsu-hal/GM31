@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <unordered_map>
 
@@ -11,17 +11,17 @@
 #include "component.h"
 
 
-//•ÏŒ`Œã’¸“_\‘¢‘Ì
+//å¤‰å½¢å¾Œé ‚ç‚¹æ§‹é€ ä½“
 struct DEFORM_VERTEX
 {
 	aiVector3D Position;
 	aiVector3D Normal;
 	int				BoneNum = 0;
-	std::string		BoneName[4];//–{—ˆ‚Íƒ{[ƒ“ƒCƒ“ƒfƒbƒNƒX‚ÅŠÇ—‚·‚é‚×‚«
+	std::string		BoneName[4];//æœ¬æ¥ã¯ãƒœãƒ¼ãƒ³ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã§ç®¡ç†ã™ã‚‹ã¹ã
 	float			BoneWeight[4]{};
 };
 
-//ƒ{[ƒ“\‘¢‘Ì
+//ãƒœãƒ¼ãƒ³æ§‹é€ ä½“
 struct BONE
 {
 	aiMatrix4x4 Matrix;
@@ -40,8 +40,8 @@ private:
 
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_Texture;
 
-	std::vector<DEFORM_VERTEX>* m_DeformVertex;//•ÏŒ`Œã’¸“_ƒf[ƒ^
-	std::unordered_map<std::string, BONE> m_Bone;//ƒ{[ƒ“ƒf[ƒ^i–¼‘O‚ÅQÆj
+	std::vector<DEFORM_VERTEX>* m_DeformVertex;//å¤‰å½¢å¾Œé ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
+	std::unordered_map<std::string, BONE> m_Bone;//ãƒœãƒ¼ãƒ³ãƒ‡ãƒ¼ã‚¿ï¼ˆåå‰ã§å‚ç…§ï¼‰
 
 	void CreateBone(aiNode* Node);
 	void UpdateBoneMatrix(aiNode* Node, aiMatrix4x4 Matrix);

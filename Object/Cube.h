@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "main.h"
 #include "Vector3.h"
 #include "GameObject.h"
@@ -8,7 +8,7 @@ class CUBE : public GameObject
 private:
 	Vector3 m_Velocity;		
 public:
-	// í∏ì_ç\ë¢ëÃ
+	// È†ÇÁÇπÊßãÈÄ†‰Ωì
 	struct Vertex3D {
 		XMFLOAT3 Position;
 		XMFLOAT3 Normal;

@@ -1,4 +1,4 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "renderer.h"
 #include "Polygon2D.h"
 
@@ -30,7 +30,7 @@ void Polygon2D::Init(float x, float y, float width, float height,const WCHAR* Te
 		vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
 	}
 
-	// ’¸“_ƒoƒbƒtƒ@¶¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	D3D11_BUFFER_DESC bd{};
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
@@ -41,17 +41,17 @@ void Polygon2D::Init(float x, float y, float width, float height,const WCHAR* Te
 	sd.pSysMem = vertex;
 
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
-	//ƒVƒF[ƒ_[“Ç‚Ýž‚Ý
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼èª­ã¿è¾¼ã¿
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
 	
-	//ƒeƒNƒXƒ`ƒƒ“Ç‚Ýž‚Ý
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 	TexMetadata metadata;
 	ScratchImage image;
-	LoadFromWICFile(TextureName, WIC_FLAGS_NONE, &metadata, image);//ƒeƒNƒXƒ`ƒƒ‚Í•ÏX‰Â
+	LoadFromWICFile(TextureName, WIC_FLAGS_NONE, &metadata, image);//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¯å¤‰æ›´å¯
 	CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(),
 		image.GetImageCount(), metadata, &m_Texture);
-	assert(m_Texture);//“Ç‚Ýž‚ÝŽ¸”sŽž‚Éƒ_ƒCƒAƒƒO‚ð•\Ž¦
+	assert(m_Texture);//èª­ã¿è¾¼ã¿å¤±æ•—æ™‚ã«ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤º
 }
 
 void Polygon2D::Uninit()
@@ -70,41 +70,41 @@ void Polygon2D::Update()
 
 void Polygon2D::Draw()
 {
-	//“ü—ÍƒŒƒCƒAƒEƒgÝ’è
+	//å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆè¨­å®š
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
-	//ƒVƒF[ƒ_[Ý’è
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼è¨­å®š
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
-	//ƒ}ƒgƒŠƒbƒNƒXÝ’è
+	//ãƒžãƒˆãƒªãƒƒã‚¯ã‚¹è¨­å®š
 	Renderer::SetWorldViewProjection2D();
 
 	XMMATRIX WorldMatrix,ScaleMatrix,RotMatrix,TransMatrix;
-	ScaleMatrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);								//Šg‘åk¬
-	RotMatrix = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);		//‰ñ“]
-	TransMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);						//•½sˆÚ“®
+	ScaleMatrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);								//æ‹¡å¤§ç¸®å°
+	RotMatrix = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);		//å›žè»¢
+	TransMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);						//å¹³è¡Œç§»å‹•
 	WorldMatrix = ScaleMatrix * RotMatrix * TransMatrix;
 
 	Renderer::SetWorldMatrix(WorldMatrix);
 
-	//ƒ}ƒeƒŠƒAƒ‹Ý’è
+	//ãƒžãƒ†ãƒªã‚¢ãƒ«è¨­å®š
 	MATERIAL material{};
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	material.TextureEnable = true;			//true:ƒeƒNƒXƒ`ƒƒ‚ðŽg—p‚·‚éAfalse:ƒeƒNƒXƒ`ƒƒ‚ðŽg—p‚µ‚È‚¢
+	material.TextureEnable = true;			//true:ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ä½¿ç”¨ã™ã‚‹ã€false:ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ä½¿ç”¨ã—ãªã„
 	Renderer::SetMaterial(material);
 
 
-	//ƒeƒNƒXƒ`ƒƒÝ’è
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®š
 	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
-	//’¸“_ƒoƒbƒtƒ@Ý’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡è¨­å®š
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
 	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 
-	//ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWÝ’è
+	//ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒˆãƒãƒ­ã‚¸è¨­å®š
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	//•`‰æ
+	//æç”»
 	Renderer::GetDeviceContext()->Draw(4, 0);
 }

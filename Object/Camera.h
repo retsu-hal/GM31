@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "main.h"
 #include "renderer.h"
@@ -9,11 +9,11 @@ class CAMERA : public GameObject
 private:
 	XMMATRIX m_ProjectionMatrix;	
 public:
-	Vector3 m_Target;		// ’‹“_
-	Vector3 m_Angle;			// ƒJƒƒ‰‚ÌŠp“x
-	float  m_Fov;					// ƒJƒƒ‰‚Ì‹–ìŠp
+	Vector3 m_Target;		// æ³¨è¦–ç‚¹
+	Vector3 m_Angle;			// ã‚«ãƒ¡ãƒ©ã®è§’åº¦
+	float  m_Fov;					// ã‚«ãƒ¡ãƒ©ã®è¦–é‡è§’
 	float m_MoveSpeed;
-	XMMATRIX m_ViewMatrix;		// ƒrƒ…[s—ñ
+	XMMATRIX m_ViewMatrix;		// ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—
 
 public:
 	void Init() override;

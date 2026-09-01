@@ -1,4 +1,4 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "renderer.h"
 #include "Field.h"
 #include "Component.h"
@@ -16,7 +16,7 @@ void FIELD::Init()
 	static const FIELD::Vertex3D vertexData[] =
 	{
 		// Position                      Normal                TexCoord
-		// ã–Ê (Y+)
+		// ä¸Šé¢ (Y+)
 		{ {-1.0f,  0.0f,  1.0f }, { 0.0f,  1.0f,  0.0f }, color, {  0.0f,  0.0f } },
 		{ { 1.0f,  0.0f,  1.0f }, { 0.0f,  1.0f,  0.0f }, color, { 1.0f,  0.0f } },
 		{ {-1.0f,  0.0f, -1.0f }, { 0.0f,  1.0f,  0.0f }, color, {  0.0f, 1.0f } },
@@ -24,10 +24,10 @@ void FIELD::Init()
 	};
 	Vertex3D vertex[4];
 
-	// vertex”z—ñ‚ÖƒRƒs[
+	// vertexé…åˆ—ã¸ã‚³ãƒ”ãƒ¼
 	memcpy(vertex, vertexData, sizeof(vertexData));
 
-	// ’¸“_ƒoƒbƒtƒ@¶¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	D3D11_BUFFER_DESC bd{};
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
@@ -38,17 +38,17 @@ void FIELD::Init()
 	sd.pSysMem = vertex;
 
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
-	//ƒVƒF[ƒ_[“Ç‚İ‚İ
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼èª­ã¿è¾¼ã¿
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
 
-	//ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 	TexMetadata metadata;
 	ScratchImage image;
-	LoadFromWICFile(L"asset\\texture\\iaigami.jpg", WIC_FLAGS_NONE, &metadata, image);//ƒeƒNƒXƒ`ƒƒ‚Í•ÏX‰Â
+	LoadFromWICFile(L"asset\\texture\\iaigami.jpg", WIC_FLAGS_NONE, &metadata, image);//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¯å¤‰æ›´å¯
 	CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(),
 		image.GetImageCount(), metadata, &m_Texture);
-	assert(m_Texture);//“Ç‚İ‚İ¸”s‚Éƒ_ƒCƒAƒƒO‚ğ•\¦
+	assert(m_Texture);//èª­ã¿è¾¼ã¿å¤±æ•—æ™‚ã«ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤º
 
 	Audio* bgm = AddComponent<Audio>(this);
 	bgm->Load("asset\\audio\\bgm.wav");
@@ -74,10 +74,10 @@ void FIELD::Update()
 
 void FIELD::Draw()
 {
-	// ƒJƒŠƒ“ƒO–³Œø‰»i—¼–Ê•`‰æj
+	// ã‚«ãƒªãƒ³ã‚°ç„¡åŠ¹åŒ–ï¼ˆä¸¡é¢æç”»ï¼‰
 	D3D11_RASTERIZER_DESC rasterDesc{};
 	rasterDesc.FillMode = D3D11_FILL_SOLID;
-	rasterDesc.CullMode = D3D11_CULL_NONE;  // © — –Ê‚àƒJƒŠƒ“ƒO‚µ‚È‚¢
+	rasterDesc.CullMode = D3D11_CULL_NONE;  // â† è£é¢ã‚‚ã‚«ãƒªãƒ³ã‚°ã—ãªã„
 	rasterDesc.FrontCounterClockwise = FALSE;
 	rasterDesc.DepthClipEnable = TRUE;
 
@@ -86,14 +86,14 @@ void FIELD::Draw()
 	Renderer::GetDeviceContext()->RSSetState(pRasterState);
 
 
-	//“ü—ÍƒŒƒCƒAƒEƒgİ’è
+	//å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆè¨­å®š
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
-	//ƒVƒF[ƒ_[İ’è
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼è¨­å®š
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
-	//ƒ}ƒgƒŠƒbƒNƒXİ’è
+	//ãƒãƒˆãƒªãƒƒã‚¯ã‚¹è¨­å®š
 	XMMATRIX WorldMatrix, ScaleMatrix, RotMatrix, TransMatrix;
 	ScaleMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 	RotMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
@@ -102,23 +102,23 @@ void FIELD::Draw()
 
 	Renderer::SetWorldMatrix(WorldMatrix);
 
-	//ƒ}ƒeƒŠƒAƒ‹İ’è
+	//ãƒãƒ†ãƒªã‚¢ãƒ«è¨­å®š
 	MATERIAL material{};
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	material.TextureEnable = true;			//true:ƒeƒNƒXƒ`ƒƒ‚ğg—p‚·‚éAfalse:ƒeƒNƒXƒ`ƒƒ‚ğg—p‚µ‚È‚¢
+	material.TextureEnable = true;			//true:ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ä½¿ç”¨ã™ã‚‹ã€false:ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ä½¿ç”¨ã—ãªã„
 	Renderer::SetMaterial(material);
 
 
-	//ƒeƒNƒXƒ`ƒƒİ’è
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®š
 	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
-	//’¸“_ƒoƒbƒtƒ@İ’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡è¨­å®š
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
 	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 
-	//ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWİ’è
+	//ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒˆãƒãƒ­ã‚¸è¨­å®š
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	//•`‰æ
+	//æç”»
 	Renderer::GetDeviceContext()->Draw(4, 0);
 }

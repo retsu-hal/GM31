@@ -1,4 +1,4 @@
-/*==============================================================================
+ï»¿/*==============================================================================
 
 	[Particle.cpp]
 														Author :Watanabe Retsu
@@ -8,7 +8,7 @@
 ==============================================================================*/
 
 //==============================================================================
-//ƒCƒ“ƒNƒ‹[ƒh
+//ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 //==============================================================================
 #include "main.h"
 #include "manager.h"
@@ -17,19 +17,19 @@
 #include "Camera.h"
 
 //==============================================================================
-//ƒ}ƒNƒéŒ¾
+//ãƒã‚¯ãƒ­å®£è¨€
 //==============================================================================
 
 //==============================================================================
-//ƒvƒƒgƒ^ƒCƒvéŒ¾
+//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 //==============================================================================
 
 //==============================================================================
-//ƒOƒ[ƒoƒ‹•Ï”
+//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 //==============================================================================
 
 //==============================================================================
-//‰Šú‰»ˆ—
+//åˆæœŸåŒ–å‡¦ç†
 //==============================================================================
 void Particle::Init()
 {
@@ -60,7 +60,7 @@ void Particle::Init()
 		vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
 	}
 
-	// ’¸“_ƒoƒbƒtƒ@¶¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	D3D11_BUFFER_DESC bd{};
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
@@ -71,19 +71,19 @@ void Particle::Init()
 	sd.pSysMem = vertex;
 
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
-	//ƒVƒF[ƒ_[“Ç‚İ‚İ
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼èª­ã¿è¾¼ã¿
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
 
-	//ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 	TexMetadata metadata;
 	ScratchImage image;
-	LoadFromWICFile(L"asset\\texture\\particle.png", WIC_FLAGS_NONE, &metadata, image);//ƒeƒNƒXƒ`ƒƒ‚Í•ÏX‰Â
+	LoadFromWICFile(L"asset\\texture\\particle.png", WIC_FLAGS_NONE, &metadata, image);//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¯å¤‰æ›´å¯
 	CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(),
 		image.GetImageCount(), metadata, &m_Texture);
-	assert(m_Texture);//“Ç‚İ‚İ¸”s‚Éƒ_ƒCƒAƒƒO‚ğ•\¦
+	assert(m_Texture);//èª­ã¿è¾¼ã¿å¤±æ•—æ™‚ã«ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤º
 
-	//ƒp[ƒeƒBƒNƒ‹‚Ì‰Šú‰»
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®åˆæœŸåŒ–
 	for(int i = 0; i < PARTICLE_MAX; i++)
 	{
 		m_Particle[i].Enable = false;
@@ -91,7 +91,7 @@ void Particle::Init()
 }
 
 //==============================================================================
-//I—¹ˆ—
+//çµ‚äº†å‡¦ç†
 //==============================================================================
 void Particle::Uninit()
 {
@@ -106,14 +106,14 @@ void Particle::Uninit()
 }
 
 //==============================================================================
-//XVˆ—
+//æ›´æ–°å‡¦ç†
 //==============================================================================
 void Particle::Update()
 {
 	float dt = Manager::GetDeltaTime();
 	int count = 10;
 
-	//ƒp[ƒeƒBƒNƒ‹”­Ë
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ç™ºå°„
 
 		for (int i = 0; i < PARTICLE_MAX; i++)
 		{
@@ -133,9 +133,9 @@ void Particle::Update()
 		}
 
 
-	Vector3 gravity{ 0.0f, -9.8f, 0.0f }; // d—Í‰Á‘¬“x
+	Vector3 gravity{ 0.0f, -9.8f, 0.0f }; // é‡åŠ›åŠ é€Ÿåº¦
 
-	//ƒp[ƒeƒBƒNƒ‹‚ÌXV
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®æ›´æ–°
 	for (int i = 0; i < PARTICLE_MAX; i++)
 	{
 		if (m_Particle[i].Enable)
@@ -153,18 +153,18 @@ void Particle::Update()
 }
 
 //==============================================================================
-//•`‰æˆ—
+//æç”»å‡¦ç†
 //==============================================================================
 void Particle::Draw()
 {
-	//“ü—ÍƒŒƒCƒAƒEƒgİ’è
+	//å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆè¨­å®š
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
-	//ƒVƒF[ƒ_[İ’è
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼è¨­å®š
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
-	//ƒrƒ‹ƒ{[ƒh—pƒ}ƒgƒŠƒNƒXiƒrƒ…[s—ñ‚Ì‹ts—ñ‚Å‰ñ“]‚¾‚¯‘Å‚¿Á‚·j
+	//ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰ç”¨ãƒãƒˆãƒªã‚¯ã‚¹ï¼ˆãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®é€†è¡Œåˆ—ã§å›è»¢ã ã‘æ‰“ã¡æ¶ˆã™ï¼‰
 	CAMERA* camera = Manager::GetGameObject<CAMERA>();
 	XMMATRIX ViewMatrix = camera->GetViewMatrix();
 	XMMATRIX invViewMatrix = XMMatrixInverse(NULL, ViewMatrix);
@@ -173,46 +173,46 @@ void Particle::Draw()
 	invViewMatrix.r[3].m128_f32[2] = 0.0f;
 
 
-	//ƒ}ƒeƒŠƒAƒ‹İ’è
+	//ãƒãƒ†ãƒªã‚¢ãƒ«è¨­å®š
 	MATERIAL material{};
 	material.Diffuse = XMFLOAT4(0.2f, 0.2f, 1.0f, 1.0f);
-	material.TextureEnable = true;			//true:ƒeƒNƒXƒ`ƒƒ‚ğg—p‚·‚éAfalse:ƒeƒNƒXƒ`ƒƒ‚ğg—p‚µ‚È‚¢
+	material.TextureEnable = true;			//true:ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ä½¿ç”¨ã™ã‚‹ã€false:ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ä½¿ç”¨ã—ãªã„
 	Renderer::SetMaterial(material);
 
-	//ƒeƒNƒXƒ`ƒƒİ’è
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®š
 	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
-	//’¸“_ƒoƒbƒtƒ@İ’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡è¨­å®š
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
 	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 
-	//ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWİ’è
+	//ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒˆãƒãƒ­ã‚¸è¨­å®š
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	
-	//[“xƒoƒbƒtƒ@‚ğ–³Œø
+	//æ·±åº¦ãƒãƒƒãƒ•ã‚¡ã‚’ç„¡åŠ¹
 	Renderer::SetDepthEnable(false);
 
-	//‰ÁZ‡¬‚ğ—LŒø
+	//åŠ ç®—åˆæˆã‚’æœ‰åŠ¹
 	Renderer::SetAddEnable(true);
 	
 	for (int i = 0; i < PARTICLE_MAX; i++)
 	{
 		if (m_Particle[i].Enable)
 		{
-			//ƒ}ƒgƒŠƒbƒNƒXİ’è
+			//ãƒãƒˆãƒªãƒƒã‚¯ã‚¹è¨­å®š
 			XMMATRIX WorldMatrix, ScaleMatrix, TransMatrix;
-			ScaleMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);					//Šg‘åk¬
-			TransMatrix = XMMatrixTranslation(m_Particle[i].Position.x, m_Particle[i].Position.y, m_Particle[i].Position.z);		//•½sˆÚ“®
+			ScaleMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);					//æ‹¡å¤§ç¸®å°
+			TransMatrix = XMMatrixTranslation(m_Particle[i].Position.x, m_Particle[i].Position.y, m_Particle[i].Position.z);		//å¹³è¡Œç§»å‹•
 			WorldMatrix = ScaleMatrix * invViewMatrix * TransMatrix;
 
 			Renderer::SetWorldMatrix(WorldMatrix);
 
-			//•`‰æ
+			//æç”»
 			Renderer::GetDeviceContext()->Draw(4, 0);
 		}
 	}
 
 	
-	Renderer::SetDepthEnable(true);	//[“xƒoƒbƒtƒ@‚ğ—LŒø
-	Renderer::SetAddEnable(false);		//‰ÁZ‡¬‚ğ–³Œø
+	Renderer::SetDepthEnable(true);	//æ·±åº¦ãƒãƒƒãƒ•ã‚¡ã‚’æœ‰åŠ¹
+	Renderer::SetAddEnable(false);		//åŠ ç®—åˆæˆã‚’ç„¡åŠ¹
 }

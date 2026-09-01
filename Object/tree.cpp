@@ -1,9 +1,9 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "tree.h"
 
 void Tree::Init()
 {
 	m_Layer = 2;									
-	// ”Âƒ|ƒŠƒSƒ“¶¬E•`‰æ‚Í‚·‚×‚ÄBillboard‘¤‚Åˆ—
+	// æ¿ãƒãƒªã‚´ãƒ³ç”Ÿæˆãƒ»æç”»ã¯ã™ã¹ã¦Billboardå´ã§å‡¦ç†
 	Billboard::Init();
 }

@@ -1,28 +1,28 @@
-#pragma once
+ï»¿#pragma once
 #include "main.h"
 
 
 
 //=========================================================================================================
-// Vector3ƒNƒ‰ƒX ---ŠÈ’P‚È3DƒxƒNƒgƒ‹ƒNƒ‰ƒX
+// Vector3ã‚¯ãƒ©ã‚¹ ---ç°¡å˜ãª3Dãƒ™ã‚¯ãƒˆãƒ«ã‚¯ãƒ©ã‚¹
 //=========================================================================================================
 class Vector3
 {
 public:
 	float x, y, z;
 	Vector3() {}
-	Vector3(const Vector3& a) : x(a.x), y(a.y), z(a.z) {}					//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-	Vector3(float nx, float ny, float nz) : x(nx), y(ny), z(nz) {}		//3‚Â‚Ì’l‚Åì¬‚·‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	Vector3(const Vector3& a) : x(a.x), y(a.y), z(a.z) {}					//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	Vector3(float nx, float ny, float nz) : x(nx), y(ny), z(nz) {}		//3ã¤ã®å€¤ã§ä½œæˆã™ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	
-	//•W€“I‚ÈƒIƒuƒWƒFƒNƒg‚Ì•Ûç
-	//‘ã“ü@iC‚ÌŠµK‚É]‚¢’l‚Ö‚ÌQÆ‚ğ•Ô‚·j
+	//æ¨™æº–çš„ãªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä¿å®ˆ
+	//ä»£å…¥ã€€ï¼ˆCã®æ…£ç¿’ã«å¾“ã„å€¤ã¸ã®å‚ç…§ã‚’è¿”ã™ï¼‰
 	Vector3& operator=(const Vector3& a)
 	{
 		x = a.x; y = a.y; z = a.z;
 		return *this; 
 	}
 
-	//“™‚µ‚³‚Ìƒ`ƒFƒbƒN
+	//ç­‰ã—ã•ã®ãƒã‚§ãƒƒã‚¯
 	bool operator==(const Vector3& a) const
 	{
 		return x == a.x && y == a.y && z == a.z;
@@ -34,37 +34,37 @@ public:
 	}
 
 //==================
-//ƒxƒNƒgƒ‹‘€ì
+//ãƒ™ã‚¯ãƒˆãƒ«æ“ä½œ
 //==================
 
-	//‚O‚Éİ’è
+	//ï¼ã«è¨­å®š
 	void zero() { x = y = z = 0.0f; }
 
-	//’P€®‚Ìƒ}ƒCƒiƒX‚ÍA”½“]‚µ‚½ƒxƒNƒgƒ‹‚ğ•Ô‚·B
+	//å˜é …å¼ã®ãƒã‚¤ãƒŠã‚¹ã¯ã€åè»¢ã—ãŸãƒ™ã‚¯ãƒˆãƒ«ã‚’è¿”ã™ã€‚
 	Vector3 operator-() const
 	{
 		return Vector3(-x, -y, -z);
 	}
 
-	//‰ÁZ
+	//åŠ ç®—
 	Vector3 operator+(const Vector3& a) const
 	{
 		return Vector3(x + a.x, y + a.y, z + a.z);
 	}
 
-	//Œ¸Z
+	//æ¸›ç®—
 	Vector3 operator-(const Vector3& a) const
 	{
 		return Vector3(x - a.x, y - a.y, z - a.z);
 	}
 
-	//æZ
+	//ä¹—ç®—
 	Vector3 operator*(float a) const
 	{
 		return Vector3(x * a, y * a, z * a);
 	}
 
-	//œZ
+	//é™¤ç®—
 	Vector3 operator/(float a) const
 	{
 		float oneOverA = 1.0f / a;
@@ -72,7 +72,7 @@ public:
 	}
 
 //==================
-//C‚Ì•\‹L–@‚É€‹’‚·‚é‚½‚ß‚Ì‘g‚İ‡‚í‚¹‘ã“ü‰‰Z
+//Cã®è¡¨è¨˜æ³•ã«æº–æ‹ ã™ã‚‹ãŸã‚ã®çµ„ã¿åˆã‚ã›ä»£å…¥æ¼”ç®—
 //==================
 	Vector3 &operator+=(const Vector3& a)
 	{
@@ -100,7 +100,7 @@ public:
 	}
 
 //==================
-//³‹K‰»
+//æ­£è¦åŒ–
 //==================
 	void normalize()
 	{
@@ -114,14 +114,14 @@ public:
 		}
 	}
 
-	//ƒxƒNƒgƒ‹‚Ì“àÏ
-	//•W€‚ÌæZ‹L†‚ğ‚±‚ê‚ÉƒI[ƒo[ƒ[ƒh‚·‚é
+	//ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
+	//æ¨™æº–ã®ä¹—ç®—è¨˜å·ã‚’ã“ã‚Œã«ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 	float operator*(const Vector3& a) const
 	{
 		return x * a.x + y * a.y + z * a.z;
 	}
 
-	//ƒxƒNƒgƒ‹‚ÌŠOÏ
+	//ãƒ™ã‚¯ãƒˆãƒ«ã®å¤–ç©
 	static Vector3 cross(const Vector3& a, const Vector3& b)
 	{
 		return Vector3(
@@ -144,17 +144,17 @@ public:
 
 
 //=========================================================================================================
-// ”ñƒƒ“ƒo[ŠÖ”
+// éãƒ¡ãƒ³ãƒãƒ¼é–¢æ•°
 //=========================================================================================================
 
 
-//ƒxƒNƒgƒ‹‚Ì‘å‚«‚³
+//ãƒ™ã‚¯ãƒˆãƒ«ã®å¤§ãã•
 inline float vectorMag(const Vector3& a)
 {
 	return sqrtf(a.x * a.x + a.y * a.y + a.z * a.z);
 }
 
-//ƒxƒNƒgƒ‹‚ÌŠOÏ
+//ãƒ™ã‚¯ãƒˆãƒ«ã®å¤–ç©
 inline Vector3 crossProduct(const Vector3& a, const Vector3& b)
 {
 	return Vector3(
@@ -163,14 +163,14 @@ inline Vector3 crossProduct(const Vector3& a, const Vector3& b)
 		a.x * b.y - a.y * b.x);
 }
 
-//‘ÎÌ«‚Ì‚½‚ß‚ÉA¶‚©‚çæZ‚·‚é
+//å¯¾ç§°æ€§ã®ãŸã‚ã«ã€å·¦ã‹ã‚‰ä¹—ç®—ã™ã‚‹
 inline Vector3 operator*(float k, const Vector3& v)
 {
 	return Vector3(k*v.x, k*v.y, k*v.z);
 }
 
 
-//ƒxƒNƒgƒ‹‚Ì‹——£
+//ãƒ™ã‚¯ãƒˆãƒ«ã®è·é›¢
 inline float distance(const Vector3& a, const Vector3& b)
 {
 	float dx = a.x - b.x;
@@ -181,6 +181,6 @@ inline float distance(const Vector3& a, const Vector3& b)
 
 
 //=========================================================================================================
-// ƒOƒ[ƒoƒ‹•Ï”
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 //=========================================================================================================
 extern const Vector3 kXeroVector;

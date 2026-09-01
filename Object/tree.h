@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 #include "Billboard.h"
 
-// Billboard‚ğŒp³‚µ‚½–ØBƒTƒCƒY‚ÆƒeƒNƒXƒ`ƒƒ‚ğw’è‚·‚é‚¾‚¯
+// Billboardã‚’ç¶™æ‰¿ã—ãŸæœ¨ã€‚ã‚µã‚¤ã‚ºã¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’æŒ‡å®šã™ã‚‹ã ã‘
 class Tree : public Billboard
 {
 public:

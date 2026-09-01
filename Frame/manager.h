@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 
 #include "main.h"
 #include "GameObject.h"
 
-// ‘O•ûéŒ¾
+// å‰æ–¹å®£è¨€
 class GameObject;
 class Scene;
 

@@ -1,4 +1,4 @@
-#include "main.h"
+﻿#include "main.h"
 #include "manager.h"
 #include "input.h"
 #include "renderer.h"

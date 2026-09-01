@@ -6,6 +6,6 @@ SamplerState g_SamplerState : register(s0);
 
 void main(in PS_IN In, out float4 OutDiffuse : SV_TARGET)
 {
-    OutDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);     //ƒeƒNƒXƒ`ƒƒ‚ÌF‚ğæ“¾
-    OutDiffuse *= In.Diffuse;                                                                  //’¸“_‚Ì–¾‚é‚³‚ğ‡¬
+    OutDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);     //ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®è‰²ã‚’å–å¾—
+    OutDiffuse *= In.Diffuse;                                                                  //é ‚ç‚¹ã®æ˜ã‚‹ã•ã‚’åˆæˆ
 }

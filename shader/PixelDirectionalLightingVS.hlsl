@@ -9,16 +9,16 @@ void main(in VS_IN In, out PS_IN Out)
     wvp = mul(wvp, Projection);
     Out.Position = mul(In.Position, wvp);
     
-    //ŒõŒ¹ŒvZ
+    //å…‰æºè¨ˆç®—
     float4 WorldNormal, Normal;
     
     Normal = float4(In.Normal.xyz, 0.0);
-    WorldNormal = mul(Normal, World); //–@ü‚ğ‰ñ“]
-    WorldNormal = normalize(WorldNormal); //–@ü‚ğ³‹K‰»
-    Out.Normal = WorldNormal; //–@ü‚ğo—Í
+    WorldNormal = mul(Normal, World); //æ³•ç·šã‚’å›è»¢
+    WorldNormal = normalize(WorldNormal); //æ³•ç·šã‚’æ­£è¦åŒ–
+    Out.Normal = WorldNormal; //æ³•ç·šã‚’å‡ºåŠ›
     
     
-    //–¾‚é‚³AƒeƒNƒXƒ`ƒƒÀ•W‚Ìo—Í
-    Out.Diffuse.rgb = In.Diffuse; //’¸“_F
+    //æ˜ã‚‹ã•ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™ã®å‡ºåŠ›
+    Out.Diffuse.rgb = In.Diffuse; //é ‚ç‚¹è‰²
     Out.TexCoord = In.TexCoord;
 }

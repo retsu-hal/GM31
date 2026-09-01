@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "main.h"
 #include "Vector3.h"
@@ -6,20 +6,20 @@
 
 class GameObject
 {
-protected://ŠO•”‚©‚çƒAƒNƒZƒX‚Å‚«‚È‚¢‚ªAŒp³‚µ‚½ƒNƒ‰ƒX‚©‚çƒAƒNƒZƒX‚Å‚«‚é
+protected://å¤–éƒ¨ã‹ã‚‰ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ãŒã€ç¶™æ‰¿ã—ãŸã‚¯ãƒ©ã‚¹ã‹ã‚‰ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹
 	Vector3 m_Position{ 0.0f, 0.0f, 0.0f };
 	Vector3 m_Rotation{ 0.0f, 0.0f, 0.0f };
 	Vector3 m_Scale{ 1.0f, 1.0f, 1.0f };
 	bool m_Destroy = false;
-	int m_Layer = 1;	// ƒŒƒCƒ„[”Ô†
-	float m_CameraZ;	//ƒ\[ƒg—pZ’l
+	int m_Layer = 1;	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ç•ªå·
+	float m_CameraZ;	//ã‚½ãƒ¼ãƒˆç”¨Zå€¤
 
-	ID3D11Buffer*							m_vertexBuffer=nullptr;					// ’¸“_ƒoƒbƒtƒ@
-	ID3D11InputLayout*					m_VertexLayout=nullptr;				// ’¸“_ƒŒƒCƒAƒEƒg
-	ID3D11VertexShader*				m_VertexShader=nullptr;				// ’¸“_ƒVƒF[ƒ_[
-	ID3D11PixelShader*					m_PixelShader=nullptr;					// ƒsƒNƒZƒ‹ƒVƒF[ƒ_[	
-	ID3D11Buffer*							m_indexBuffer=nullptr;					// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
-	ID3D11ShaderResourceView*  m_Texture=nullptr;							// ƒeƒNƒXƒ`ƒƒ
+	ID3D11Buffer*							m_vertexBuffer=nullptr;					// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
+	ID3D11InputLayout*					m_VertexLayout=nullptr;				// é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
+	ID3D11VertexShader*				m_VertexShader=nullptr;				// é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
+	ID3D11PixelShader*					m_PixelShader=nullptr;					// ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼	
+	ID3D11Buffer*							m_indexBuffer=nullptr;					// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
+	ID3D11ShaderResourceView*  m_Texture=nullptr;							// ãƒ†ã‚¯ã‚¹ãƒãƒ£
 
 	std::list<Component*> m_Components;
 
@@ -36,7 +36,7 @@ public:
 	void CalcCameraZ(Vector3 CameraPos, Vector3 CameraForward)
 	{
 		Vector3 dir = m_Position - CameraPos;
-		m_CameraZ = Vector3::dot(dir, CameraForward);	//“àÏ
+		m_CameraZ = Vector3::dot(dir, CameraForward);	//å†…ç©
 	}
 
 	virtual void Init() {};

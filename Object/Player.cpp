@@ -1,4 +1,4 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "renderer.h"
 #include "Player.h"
 #include "Camera.h"
@@ -25,7 +25,7 @@ void Player::Init()
 	m_animationModel = AddComponent<AnimationModel>(this);
 	m_animationModel->Load("asset\\model\\Akai.fbx");
 
-	//ƒVƒF[ƒ_[“Ç‚İ‚İ
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼èª­ã¿è¾¼ã¿
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
 
@@ -61,7 +61,7 @@ void Player::Update()
 	right.y = 0.0f;
 	right.normalize();
 
-	//“ü—Í‚É‚æ‚é‰Á‘¬
+	//å…¥åŠ›ã«ã‚ˆã‚‹åŠ é€Ÿ
 	if (Input::GetKeyPress('W'))
 		m_Velocity += forward * m_Speed * dt;
 	if (Input::GetKeyPress('S'))
@@ -72,44 +72,44 @@ void Player::Update()
 		m_Velocity -= right * m_Speed * dt;
 
 	float horizontalSpeedSq = m_Velocity.x * m_Velocity.x + m_Velocity.z * m_Velocity.z;
-	if (horizontalSpeedSq > 0.01f)   // “®‚¢‚Ä‚¢‚é‚Æ‚«‚¾‚¯Œü‚«‚ğXV
+	if (horizontalSpeedSq > 0.01f)   // å‹•ã„ã¦ã„ã‚‹ã¨ãã ã‘å‘ãã‚’æ›´æ–°
 	{
 		m_Rotation.y = atan2f(m_Velocity.x, m_Velocity.z);
 	}
 
-	//ƒWƒƒƒ“ƒv
+	//ã‚¸ãƒ£ãƒ³ãƒ—
 	if (Input::GetKeyTrigger(VK_SPACE))
 	{
 		m_Velocity.y += m_jumpPower;
 		
-		//ƒWƒƒƒ“ƒv‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+		//ã‚¸ãƒ£ãƒ³ãƒ—ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 		/*m_Scale.x = 2.0f;
 		m_Scale.y = 0.5f;
 		m_Scale.z = 0.5f;*/
 
-		//ƒWƒƒƒ“ƒvSE
+		//ã‚¸ãƒ£ãƒ³ãƒ—SE
 		m_JumpSE->Play();
 	}
 
-	//ƒWƒƒƒ“ƒvŒã‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+	//ã‚¸ãƒ£ãƒ³ãƒ—å¾Œã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 	/*m_Scale.x += (1.0f - m_Scale.x) * 0.1f;
 	m_Scale.y += (1.0f - m_Scale.y) * 0.1f;
 	m_Scale.z += (1.0f - m_Scale.z) * 0.1f;*/
 
 
-	//d—Í
+	//é‡åŠ›
 	m_Velocity.y += -m_Gravity * dt;
 
 	m_Position += m_Velocity * dt;
 
-	//’ïR—Í
+	//æŠµæŠ—åŠ›
 	m_Velocity.x += -m_Velocity.x * m_Friction * dt;
 	m_Velocity.z += -m_Velocity.z * m_Friction	 * dt;
 
 	bool oldGraund = m_Ground;
 	m_Ground = false;
 
-	//’n–Ê‚ÉÕ“Ë
+	//åœ°é¢ã«è¡çª
 	if (m_Position.y < 0.0f)
 	{
 			m_Position.y = 0.0f;
@@ -117,7 +117,7 @@ void Player::Update()
 			m_Ground = true;
 	}
 
-	//–Ø‚Ì“–‚½‚è”»’è
+	//æœ¨ã®å½“ãŸã‚Šåˆ¤å®š
 	auto trees = Manager::GetGameObjects<Tree>();
 	for (auto tree : trees)
 	{
@@ -129,7 +129,7 @@ void Player::Update()
 		}
 	}
 
-	//box‚Æ‚Ì“–‚½‚è”»’è
+	//boxã¨ã®å½“ãŸã‚Šåˆ¤å®š
 	auto boxes = Manager::GetGameObjects<Box>();
 	for (auto box : boxes)
 	{
@@ -153,7 +153,7 @@ void Player::Update()
 		}
 	}
 
-	//“G‚Æ‚Ì“–‚½‚è”»’è
+	//æ•µã¨ã®å½“ãŸã‚Šåˆ¤å®š
 	auto enemies = Manager::GetGameObjects<Enemy>();
 	for (auto enemy : enemies)
 	{
@@ -174,13 +174,13 @@ void Player::Update()
 
 	if (!oldGraund && m_Ground)
 	{
-		//’…’n‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+		//ç€åœ°ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 		m_Scale.x = 2.0f;
 		m_Scale.y = 0.5f;
 		m_Scale.z = 2.0f;
 	}
 
-	//’e”­Ë
+	//å¼¾ç™ºå°„
 	if (Input::GetMouseTrigger(Input::MOUSE_LEFT))
 	{
 		Bullet* bullet = Manager::AddGameObject<Bullet>();
@@ -212,21 +212,21 @@ void Player::Draw()
 	ImGui::SliderFloat("Gravity", &m_Gravity, 0.0f, 100.0f);
 	ImGui::End();
 
-	// “_–Å
+	// ç‚¹æ»…
 	if (m_HitTimer > 0.0f)
 	{
 		if (((int)(m_HitTimer * 10.0f)) % 2 == 0)
 			return;
 	}
 
-	//“ü—ÍƒŒƒCƒAƒEƒgİ’è
+	//å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆè¨­å®š
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
-	//ƒVƒF[ƒ_[İ’è
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼è¨­å®š
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
-	//ƒ}ƒgƒŠƒbƒNƒXİ’è
+	//ãƒãƒˆãƒªãƒƒã‚¯ã‚¹è¨­å®š
 	XMMATRIX WorldMatrix, ScaleMatrix, RotMatrix, TransMatrix;
 	ScaleMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 	RotMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y + XM_PI, m_Rotation.z);

@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 #include "GameObject.h"
 
-// í‚ÉƒJƒƒ‰‚Ö³‘Î‚·‚é”Âƒ|ƒŠƒSƒ“iƒrƒ‹ƒ{[ƒhj
+// å¸¸ã«ã‚«ãƒ¡ãƒ©ã¸æ­£å¯¾ã™ã‚‹æ¿ãƒãƒªã‚´ãƒ³ï¼ˆãƒ“ãƒ«ãƒœãƒ¼ãƒ‰ï¼‰
 class Billboard : public GameObject
 {
 public:
