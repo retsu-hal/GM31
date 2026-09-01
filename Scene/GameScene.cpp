@@ -19,8 +19,8 @@
 #include "Tree.h"
 #include "Sky.h"
 #include "Box.h"
-#include "Particle.h"
 #include "Score.h"
+#include "Shadow.h"
 
 #include "GameScene.h"
 #include "ResultScene.h"
@@ -61,7 +61,6 @@ void GameScene::Init()
 		Manager::AddGameObject<Enemy>()->SetPosition(pos);
 	}
 
-	//Manager::AddGameObject<Particle>()->SetPosition({ 0.0f, 0.0f, 1.0f });
 
 	//木の生成
 	for (int i = 0; i < TREE_COUNT; i++)
@@ -72,6 +71,7 @@ void GameScene::Init()
 
 	//Manager::AddGameObject<Polygon2D>();
 	Manager::AddGameObject<Score>()->SetPosition({ 0.0f, 0.0f, 0.0f });
+
 }
 
 //==============================================================================

@@ -98,6 +98,9 @@
     <Filter Include="フレームファイル\Animation">
       <UniqueIdentifier>{1939276a-db70-44c1-8c9c-7be0eeb6ec64}</UniqueIdentifier>
     </Filter>
+    <Filter Include="オブジェクトファイル\Shadow">
+      <UniqueIdentifier>{ef2ff7a8-e0b5-48ad-bd5d-861030818b85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp">
@@ -195,6 +198,9 @@
     </ClCompile>
     <ClCompile Include="animationModel.cpp">
       <Filter>フレームファイル\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Shadow.cpp">
+      <Filter>オブジェクトファイル\Shadow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -308,6 +314,9 @@
     </ClInclude>
     <ClInclude Include="animationModel.h">
       <Filter>フレームファイル\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Shadow.h">
+      <Filter>オブジェクトファイル\Shadow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,7 @@ private:
 	float m_MoveAnimation = 0.0f;
 	float m_HitTimer = 0.0f;
 	class Audio* m_JumpSE = nullptr;
+	class Shadow* m_Shadow = nullptr;
 
 	class AnimationModel* m_animationModel;
 	int m_AnimationFrame = 0;

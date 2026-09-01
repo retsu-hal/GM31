@@ -10,6 +10,9 @@
 #include "Collision.h"
 #include "Enemy.h"
 #include "Audio.h"
+#include "Shadow.h"
+
+#define SHADOW_OFFSET_Y	(0.01f)		// 影を地面から浮かせる量（Zファイティング回避）
 
 
 void Player::Init()
@@ -33,10 +36,19 @@ void Player::Init()
 	m_JumpSE = AddComponent<Audio>(this);
 	m_JumpSE->Load("asset\\audio\\wan.wav");
 
+	m_Shadow = Manager::AddGameObject<Shadow>();
+	m_Shadow->SetScale({ 1.5f, 1.5f, 1.5f });
 }
 
 void Player::Uninit()
 {
+	//影はManager管理なので、プレイヤーが消えるときに一緒に破棄する
+	if (m_Shadow)
+	{
+		m_Shadow->SetDestroy();
+		m_Shadow = nullptr;
+	}
+
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
@@ -62,14 +74,10 @@ void Player::Update()
 	right.normalize();
 
 	//入力による加速
-	if (Input::GetKeyPress('W'))
-		m_Velocity += forward * m_Speed * dt;
-	if (Input::GetKeyPress('S'))
-		m_Velocity -= forward * m_Speed * dt;
-	if (Input::GetKeyPress('D'))
-		m_Velocity += right * m_Speed * dt;
-	if (Input::GetKeyPress('A'))
-		m_Velocity -= right * m_Speed * dt;
+	if (Input::GetKeyPress('W')) m_Velocity += forward * m_Speed * dt;
+	if (Input::GetKeyPress('S'))  m_Velocity -= forward * m_Speed * dt;
+	if (Input::GetKeyPress('D'))  m_Velocity += right * m_Speed * dt;
+	if (Input::GetKeyPress('A')) m_Velocity -= right * m_Speed * dt;
 
 	float horizontalSpeedSq = m_Velocity.x * m_Velocity.x + m_Velocity.z * m_Velocity.z;
 	if (horizontalSpeedSq > 0.01f)   // 動いているときだけ向きを更新
@@ -174,10 +182,10 @@ void Player::Update()
 
 	if (!oldGraund && m_Ground)
 	{
-		//着地のアニメーション
-		m_Scale.x = 2.0f;
-		m_Scale.y = 0.5f;
-		m_Scale.z = 2.0f;
+		////着地のアニメーション
+		//m_Scale.x = 2.0f;
+		//m_Scale.y = 0.5f;
+		//m_Scale.z = 2.0f;
 	}
 
 	//弾発射
@@ -194,6 +202,14 @@ void Player::Update()
 		m_Scale.y += sinf(m_MoveAnimation*3.0f)*0.03f;*/
 	}
 
+	//影移動（地面と同一平面だとZファイティングするので少し浮かせる）
+	if (m_Shadow)
+	{
+		Vector3 ShadowPos = m_Position;
+		ShadowPos.y = SHADOW_OFFSET_Y;
+		m_Shadow->SetPosition(ShadowPos);
+	}
+	
 	m_AnimationFrame++;
 
 	GameObject::Update();

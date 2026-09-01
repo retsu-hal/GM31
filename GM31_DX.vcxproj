@@ -164,6 +164,7 @@
     <ClCompile Include="Object\Sky.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
     <ClCompile Include="Object\tree.cpp" />
+    <ClCompile Include="Object\Shadow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animationModel.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="Object\tree.h" />
     <ClInclude Include="Frame\Vector3.h" />
     <ClInclude Include="Object\Camera.h" />
+    <ClInclude Include="Object\Shadow.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

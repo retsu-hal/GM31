@@ -62,6 +62,8 @@ private:
 
 	MODEL* m_Model{};
 
+	bool m_Flash = false;
+
 public:
 
 	static void Preload( const char *FileName );
@@ -73,4 +75,5 @@ public:
 	void Load( const char *FileName );
 	void Draw() override;
 
+	void SetFlash(bool Flash) { m_Flash = Flash; }
 };

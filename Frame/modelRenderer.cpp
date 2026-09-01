@@ -30,13 +30,25 @@ void ModelRenderer::Draw()
 
 	for( unsigned int i = 0; i < m_Model->SubsetNum; i++ )
 	{
-		// マテリアル設定
-		Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material );
+		if (m_Flash)
+		{
+			//マテリアル設定
+			MATERIAL material{};
+			material.Diffuse={ 1.0f,1.0f,1.0f,1.0f };
+			material.TextureEnable = false;
+			Renderer::SetMaterial(material);
+		}
+		else
+		{
+			// マテリアル設定
+			Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
 
-		// テクスチャ設定
-		if(m_Model->SubsetArray[i].Material.Texture)
-			Renderer::GetDeviceContext()->PSSetShaderResources( 0, 1, &m_Model->SubsetArray[i].Material.Texture );
+			// テクスチャ設定
+			if (m_Model->SubsetArray[i].Material.Texture)
+				Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Model->SubsetArray[i].Material.Texture);
 
+		}
+		
 		// ポリゴン描画
 		Renderer::GetDeviceContext()->DrawIndexed(m_Model->SubsetArray[i].IndexNum, m_Model->SubsetArray[i].StartIndex, 0 );
 	}
