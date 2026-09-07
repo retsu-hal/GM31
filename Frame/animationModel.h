@@ -50,8 +50,9 @@ public:
 	using Component::Component;
 
 	void Load( const char *FileName );
-	void LoadAnimation( const char *FileName, const char *Name );
+	void LoadAnimation( const char *FileName, const char *Name);
 	void Uninit() override;
-	void Update(const char* AnimationName1, int Frame1);
+	void Update(const char* AnimationName1, int Frame1, 
+		const char* AnimationName2, int Frame2, float Blend);
 	void Draw() override;
 };

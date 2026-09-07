@@ -196,11 +196,11 @@
     <ClCompile Include="Frame\audio.cpp">
       <Filter>フレームファイル\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="animationModel.cpp">
-      <Filter>フレームファイル\Animation</Filter>
-    </ClCompile>
     <ClCompile Include="Object\Shadow.cpp">
       <Filter>オブジェクトファイル\Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame\animationModel.cpp">
+      <Filter>フレームファイル\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -312,11 +312,11 @@
     <ClInclude Include="Frame\audio.h">
       <Filter>フレームファイル\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="animationModel.h">
-      <Filter>フレームファイル\Animation</Filter>
-    </ClInclude>
     <ClInclude Include="Object\Shadow.h">
       <Filter>オブジェクトファイル\Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame\animationModel.h">
+      <Filter>フレームファイル\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

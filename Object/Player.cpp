@@ -25,8 +25,13 @@ void Player::Init()
 	m_jumpPower = 16.0f;
 	m_Gravity = 40.0f;
 
-	m_animationModel = AddComponent<AnimationModel>(this);
-	m_animationModel->Load("asset\\model\\Akai.fbx");
+	m_AnimationModel = AddComponent<AnimationModel>(this);
+	m_AnimationModel->Load("asset\\model\\Akai.fbx");
+	m_AnimationModel->LoadAnimation("asset\\model\\Akai_Idle.fbx", "Idle");
+	m_AnimationModel->LoadAnimation("asset\\model\\Akai_Run.fbx", "Run");
+
+	m_AnimationName = "Idle";
+	m_NextAnimationName = "Idle";
 
 	//シェーダー読み込み
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
@@ -251,7 +256,8 @@ void Player::Draw()
 
 	Renderer::SetWorldMatrix(WorldMatrix);
 
-	m_animationModel->Update("Run", m_AnimationFrame);
+	m_AnimationModel->Update(m_AnimationName.c_str(), m_AnimationFrame,
+		m_NextAnimationName.c_str(), m_NextAnimationFrame, m_Blend);
 
 	GameObject::Draw();
 }
