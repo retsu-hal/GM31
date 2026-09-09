@@ -34,6 +34,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void SetAnimation(const char* AnimationName);
+
 };
 
 

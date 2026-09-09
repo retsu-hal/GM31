@@ -207,6 +207,13 @@ void AnimationModel::LoadAnimation(const char* FileName, const char* Name)
 }
 
 
+bool AnimationModel::HasAnimation(const char* Name) const
+{
+	auto it = m_Animation.find(Name);
+	return it != m_Animation.end() && it->second->HasAnimations();
+}
+
+
 void AnimationModel::CreateBone(aiNode* node)
 {
 	BONE bone;
@@ -272,6 +279,9 @@ void AnimationModel::Update(const char* AnimationName1, int Frame1,
 	aiAnimation* animation1 = m_Animation[AnimationName1]->mAnimations[0];
 	aiAnimation* animation2 = m_Animation[AnimationName2]->mAnimations[0];
 
+	m_MatchedBoneNum1 = 0;
+	m_MatchedBoneNum2 = 0;
+
 	// 骨の分だけ繰り返す、一個ずつ取り出す
 	for (auto pair : m_Bone)
 	{
@@ -307,6 +317,8 @@ void AnimationModel::Update(const char* AnimationName1, int Frame1,
 		// 対応したフレーム番号の角度とか位置を取得
 		if (nodeAnim1)
 		{
+			m_MatchedBoneNum1++;
+
 			f = Frame1 % nodeAnim1->mNumRotationKeys;
 			rot1 = nodeAnim1->mRotationKeys[f].mValue;
 
@@ -320,6 +332,8 @@ void AnimationModel::Update(const char* AnimationName1, int Frame1,
 		// 対応したフレーム番号の角度とか位置を取得
 		if (nodeAnim2)
 		{
+			m_MatchedBoneNum2++;
+
 			f = Frame2 % nodeAnim2->mNumRotationKeys;
 			rot2 = nodeAnim2->mRotationKeys[f].mValue;
 
@@ -346,30 +360,7 @@ void AnimationModel::Update(const char* AnimationName1, int Frame1,
 
 	// 親子関係を付けてあげる
 	UpdateBoneMatrix(m_AiScene->mRootNode, rootMatrix);
-}
 
-// nodeはボーンって言ったりノードって言ったり、matrixは親のボーンマトリクス
-void AnimationModel::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
-{
-	// 骨一個分を取り出す
-	// C_Str()は文字で制御してるから変換している
-	BONE* bone = &m_Bone[node->mName.C_Str()];
-
-	// 頭にaiがついているのはassimpのこと
-	// assimpのマトリクス転置的(DirectXとは逆)なので行列の掛け算の順番は逆になる
-	aiMatrix4x4 worldMatrix;
-	// 骨一個分のマトリクスを求める
-	worldMatrix = matrix * bone->AnimationMatrix;
-
-	// 骨にそってスキン(皮膚)を求めるのに、今までは中心からの位置を求めている
-	// offsetMatrixはそれを直してくれる
-	bone->Matrix = worldMatrix * bone->OffsetMatrix;
-	for (unsigned int n = 0; n < node->mNumChildren; n++)
-	{
-		UpdateBoneMatrix(node->mChildren[n], worldMatrix);
-	}
-
-	
 	// 頂点変換(CPUスキニング)
 	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
 	{
@@ -422,4 +413,27 @@ void AnimationModel::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
 		}
 		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer[m], 0);
 	}
+}
+
+// nodeはボーンって言ったりノードって言ったり、matrixは親のボーンマトリクス
+void AnimationModel::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
+{
+	// 骨一個分を取り出す
+	// C_Str()は文字で制御してるから変換している
+	BONE* bone = &m_Bone[node->mName.C_Str()];
+
+	// 頭にaiがついているのはassimpのこと
+	// assimpのマトリクス転置的(DirectXとは逆)なので行列の掛け算の順番は逆になる
+	aiMatrix4x4 worldMatrix;
+	// 骨一個分のマトリクスを求める
+	worldMatrix = matrix * bone->AnimationMatrix;
+
+	// 骨にそってスキン(皮膚)を求めるのに、今までは中心からの位置を求めている
+	// offsetMatrixはそれを直してくれる
+	bone->Matrix = worldMatrix * bone->OffsetMatrix;
+	for (unsigned int n = 0; n < node->mNumChildren; n++)
+	{
+		UpdateBoneMatrix(node->mChildren[n], worldMatrix);
+	}
+
 }
