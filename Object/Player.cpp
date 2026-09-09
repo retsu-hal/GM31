@@ -69,7 +69,7 @@ void Player::Update()
 	ImGui::Text("Position: (%.2f, %.2f, %.2f)", m_Position.x, m_Position.y, m_Position.z);
 	ImGui::Text("Rotation: (%.2f, %.2f, %.2f)", m_Rotation.x, m_Rotation.y, m_Rotation.z);
 	ImGui::Text("Scale: (%.2f, %.2f, %.2f)", m_Scale.x, m_Scale.y, m_Scale.z);
-	ImGui::Text("state: %s", m_AnimationName.c_str());
+	ImGui::Text("state: %s", m_NextAnimationName.c_str());
 	ImGui::Text("Hit Timer: %.2f", m_HitTimer);
 	ImGui::Separator();
 	ImGui::Text("Anim : %s(%d) -> %s(%d)",
