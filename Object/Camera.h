@@ -8,6 +8,10 @@ class CAMERA : public GameObject
 {
 private:
 	XMMATRIX m_ProjectionMatrix;	
+
+	Vector3 m_Shake{ 0.0f, 0.0f, 0.0f };
+	float m_ShakeTime = 0.0f;
+
 public:
 	Vector3 m_Target;		// 注視点
 	Vector3 m_Angle;			// カメラの角度
@@ -53,4 +57,11 @@ public:
 
 		return right;
 	}
+
+	void Shake(Vector3 Shake)
+	{
+		m_Shake = Shake;
+		m_ShakeTime = 0.0f;
+	}
+
 };

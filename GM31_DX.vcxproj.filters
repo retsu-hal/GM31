@@ -98,6 +98,9 @@
     <Filter Include="フレームファイル\Animation">
       <UniqueIdentifier>{1939276a-db70-44c1-8c9c-7be0eeb6ec64}</UniqueIdentifier>
     </Filter>
+    <Filter Include="オブジェクトファイル\Shadow">
+      <UniqueIdentifier>{ef2ff7a8-e0b5-48ad-bd5d-861030818b85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp">
@@ -193,8 +196,14 @@
     <ClCompile Include="Frame\audio.cpp">
       <Filter>フレームファイル\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="animationModel.cpp">
+    <ClCompile Include="Object\Shadow.cpp">
+      <Filter>オブジェクトファイル\Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame\animationModel.cpp">
       <Filter>フレームファイル\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\MeshField.cpp">
+      <Filter>オブジェクトファイル\Field</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,8 +315,14 @@
     <ClInclude Include="Frame\audio.h">
       <Filter>フレームファイル\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="animationModel.h">
+    <ClInclude Include="Object\Shadow.h">
+      <Filter>オブジェクトファイル\Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame\animationModel.h">
       <Filter>フレームファイル\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\MeshField.h">
+      <Filter>オブジェクトファイル\Field</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -318,6 +333,12 @@
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="shader\unlitTextureVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\fieldPS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\fieldVS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>

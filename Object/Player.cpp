@@ -10,6 +10,9 @@
 #include "Collision.h"
 #include "Enemy.h"
 #include "Audio.h"
+#include "Shadow.h"
+
+#define SHADOW_OFFSET_Y	(0.01f)		// 影を地面から浮かせる量（Zファイティング回避）
 
 
 void Player::Init()
@@ -22,8 +25,13 @@ void Player::Init()
 	m_jumpPower = 16.0f;
 	m_Gravity = 40.0f;
 
-	m_animationModel = AddComponent<AnimationModel>(this);
-	m_animationModel->Load("asset\\model\\Akai.fbx");
+	m_AnimationModel = AddComponent<AnimationModel>(this);
+	m_AnimationModel->Load("asset\\model\\Akai.fbx");
+	m_AnimationModel->LoadAnimation("asset\\model\\Akai_Idle.fbx", "Idle");
+	m_AnimationModel->LoadAnimation("asset\\model\\Akai_Run.fbx", "Run");
+
+	m_AnimationName = "Idle";
+	m_NextAnimationName = "Idle";
 
 	//シェーダー読み込み
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
@@ -33,10 +41,19 @@ void Player::Init()
 	m_JumpSE = AddComponent<Audio>(this);
 	m_JumpSE->Load("asset\\audio\\wan.wav");
 
+	m_Shadow = Manager::AddGameObject<Shadow>();
+	m_Shadow->SetScale({ 1.5f, 1.5f, 1.5f });
 }
 
 void Player::Uninit()
 {
+	//影はManager管理なので、プレイヤーが消えるときに一緒に破棄する
+	if (m_Shadow)
+	{
+		m_Shadow->SetDestroy();
+		m_Shadow = nullptr;
+	}
+
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
@@ -46,6 +63,31 @@ void Player::Uninit()
 
 void Player::Update()
 {
+	ImGui::Begin("PlayerDebug");
+	ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
+	ImGui::Text("Position: (%.2f, %.2f, %.2f)", m_Position.x, m_Position.y, m_Position.z);
+	ImGui::Text("Rotation: (%.2f, %.2f, %.2f)", m_Rotation.x, m_Rotation.y, m_Rotation.z);
+	ImGui::Text("Scale: (%.2f, %.2f, %.2f)", m_Scale.x, m_Scale.y, m_Scale.z);
+	ImGui::Text("state: %s", m_AnimationName.c_str());
+	ImGui::Text("Hit Timer: %.2f", m_HitTimer);
+	ImGui::Separator();
+	ImGui::Text("Anim : %s(%d) -> %s(%d)",
+		m_AnimationName.c_str(), m_AnimationFrame,
+		m_NextAnimationName.c_str(), m_NextAnimationFrame);
+	ImGui::Text("Blend: %.2f", m_Blend);
+	ImGui::Text("Found: cur=%d next=%d",
+		m_AnimationModel->HasAnimation(m_AnimationName.c_str()),
+		m_AnimationModel->HasAnimation(m_NextAnimationName.c_str()));
+	ImGui::Text("Bone : %d / matched cur=%d next=%d",
+		m_AnimationModel->GetBoneNum(),
+		m_AnimationModel->GetMatchedBoneNum1(),
+		m_AnimationModel->GetMatchedBoneNum2());
+	ImGui::Separator();
+	ImGui::SliderFloat("Speed", &m_Speed, 0.0f, 100.0f);
+	ImGui::SliderFloat("Jump Power", &m_jumpPower, 0.0f, 100.0f);
+	ImGui::SliderFloat("Gravity", &m_Gravity, 0.0f, 100.0f);
+	ImGui::End();
+
 	Vector3 oldPosition = m_Position;
 
 	float dt = Manager::GetDeltaTime();
@@ -61,21 +103,43 @@ void Player::Update()
 	right.y = 0.0f;
 	right.normalize();
 
-	//入力による加速
-	if (Input::GetKeyPress('W'))
-		m_Velocity += forward * m_Speed * dt;
-	if (Input::GetKeyPress('S'))
-		m_Velocity -= forward * m_Speed * dt;
-	if (Input::GetKeyPress('D'))
-		m_Velocity += right * m_Speed * dt;
-	if (Input::GetKeyPress('A'))
-		m_Velocity -= right * m_Speed * dt;
+	bool move = false;
 
-	float horizontalSpeedSq = m_Velocity.x * m_Velocity.x + m_Velocity.z * m_Velocity.z;
-	if (horizontalSpeedSq > 0.01f)   // 動いているときだけ向きを更新
+	//入力による加速
+	if (Input::GetKeyPress('W')) 
 	{
-		m_Rotation.y = atan2f(m_Velocity.x, m_Velocity.z);
+		m_Velocity += forward * m_Speed * dt; 
+		move = true;
 	}
+
+	if (Input::GetKeyPress('S')) 
+	{ 
+		m_Velocity -= forward * m_Speed * dt; 
+		move = true;
+	}
+
+	if (Input::GetKeyPress('D')) 
+	{ 
+		m_Velocity += right * m_Speed * dt; 
+		move = true;
+	}
+	if (Input::GetKeyPress('A')) 
+	{ 
+		m_Velocity -= right * m_Speed * dt; 
+		move = true;
+	}
+
+	if (move)
+	{
+		SetAnimation("Run");
+		// 移動方向に回転
+		m_Rotation.y = -atan2f(m_Velocity.x, -m_Velocity.z);
+	}
+	else
+	{
+		SetAnimation("Idle");
+	}
+
 
 	//ジャンプ
 	if (Input::GetKeyTrigger(VK_SPACE))
@@ -174,10 +238,10 @@ void Player::Update()
 
 	if (!oldGraund && m_Ground)
 	{
-		//着地のアニメーション
-		m_Scale.x = 2.0f;
-		m_Scale.y = 0.5f;
-		m_Scale.z = 2.0f;
+		////着地のアニメーション
+		//m_Scale.x = 2.0f;
+		//m_Scale.y = 0.5f;
+		//m_Scale.z = 2.0f;
 	}
 
 	//弾発射
@@ -194,23 +258,26 @@ void Player::Update()
 		m_Scale.y += sinf(m_MoveAnimation*3.0f)*0.03f;*/
 	}
 
+	//影移動（地面と同一平面だとZファイティングするので少し浮かせる）
+	if (m_Shadow)
+	{
+		Vector3 ShadowPos = m_Position;
+		ShadowPos.y = SHADOW_OFFSET_Y;
+		m_Shadow->SetPosition(ShadowPos);
+	}
+	
 	m_AnimationFrame++;
+	m_NextAnimationFrame++;
+
+	m_Blend += 0.1f;
+	if (m_Blend > 1.0f) m_Blend = 1.0f;
 
 	GameObject::Update();
 }
 
 void Player::Draw()
 {
-	ImGui::Begin("PlayerDebug");
-	ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
-	ImGui::Text("Position: (%.2f, %.2f, %.2f)", m_Position.x, m_Position.y, m_Position.z);
-	ImGui::Text("Rotation: (%.2f, %.2f, %.2f)", m_Rotation.x, m_Rotation.y, m_Rotation.z);
-	ImGui::Text("Scale: (%.2f, %.2f, %.2f)", m_Scale.x, m_Scale.y, m_Scale.z);
-	ImGui::Text("Hit Timer: %.2f", m_HitTimer);
-	ImGui::SliderFloat("Speed", &m_Speed, 0.0f, 100.0f);
-	ImGui::SliderFloat("Jump Power", &m_jumpPower, 0.0f, 100.0f);
-	ImGui::SliderFloat("Gravity", &m_Gravity, 0.0f, 100.0f);
-	ImGui::End();
+	
 
 	// 点滅
 	if (m_HitTimer > 0.0f)
@@ -235,7 +302,22 @@ void Player::Draw()
 
 	Renderer::SetWorldMatrix(WorldMatrix);
 
-	m_animationModel->Update("Run", m_AnimationFrame);
+	m_AnimationModel->Update(m_AnimationName.c_str(), m_AnimationFrame, m_NextAnimationName.c_str(), m_NextAnimationFrame, m_Blend);
 
 	GameObject::Draw();
+}
+
+void Player::SetAnimation(const char* AnimationName)
+{
+	if (m_NextAnimationName != AnimationName)
+	{
+		// 次のアニメーションを設定
+		m_AnimationName = m_NextAnimationName;
+		m_AnimationFrame = m_NextAnimationFrame;
+
+		m_NextAnimationName = AnimationName;
+		m_NextAnimationFrame = 0;
+
+		m_Blend = 0.0f;
+	}
 }

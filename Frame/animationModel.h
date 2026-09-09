@@ -43,6 +43,10 @@ private:
 	std::vector<DEFORM_VERTEX>* m_DeformVertex;//変形後頂点データ
 	std::unordered_map<std::string, BONE> m_Bone;//ボーンデータ（名前で参照）
 
+	//直近のUpdateでアニメーションチャンネルが見つかったボーン数（デバッグ用）
+	int m_MatchedBoneNum1 = 0;
+	int m_MatchedBoneNum2 = 0;
+
 	void CreateBone(aiNode* Node);
 	void UpdateBoneMatrix(aiNode* Node, aiMatrix4x4 Matrix);
 
@@ -50,8 +54,15 @@ public:
 	using Component::Component;
 
 	void Load( const char *FileName );
-	void LoadAnimation( const char *FileName, const char *Name );
+	void LoadAnimation( const char *FileName, const char *Name);
 	void Uninit() override;
-	void Update(const char* AnimationName1, int Frame1);
+	void Update(const char* AnimationName1, int Frame1, 
+		const char* AnimationName2, int Frame2, float Blend);
 	void Draw() override;
+
+	//----- デバッグ用 -----
+	bool HasAnimation(const char* Name) const;
+	int  GetBoneNum() const { return (int)m_Bone.size(); }
+	int  GetMatchedBoneNum1() const { return m_MatchedBoneNum1; }
+	int  GetMatchedBoneNum2() const { return m_MatchedBoneNum2; }
 };

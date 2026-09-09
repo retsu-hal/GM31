@@ -1,19 +1,12 @@
 ﻿#pragma once
 #include "main.h"
+#include "Vector3.h"
 #include "GameObject.h"
 
-class FIELD : public GameObject
+class Shadow : public GameObject
 {
 private:
-
-public:
-	// 頂点構造体
-	struct Vertex3D {
-		XMFLOAT3 Position;
-		XMFLOAT3 Normal;
-		XMFLOAT4 Diffuse;
-		XMFLOAT2 TexCoord;
-	};
+	ID3D11RasterizerState* m_RasterState = nullptr;	// 両面描画用（Initで1回だけ生成）
 
 public:
 	void Init() override;

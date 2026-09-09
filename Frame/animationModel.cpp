@@ -76,8 +76,6 @@ void AnimationModel::Load(const char* FileName)
 	//再帰的にボーン生成
 	CreateBone(m_AiScene->mRootNode);
 
-
-
 	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
 	{
 		aiMesh* mesh = m_AiScene->mMeshes[m];
@@ -111,7 +109,6 @@ void AnimationModel::Load(const char* FileName)
 			delete[] vertex;
 		}
 
-
 		// インデックスバッファ生成
 		{
 			unsigned int* index = new unsigned int[mesh->mNumFaces * 3];
@@ -143,8 +140,6 @@ void AnimationModel::Load(const char* FileName)
 			delete[] index;
 		}
 
-
-
 		//変形後頂点データ初期化
 		for (unsigned int v = 0; v < mesh->mNumVertices; v++)
 		{
@@ -161,7 +156,6 @@ void AnimationModel::Load(const char* FileName)
 
 			m_DeformVertex[m].push_back(deformVertex);
 		}
-
 
 		//ボーンデータ初期化
 		for (unsigned int b = 0; b < mesh->mNumBones; b++)
@@ -186,8 +180,6 @@ void AnimationModel::Load(const char* FileName)
 		}
 	}
 
-
-
 	//テクスチャ読み込み
 	for (unsigned int i = 0; i < m_AiScene->mNumTextures; i++)
 	{
@@ -204,12 +196,7 @@ void AnimationModel::Load(const char* FileName)
 
 		m_Texture[aitexture->mFilename.data] = texture;
 	}
-
-
-
 }
-
-
 
 void AnimationModel::LoadAnimation(const char* FileName, const char* Name)
 {
@@ -217,6 +204,13 @@ void AnimationModel::LoadAnimation(const char* FileName, const char* Name)
 	m_Animation[Name] = aiImportFile(FileName, aiProcess_ConvertToLeftHanded);
 	assert(m_Animation[Name]);
 
+}
+
+
+bool AnimationModel::HasAnimation(const char* Name) const
+{
+	auto it = m_Animation.find(Name);
+	return it != m_Animation.end() && it->second->HasAnimations();
 }
 
 
@@ -265,64 +259,119 @@ void AnimationModel::Uninit()
 
 }
 
-
-
-
-
-void AnimationModel::Update(const char* AnimationName1, int Frame1)
+void AnimationModel::Update(const char* AnimationName1, int Frame1,
+	const char* AnimationName2, int Frame2, float Blend)
 {
-	if (m_Animation.count(AnimationName1) == 0) return;
-	if (!m_Animation[AnimationName1]->HasAnimations()) return;
+	// アニメーションがあるか確認
+	if (m_Animation.count(AnimationName1) == 0)
+		return;
 
-	//アニメーションデータからボーンマトリクスを算出
+	if (!m_Animation[AnimationName1]->HasAnimations())
+		return;
 
+	if (m_Animation.count(AnimationName2) == 0)
+		return;
+
+	if (!m_Animation[AnimationName2]->HasAnimations())
+		return;
+
+	// アニメーションデータからボーンマトリクスを算出
 	aiAnimation* animation1 = m_Animation[AnimationName1]->mAnimations[0];
+	aiAnimation* animation2 = m_Animation[AnimationName2]->mAnimations[0];
 
+	m_MatchedBoneNum1 = 0;
+	m_MatchedBoneNum2 = 0;
+
+	// 骨の分だけ繰り返す、一個ずつ取り出す
 	for (auto pair : m_Bone)
 	{
 		BONE* bone = &m_Bone[pair.first];
 
+		// 骨に一個分に対応するアニメーション
 		aiNodeAnim* nodeAnim1 = nullptr;
-		for (unsigned int i = 0; i < animation1->mNumChannels; ++i)
+		for (unsigned int c = 0; c < animation1->mNumChannels; c++)
 		{
-			if (animation1->mChannels[i]->mNodeName == aiString(pair.first))
+			if (animation1->mChannels[c]->mNodeName == aiString(pair.first))
 			{
-				nodeAnim1 = animation1->mChannels[i];
+				nodeAnim1 = animation1->mChannels[c];
 				break;
 			}
 		}
 
-		int frame;
-		aiQuaternion rotation1;
-		aiVector3D position1;
+		// 骨に一個分に対応するアニメーション
+		aiNodeAnim* nodeAnim2 = nullptr;
+		for (unsigned int c = 0; c < animation2->mNumChannels; c++)
+		{
+			if (animation2->mChannels[c]->mNodeName == aiString(pair.first))
+			{
+				nodeAnim2 = animation2->mChannels[c];
+				break;
+			}
+		}
 
+		// フレーム番号、アニメーションのコマ数
+		int f;
+		aiQuaternion rot1;
+		aiVector3D pos1;
+
+		// 対応したフレーム番号の角度とか位置を取得
 		if (nodeAnim1)
 		{
-			frame = Frame1 % nodeAnim1->mNumRotationKeys;
-			rotation1 = nodeAnim1->mRotationKeys[frame].mValue;
+			m_MatchedBoneNum1++;
 
-			frame = Frame1 % nodeAnim1->mNumPositionKeys;
-			position1 = nodeAnim1->mPositionKeys[frame].mValue;
+			f = Frame1 % nodeAnim1->mNumRotationKeys;
+			rot1 = nodeAnim1->mRotationKeys[f].mValue;
+
+			f = Frame1 % nodeAnim1->mNumPositionKeys;
+			pos1 = nodeAnim1->mPositionKeys[f].mValue;
 		}
-		bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rotation1, position1);
+
+		aiQuaternion rot2;
+		aiVector3D pos2;
+
+		// 対応したフレーム番号の角度とか位置を取得
+		if (nodeAnim2)
+		{
+			m_MatchedBoneNum2++;
+
+			f = Frame2 % nodeAnim2->mNumRotationKeys;
+			rot2 = nodeAnim2->mRotationKeys[f].mValue;
+
+			f = Frame2 % nodeAnim2->mNumPositionKeys;
+			pos2 = nodeAnim2->mPositionKeys[f].mValue;
+		}
+
+		/*
+		線形補完を使うことによって、Idle→Runなどのアニメーションの切り替えが
+		ガクガクせずに滑らかに切り替わるようになる
+		*/
+		aiVector3D pos = pos1 * (1.0f - Blend) + pos2 * Blend; // 線形補完
+
+		aiQuaternion rot;
+		aiQuaternion::Interpolate(rot, rot1, rot2, Blend); // 球面線形補完
+
+		// ボーンマトリクスを作る
+		bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot, pos);
 	}
 
-	//再帰的にボーンマトリクスを更新
+	// 再帰的にボーンマトリクスを更新
 	aiMatrix4x4 rootMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f),
-												    aiQuaternion((float)AI_MATH_PI, 0.0f, 0.0f),
-												    aiVector3D(0.0f, 0.0f, 0.0f));
+		aiQuaternion((float)AI_MATH_PI, 0.0f, 0.0f), aiVector3D(0.0f, 0.0f, 0.0f));
 
+	// 親子関係を付けてあげる
 	UpdateBoneMatrix(m_AiScene->mRootNode, rootMatrix);
 
-	//頂点変換（CPUスキニング）
-	for(unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
+	// 頂点変換(CPUスキニング)
+	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
 	{
 		aiMesh* mesh = m_AiScene->mMeshes[m];
 		D3D11_MAPPED_SUBRESOURCE ms;
-		Renderer::GetDeviceContext()->Map(m_VertexBuffer[m], 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
+		Renderer::GetDeviceContext()->Map(m_VertexBuffer[m], 0,
+			D3D11_MAP_WRITE_DISCARD, 0, &ms);
+
 		VERTEX_3D* vertex = (VERTEX_3D*)ms.pData;
 
-		for(unsigned int v = 0; v < mesh->mNumVertices; v++)
+		for (unsigned int v = 0; v < mesh->mNumVertices; v++)
 		{
 			DEFORM_VERTEX* deformVertex = &m_DeformVertex[m][v];
 			aiMatrix4x4 matrix[4];
@@ -331,15 +380,17 @@ void AnimationModel::Update(const char* AnimationName1, int Frame1)
 			matrix[2] = m_Bone[deformVertex->BoneName[2]].Matrix;
 			matrix[3] = m_Bone[deformVertex->BoneName[3]].Matrix;
 
+			// ボーンウェイトはどのくらい影響するかの割合
 			aiMatrix4x4 outMatrix;
-			outMatrix = matrix[0] * deformVertex->BoneWeight[0] +
-				matrix[1] * deformVertex->BoneWeight[1] +
-				matrix[2] * deformVertex->BoneWeight[2] +
-				matrix[3] * deformVertex->BoneWeight[3];
+			outMatrix = matrix[0] * deformVertex->BoneWeight[0]
+				+ matrix[1] * deformVertex->BoneWeight[1]
+				+ matrix[2] * deformVertex->BoneWeight[2]
+				+ matrix[3] * deformVertex->BoneWeight[3];
 
 			deformVertex->Position = mesh->mVertices[v];
 			deformVertex->Position *= outMatrix;
 
+			// 移動しないように改造してから計算に使う
 			outMatrix.a4 = 0.0f;
 			outMatrix.b4 = 0.0f;
 			outMatrix.c4 = 0.0f;
@@ -358,23 +409,31 @@ void AnimationModel::Update(const char* AnimationName1, int Frame1)
 			vertex[v].TexCoord.x = mesh->mTextureCoords[0][v].x;
 			vertex[v].TexCoord.y = mesh->mTextureCoords[0][v].y;
 
-			vertex[v].Diffuse= XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[v].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer[m], 0);
 	}
 }
 
-
+// nodeはボーンって言ったりノードって言ったり、matrixは親のボーンマトリクス
 void AnimationModel::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
 {
-	BONE*bone=&m_Bone[node->mName.C_Str()];
+	// 骨一個分を取り出す
+	// C_Str()は文字で制御してるから変換している
+	BONE* bone = &m_Bone[node->mName.C_Str()];
 
-	aiMatrix4x4 worldMatrix = matrix * bone->AnimationMatrix;
+	// 頭にaiがついているのはassimpのこと
+	// assimpのマトリクス転置的(DirectXとは逆)なので行列の掛け算の順番は逆になる
+	aiMatrix4x4 worldMatrix;
+	// 骨一個分のマトリクスを求める
+	worldMatrix = matrix * bone->AnimationMatrix;
 
+	// 骨にそってスキン(皮膚)を求めるのに、今までは中心からの位置を求めている
+	// offsetMatrixはそれを直してくれる
 	bone->Matrix = worldMatrix * bone->OffsetMatrix;
-	for(unsigned int n = 0; n < node->mNumChildren; n++)
+	for (unsigned int n = 0; n < node->mNumChildren; n++)
 	{
 		UpdateBoneMatrix(node->mChildren[n], worldMatrix);
 	}
-}
 
+}

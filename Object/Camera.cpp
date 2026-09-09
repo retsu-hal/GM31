@@ -34,7 +34,14 @@ void CAMERA::Update()
 	if (Input::GetKeyPress(VK_LEFT))
 		m_Rotation.y += 5.0f * dt;
 
-	m_Target = playerPos;
+	//線形保管
+	float t = 0.1f;
+	m_Target = m_Target * (1.0f - t) + (playerPos + Vector3(0.0f,2.0f,0.0f)) * t;
+
+	//シェイク
+	m_Target+= m_Shake * cosf(m_ShakeTime * 100.0f);
+	m_ShakeTime += dt;
+	m_Shake *= 0.9f;
 
 	m_Position = m_Target + Vector3(-sinf(m_Rotation.y) * 10.0f, 5.0f, -cosf(m_Rotation.y) * 10.0f);
 }

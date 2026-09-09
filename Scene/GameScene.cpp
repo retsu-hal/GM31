@@ -14,12 +14,12 @@
 #include "manager.h"
 #include "Camera.h"
 #include "Field.h"
+#include "MeshField.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Tree.h"
 #include "Sky.h"
 #include "Box.h"
-#include "Particle.h"
 #include "Score.h"
 
 #include "GameScene.h"
@@ -47,7 +47,9 @@ void GameScene::Init()
 
 	Manager::AddGameObject<Sky>();
 
-	Manager::AddGameObject<FIELD>();
+	//Manager::AddGameObject<FIELD>();
+	Manager::AddGameObject<MeshField>();
+
 	Box* box = Manager::AddGameObject<Box>();
 	box->SetPosition({ 2.0f, 0.0f, -3.0f });
 	box->SetScale({ 1.0f, 1.0f, 1.0f });
@@ -61,7 +63,6 @@ void GameScene::Init()
 		Manager::AddGameObject<Enemy>()->SetPosition(pos);
 	}
 
-	//Manager::AddGameObject<Particle>()->SetPosition({ 0.0f, 0.0f, 1.0f });
 
 	//木の生成
 	for (int i = 0; i < TREE_COUNT; i++)
@@ -72,6 +73,7 @@ void GameScene::Init()
 
 	//Manager::AddGameObject<Polygon2D>();
 	Manager::AddGameObject<Score>()->SetPosition({ 0.0f, 0.0f, 0.0f });
+
 }
 
 //==============================================================================
