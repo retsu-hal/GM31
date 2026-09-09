@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "main.h"
-#include "Vector3.h"
 #include "GameObject.h"
 
 class FIELD : public GameObject

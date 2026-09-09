@@ -202,6 +202,9 @@
     <ClCompile Include="Frame\animationModel.cpp">
       <Filter>フレームファイル\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="Object\MeshField.cpp">
+      <Filter>オブジェクトファイル\Field</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_dx11.h">
@@ -318,6 +321,9 @@
     <ClInclude Include="Frame\animationModel.h">
       <Filter>フレームファイル\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Object\MeshField.h">
+      <Filter>オブジェクトファイル\Field</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -327,6 +333,12 @@
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="shader\unlitTextureVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\fieldPS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\fieldVS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>

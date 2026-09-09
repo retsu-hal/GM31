@@ -14,13 +14,13 @@
 #include "manager.h"
 #include "Camera.h"
 #include "Field.h"
+#include "MeshField.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Tree.h"
 #include "Sky.h"
 #include "Box.h"
 #include "Score.h"
-#include "Shadow.h"
 
 #include "GameScene.h"
 #include "ResultScene.h"
@@ -47,7 +47,9 @@ void GameScene::Init()
 
 	Manager::AddGameObject<Sky>();
 
-	Manager::AddGameObject<FIELD>();
+	//Manager::AddGameObject<FIELD>();
+	Manager::AddGameObject<MeshField>();
+
 	Box* box = Manager::AddGameObject<Box>();
 	box->SetPosition({ 2.0f, 0.0f, -3.0f });
 	box->SetScale({ 1.0f, 1.0f, 1.0f });

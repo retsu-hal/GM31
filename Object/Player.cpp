@@ -140,11 +140,6 @@ void Player::Update()
 		SetAnimation("Idle");
 	}
 
-	float horizontalSpeedSq = m_Velocity.x * m_Velocity.x + m_Velocity.z * m_Velocity.z;
-	if (horizontalSpeedSq > 0.01f)   // 動いているときだけ向きを更新
-	{
-		m_Rotation.y = atan2f(m_Velocity.x, m_Velocity.z);
-	}
 
 	//ジャンプ
 	if (Input::GetKeyTrigger(VK_SPACE))
