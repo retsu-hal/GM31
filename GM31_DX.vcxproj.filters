@@ -101,6 +101,9 @@
     <Filter Include="オブジェクトファイル\Shadow">
       <UniqueIdentifier>{ef2ff7a8-e0b5-48ad-bd5d-861030818b85}</UniqueIdentifier>
     </Filter>
+    <Filter Include="フレームファイル\Math">
+      <UniqueIdentifier>{f4fa97a3-1fc3-4e22-a4a3-97fda756845e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp">
@@ -205,6 +208,9 @@
     <ClCompile Include="Object\MeshField.cpp">
       <Filter>オブジェクトファイル\Field</Filter>
     </ClCompile>
+    <ClCompile Include="Profiler.cpp">
+      <Filter>フレームファイル\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_dx11.h">
@@ -235,9 +241,6 @@
       <Filter>オブジェクトファイル</Filter>
     </ClInclude>
     <ClInclude Include="Frame\component.h">
-      <Filter>フレームファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Frame\Vector3.h">
       <Filter>フレームファイル</Filter>
     </ClInclude>
     <ClInclude Include="Object\Billboard.h">
@@ -323,6 +326,12 @@
     </ClInclude>
     <ClInclude Include="Object\MeshField.h">
       <Filter>オブジェクトファイル\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame\Vector3.h">
+      <Filter>フレームファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Profiler.h">
+      <Filter>フレームファイル\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

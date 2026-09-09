@@ -1,7 +1,9 @@
 ﻿#pragma once
 
+
 #include "main.h"
-#include "GameObject.h"
+#include "Profiler.h"
+#include <typeinfo>
 
 // 前方宣言
 class GameObject;
@@ -28,8 +30,12 @@ public:
 	template<typename T>
 	static T* AddGameObject()
 	{
-		T* gameObject = new T();
-		gameObject->Init();
+		T* gameObject = nullptr;
+		{
+			ScopedTimer timer(typeid(T).name());
+			gameObject = new T();
+			gameObject->Init();
+		}
 		m_GameObjects.push_back(gameObject);
 
 		return gameObject;

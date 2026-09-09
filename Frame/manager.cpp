@@ -107,9 +107,13 @@ void Manager::Update()
 			}
 			m_GameObjects.clear();
 
+			Profiler::Clear();
 			m_Scene = m_NextScene;
-			m_Scene->Init();
-
+			{
+				ScopedSceneTimer sceneTimer;	// シーン全体の実ロード時間(実経過)
+				m_Scene->Init();
+			}
+			Profiler::Dump();
 			m_NextScene = nullptr;
 		}
 	}
