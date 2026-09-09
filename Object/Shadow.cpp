@@ -6,7 +6,7 @@
 
 void Shadow::Init()
 {
-	m_Layer = 1;
+	m_Layer = 2;
 	m_Position = { 0.0f, 0.0f, 0.0f };
 	m_Scale = { 1.0f, 1.0f, 1.0f };
 	static const XMFLOAT4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -119,8 +119,12 @@ void Shadow::Draw()
 	//プリミティブトポロジ設定
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
+	Renderer::SetDepthEnable(false);
+
 	//描画
 	Renderer::GetDeviceContext()->Draw(4, 0);
+
+	Renderer::SetDepthEnable(true);
 
 	//ラスタライザステートを元に戻す（以降の描画がCULL_NONEのままになるのを防ぐ）
 	Renderer::GetDeviceContext()->RSSetState(prevRasterState);

@@ -11,6 +11,7 @@
 #include "Enemy.h"
 #include "Audio.h"
 #include "Shadow.h"
+#include "MeshField.h"
 
 #define SHADOW_OFFSET_Y	(0.01f)		// 影を地面から浮かせる量（Zファイティング回避）
 
@@ -173,10 +174,14 @@ void Player::Update()
 	bool oldGraund = m_Ground;
 	m_Ground = false;
 
+	// 地形の高さ（MeshFieldのないシーンでは従来通り y = 0 を床にする）
+	MeshField* meshField = Manager::GetGameObject<MeshField>();
+	float height = meshField ? meshField->GetHeight(m_Position) : 0.0f;
+
 	//地面に衝突
-	if (m_Position.y < 0.0f)
+	if (m_Position.y < height)
 	{
-			m_Position.y = 0.0f;
+			m_Position.y = height;
 			m_Velocity.y = 0.0f;
 			m_Ground = true;
 	}
@@ -198,6 +203,7 @@ void Player::Update()
 	for (auto box : boxes)
 	{
 		Vector3 pushVector;
+		bool onBoxTop = false;	// Collision::AABB は非衝突時でも false を書き込むので m_Ground を直接渡さない
 
 		Vector3 playerCenter = { m_Position.x, m_Position.y + m_Scale.y, m_Position.z };
 		Vector3 playerSize   = { m_Scale.x, m_Scale.y * 2.0f, m_Scale.z };
@@ -207,13 +213,13 @@ void Player::Update()
 		Vector3 boxCenter = { boxPos.x, boxPos.y + boxScl.y, boxPos.z };
 		Vector3 boxSize   = { boxScl.x * 2.0f, boxScl.y * 2.0f, boxScl.z * 2.0f };
 
-		if (Collision::AABB(playerCenter, playerSize, boxCenter, boxSize, pushVector, m_Ground))
+		if (Collision::AABB(playerCenter, playerSize, boxCenter, boxSize, pushVector, onBoxTop))
 		{
 			m_Position += pushVector;
 			if (pushVector.x != 0.0f) m_Velocity.x = 0.0f;
 			if (pushVector.y != 0.0f) m_Velocity.y = 0.0f;
 			if (pushVector.z != 0.0f) m_Velocity.z = 0.0f;
-			if (m_Ground) m_Ground = true;
+			if (onBoxTop) m_Ground = true;
 		}
 	}
 
@@ -262,7 +268,7 @@ void Player::Update()
 	if (m_Shadow)
 	{
 		Vector3 ShadowPos = m_Position;
-		ShadowPos.y = SHADOW_OFFSET_Y;
+		ShadowPos.y = height + SHADOW_OFFSET_Y;
 		m_Shadow->SetPosition(ShadowPos);
 	}
 	

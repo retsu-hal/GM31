@@ -48,7 +48,7 @@ void GameScene::Init()
 	Manager::AddGameObject<Sky>();
 
 	//Manager::AddGameObject<FIELD>();
-	Manager::AddGameObject<MeshField>();
+	MeshField* meshField = Manager::AddGameObject<MeshField>();
 
 	Box* box = Manager::AddGameObject<Box>();
 	box->SetPosition({ 2.0f, 0.0f, -3.0f });
@@ -60,6 +60,7 @@ void GameScene::Init()
 	for (int i = 0; i < ENEMY_COUNT; i++)
 	{
 		Vector3 pos = { (float)(rand() % 40 - 20),0.0f,(float)(rand() % 40 - 20) };
+		pos.y = meshField->GetHeight(pos);	// 起伏の上に足を置く
 		Manager::AddGameObject<Enemy>()->SetPosition(pos);
 	}
 
@@ -68,6 +69,7 @@ void GameScene::Init()
 	for (int i = 0; i < TREE_COUNT; i++)
 	{
 		Vector3 pos = { (float)(rand() % 40 - 20),0.0f,(float)(rand() % 40 - 20) };
+		pos.y = meshField->GetHeight(pos);	// 起伏の上に足を置く
 		Manager::AddGameObject<Tree>()->SetPosition(pos);
 	}
 

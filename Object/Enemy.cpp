@@ -21,6 +21,7 @@
 #include "Tree.h"
 #include "Explosion.h"
 #include "Camera.h"
+#include "MeshField.h"
 
 //==============================================================================
 //マクロ宣言
@@ -108,10 +109,13 @@ void Enemy::Update()
 	bool oldGround = m_Ground;   // 着地判定用に前フレームの接地状態を保存
 	m_Ground = false;
 
-	// 地面
-	if (m_Position.y < 0.0f)
+	// 地面（MeshFieldのないシーンでは従来通り y = 0 を床にする）
+	MeshField* meshField = Manager::GetGameObject<MeshField>();
+	float height = meshField ? meshField->GetHeight(m_Position) : 0.0f;
+
+	if (m_Position.y < height)
 	{
-		m_Position.y = 0.0f;
+		m_Position.y = height;
 		m_Velocity.y = 0.0f;
 		m_Ground = true;
 	}
