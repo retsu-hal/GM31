@@ -1,9 +1,14 @@
 ﻿#include "main.h"
 #include "renderer.h"
 #include "animationModel.h"
+#include "ShaderManager.h"
+#include "GameObject.h"
 
 void AnimationModel::Draw()
 {
+	m_Shader->Set();
+	Renderer::SetWorldMatrix(m_GameObject->GetWorldMatrix());
+
 	// プリミティブトポロジ設定
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(
 		D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -59,8 +64,16 @@ void AnimationModel::Draw()
 	}
 }
 
+void AnimationModel::SetShader(const char* vsFile, const char* psFile)
+{
+	m_Shader = ShaderManager::Load(vsFile, psFile);
+}
+
 void AnimationModel::Load(const char* FileName)
 {
+	if (m_Shader == nullptr)
+		m_Shader = ShaderManager::Load("shader\\unlitTextureVS.cso", "shader\\unlitTexturePS.cso");
+
 	const std::string modelPath(FileName);
 
 	m_AiScene = aiImportFile(FileName, aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_ConvertToLeftHanded);

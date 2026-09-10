@@ -7,6 +7,8 @@
 #include "main.h"
 #include "renderer.h"
 #include "modelRenderer.h"
+#include "ShaderManager.h"
+#include "GameObject.h"
 
 
 
@@ -15,6 +17,8 @@ std::unordered_map<std::string, MODEL*> ModelRenderer::m_ModelPool;
 
 void ModelRenderer::Draw()
 {
+	m_Shader->Set();
+	Renderer::SetWorldMatrix(m_GameObject->GetWorldMatrix());
 
 	// 頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -53,6 +57,11 @@ void ModelRenderer::Draw()
 		Renderer::GetDeviceContext()->DrawIndexed(m_Model->SubsetArray[i].IndexNum, m_Model->SubsetArray[i].StartIndex, 0 );
 	}
 
+}
+
+void ModelRenderer::SetShader(const char* vsFile, const char* psFile)
+{
+	m_Shader = ShaderManager::Load(vsFile, psFile);
 }
 
 void ModelRenderer::Preload(const char *FileName)
@@ -94,6 +103,10 @@ void ModelRenderer::UnloadAll()
 
 void ModelRenderer::Load(const char *FileName)
 {
+	if (m_Shader == nullptr)
+		m_Shader = ShaderManager::Load("shader\\unlitTextureVS.cso", "shader\\unlitTexturePS.cso");
+
+
 	if (m_ModelPool.count(FileName) > 0)
 	{
 		m_Model = m_ModelPool[FileName];

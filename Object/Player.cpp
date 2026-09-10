@@ -34,9 +34,6 @@ void Player::Init()
 	m_AnimationName = "Idle";
 	m_NextAnimationName = "Idle";
 
-	//シェーダー読み込み
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
 
 	//SE
 	m_JumpSE = AddComponent<Audio>(this);
@@ -55,15 +52,12 @@ void Player::Uninit()
 		m_Shadow = nullptr;
 	}
 
-	m_VertexLayout->Release();
-	m_VertexShader->Release();
-	m_PixelShader->Release();
-
 	GameObject::Uninit();
 }
 
 void Player::Update()
 {
+#if _DEBUG
 	ImGui::Begin("PlayerDebug");
 	ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
 	ImGui::Text("Position: (%.2f, %.2f, %.2f)", m_Position.x, m_Position.y, m_Position.z);
@@ -88,6 +82,9 @@ void Player::Update()
 	ImGui::SliderFloat("Jump Power", &m_jumpPower, 0.0f, 100.0f);
 	ImGui::SliderFloat("Gravity", &m_Gravity, 0.0f, 100.0f);
 	ImGui::End();
+#endif // _DEBUG
+
+	
 
 	Vector3 oldPosition = m_Position;
 
@@ -146,23 +143,12 @@ void Player::Update()
 	if (Input::GetKeyTrigger(VK_SPACE))
 	{
 		m_Velocity.y += m_jumpPower;
-		
-		//ジャンプのアニメーション
-		/*m_Scale.x = 2.0f;
-		m_Scale.y = 0.5f;
-		m_Scale.z = 0.5f;*/
 
 		//ジャンプSE
 		m_JumpSE->Play();
 	}
 
-	//ジャンプ後のアニメーション
-	/*m_Scale.x += (1.0f - m_Scale.x) * 0.1f;
-	m_Scale.y += (1.0f - m_Scale.y) * 0.1f;
-	m_Scale.z += (1.0f - m_Scale.z) * 0.1f;*/
-
-
-	//重力
+		//重力
 	m_Velocity.y += -m_Gravity * dt;
 
 	m_Position += m_Velocity * dt;
@@ -244,10 +230,7 @@ void Player::Update()
 
 	if (!oldGraund && m_Ground)
 	{
-		////着地のアニメーション
-		//m_Scale.x = 2.0f;
-		//m_Scale.y = 0.5f;
-		//m_Scale.z = 2.0f;
+
 	}
 
 	//弾発射
@@ -258,11 +241,7 @@ void Player::Update()
 		bullet->SetVelocity(GetForward()*10.0f);
 	}
 
-	if (m_Ground)
-	{
-		/*m_MoveAnimation += m_Velocity.length() * dt;
-		m_Scale.y += sinf(m_MoveAnimation*3.0f)*0.03f;*/
-	}
+
 
 	//影移動（地面と同一平面だとZファイティングするので少し浮かせる）
 	if (m_Shadow)
@@ -283,30 +262,12 @@ void Player::Update()
 
 void Player::Draw()
 {
-	
-
 	// 点滅
 	if (m_HitTimer > 0.0f)
 	{
 		if (((int)(m_HitTimer * 10.0f)) % 2 == 0)
 			return;
 	}
-
-	//入力レイアウト設定
-	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-
-	//シェーダー設定
-	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
-
-	//マトリックス設定
-	XMMATRIX WorldMatrix, ScaleMatrix, RotMatrix, TransMatrix;
-	ScaleMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
-	RotMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y + XM_PI, m_Rotation.z);
-	TransMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
-	WorldMatrix = ScaleMatrix * RotMatrix * TransMatrix;
-
-	Renderer::SetWorldMatrix(WorldMatrix);
 
 	m_AnimationModel->Update(m_AnimationName.c_str(), m_AnimationFrame, m_NextAnimationName.c_str(), m_NextAnimationFrame, m_Blend);
 

@@ -6,6 +6,9 @@
 #include "GameScene.h"
 #include "TitleScene.h"
 #include "Audio.h"
+#include "ModelRenderer.h"
+#include "ShaderManager.h"
+#include "TextureManager.h"
 
 
 //staticメンバー変数はcppで定義する必要がある
@@ -53,6 +56,10 @@ void Manager::Uninit()
 		m_Scene->Uninit();
 		delete m_Scene;
 	}
+
+	ModelRenderer::UnloadAll();	
+	ShaderManager::Unload();
+	TextureManager::Unload();
 
 	Renderer::Uninit();
 	Input::Uninit();

@@ -13,9 +13,6 @@
     <Filter Include="オブジェクトファイル">
       <UniqueIdentifier>{34129637-c0f5-423a-8fdf-973c09107029}</UniqueIdentifier>
     </Filter>
-    <Filter Include="オブジェクトファイル\Billboard">
-      <UniqueIdentifier>{93586d50-1ba3-4499-9ca1-13d9e2e78edb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="オブジェクトファイル\Bullet">
       <UniqueIdentifier>{d118c621-89f5-43f7-b9aa-796c0f32c0e3}</UniqueIdentifier>
     </Filter>
@@ -104,6 +101,18 @@
     <Filter Include="フレームファイル\Math">
       <UniqueIdentifier>{f4fa97a3-1fc3-4e22-a4a3-97fda756845e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="フレームファイル\TextureManager">
+      <UniqueIdentifier>{35ce2226-3129-4242-9367-80596f93e27b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="フレームファイル\ShaderManager">
+      <UniqueIdentifier>{6195ab6c-2718-4109-9a08-3c7e8f283797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="フレームファイル\BillboardRenderer">
+      <UniqueIdentifier>{93586d50-1ba3-4499-9ca1-13d9e2e78edb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="フレームファイル\SpriteAnimation">
+      <UniqueIdentifier>{9862d49d-b4b6-451d-8248-1063aa895bd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp">
@@ -127,8 +136,8 @@
     <ClCompile Include="imgui-master\imgui-master\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Billboard.cpp">
-      <Filter>オブジェクトファイル\Billboard</Filter>
+    <ClCompile Include="Object\BillboardRenderer.cpp">
+      <Filter>フレームファイル\BillboardRenderer</Filter>
     </ClCompile>
     <ClCompile Include="Object\Box.cpp">
       <Filter>オブジェクトファイル\Box</Filter>
@@ -211,6 +220,15 @@
     <ClCompile Include="Profiler.cpp">
       <Filter>フレームファイル\Math</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>フレームファイル\ShaderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>フレームファイル\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteAnimation.cpp">
+      <Filter>フレームファイル\SpriteAnimation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_dx11.h">
@@ -243,8 +261,8 @@
     <ClInclude Include="Frame\component.h">
       <Filter>フレームファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Billboard.h">
-      <Filter>オブジェクトファイル\Billboard</Filter>
+    <ClInclude Include="Object\BillboardRenderer.h">
+      <Filter>フレームファイル\BillboardRenderer</Filter>
     </ClInclude>
     <ClInclude Include="Object\Box.h">
       <Filter>オブジェクトファイル\Box</Filter>
@@ -332,6 +350,15 @@
     </ClInclude>
     <ClInclude Include="Profiler.h">
       <Filter>フレームファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>フレームファイル\ShaderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>フレームファイル\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteAnimation.h">
+      <Filter>フレームファイル\SpriteAnimation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

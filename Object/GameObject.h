@@ -116,4 +116,12 @@ public:
 			return false;
 		}
 	}
+
+	virtual XMMATRIX GetWorldMatrix() const
+	{
+		XMMATRIX ScaleMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
+		XMMATRIX RotMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
+		XMMATRIX TransMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
+		return ScaleMatrix * RotMatrix * TransMatrix;
+	}
 };

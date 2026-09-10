@@ -49,6 +49,8 @@ struct MODEL
 #include <string>
 #include <unordered_map>
 
+//前方宣言
+struct ShaderSet;
 
 class ModelRenderer : public Component
 {
@@ -64,6 +66,8 @@ private:
 
 	bool m_Flash = false;
 
+	const ShaderSet* m_Shader = nullptr;
+
 public:
 
 	static void Preload( const char *FileName );
@@ -76,4 +80,6 @@ public:
 	void Draw() override;
 
 	void SetFlash(bool Flash) { m_Flash = Flash; }
+
+	void SetShader(const char* vsFile, const char* psFile);
 };

@@ -29,6 +29,9 @@ struct BONE
 	aiMatrix4x4 OffsetMatrix;
 };
 
+//前方宣言
+struct ShaderSet;
+
 class AnimationModel : public Component
 {
 private:
@@ -50,6 +53,8 @@ private:
 	void CreateBone(aiNode* Node);
 	void UpdateBoneMatrix(aiNode* Node, aiMatrix4x4 Matrix);
 
+	const ShaderSet* m_Shader = nullptr;
+
 public:
 	using Component::Component;
 
@@ -59,6 +64,8 @@ public:
 	void Update(const char* AnimationName1, int Frame1, 
 		const char* AnimationName2, int Frame2, float Blend);
 	void Draw() override;
+
+	void SetShader(const char* vsFile, const char* psFile);
 
 	//----- デバッグ用 -----
 	bool HasAnimation(const char* Name) const;

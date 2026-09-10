@@ -229,12 +229,15 @@ void Enemy::Update()
 //==============================================================================
 void Enemy::Draw()
 {
-
+#if _DEBUG
 	ImGui::Begin("Enemy");
 	ImGui::Text("Position: (%.2f, %.2f, %.2f)", m_Position.x, m_Position.y, m_Position.z);
 	ImGui::Text("Rotation: (%.2f, %.2f, %.2f)", m_Rotation.x, m_Rotation.y, m_Rotation.z);
 	ImGui::Text("Scale: (%.2f, %.2f, %.2f)", m_Scale.x, m_Scale.y, m_Scale.z);
 	ImGui::End();
+#endif // _DEBUG
+
+
 
 	//入力レイアウト設定
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);

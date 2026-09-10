@@ -56,13 +56,13 @@ void GameScene::Init()
 
 	Manager::AddGameObject<Player>();
 
-	//敵の生成
-	for (int i = 0; i < ENEMY_COUNT; i++)
-	{
-		Vector3 pos = { (float)(rand() % 40 - 20),0.0f,(float)(rand() % 40 - 20) };
-		pos.y = meshField->GetHeight(pos);	// 起伏の上に足を置く
-		Manager::AddGameObject<Enemy>()->SetPosition(pos);
-	}
+	////敵の生成
+	//for (int i = 0; i < ENEMY_COUNT; i++)
+	//{
+	//	Vector3 pos = { (float)(rand() % 40 - 20),0.0f,(float)(rand() % 40 - 20) };
+	//	pos.y = meshField->GetHeight(pos);	// 起伏の上に足を置く
+	//	Manager::AddGameObject<Enemy>()->SetPosition(pos);
+	//}
 
 
 	//木の生成
@@ -93,10 +93,10 @@ void GameScene::Update()
 {
 	auto enemies = Manager::GetGameObjects<Enemy>();
 
-	if (enemies.size() == 0)
+	/*if (enemies.size() == 0)
 	{
 		Manager::ChangeScene<ResultScene>();
-	}
+	}*/
 }
 
 //==============================================================================
