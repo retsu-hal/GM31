@@ -217,17 +217,17 @@
     <ClCompile Include="Object\MeshField.cpp">
       <Filter>オブジェクトファイル\Field</Filter>
     </ClCompile>
-    <ClCompile Include="Profiler.cpp">
+    <ClCompile Include="Frame\Profiler.cpp">
       <Filter>フレームファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderManager.cpp">
+    <ClCompile Include="Frame\ShaderManager.cpp">
       <Filter>フレームファイル\ShaderManager</Filter>
     </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>フレームファイル\TextureManager</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteAnimation.cpp">
+    <ClCompile Include="Frame\SpriteAnimation.cpp">
       <Filter>フレームファイル\SpriteAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame\TextureManager.cpp">
+      <Filter>フレームファイル\TextureManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -348,17 +348,17 @@
     <ClInclude Include="Frame\Vector3.h">
       <Filter>フレームファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Profiler.h">
+    <ClInclude Include="Frame\Profiler.h">
       <Filter>フレームファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderManager.h">
+    <ClInclude Include="Frame\ShaderManager.h">
       <Filter>フレームファイル\ShaderManager</Filter>
     </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>フレームファイル\TextureManager</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteAnimation.h">
+    <ClInclude Include="Frame\SpriteAnimation.h">
       <Filter>フレームファイル\SpriteAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame\TextureManager.h">
+      <Filter>フレームファイル\TextureManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

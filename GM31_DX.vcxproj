@@ -134,6 +134,10 @@
   <ItemGroup>
     <ClCompile Include="Frame\animationModel.cpp" />
     <ClCompile Include="Frame\audio.cpp" />
+    <ClCompile Include="Frame\Profiler.cpp" />
+    <ClCompile Include="Frame\ShaderManager.cpp" />
+    <ClCompile Include="Frame\SpriteAnimation.cpp" />
+    <ClCompile Include="Frame\TextureManager.cpp" />
     <ClCompile Include="Object\BillboardRenderer.cpp" />
     <ClCompile Include="Object\Box.cpp" />
     <ClCompile Include="Object\Bullet.cpp" />
@@ -144,7 +148,6 @@
     <ClCompile Include="Object\Explosion.cpp" />
     <ClCompile Include="Object\Field.cpp" />
     <ClCompile Include="Object\MeshField.cpp" />
-    <ClCompile Include="Profiler.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_win32.cpp" />
@@ -167,13 +170,14 @@
     <ClCompile Include="Scene\TitleScene.cpp" />
     <ClCompile Include="Object\tree.cpp" />
     <ClCompile Include="Object\Shadow.cpp" />
-    <ClCompile Include="ShaderManager.cpp" />
-    <ClCompile Include="SpriteAnimation.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Frame\animationModel.h" />
     <ClInclude Include="Frame\audio.h" />
+    <ClInclude Include="Frame\Profiler.h" />
+    <ClInclude Include="Frame\ShaderManager.h" />
+    <ClInclude Include="Frame\SpriteAnimation.h" />
+    <ClInclude Include="Frame\TextureManager.h" />
     <ClInclude Include="Object\BillboardRenderer.h" />
     <ClInclude Include="Object\Box.h" />
     <ClInclude Include="Object\Bullet.h" />
@@ -185,7 +189,6 @@
     <ClInclude Include="Object\Field.h" />
     <ClInclude Include="Object\GameObject.h" />
     <ClInclude Include="Object\MeshField.h" />
-    <ClInclude Include="Profiler.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_dx11.h" />
     <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_win32.h" />
@@ -212,9 +215,6 @@
     <ClInclude Include="Frame\Vector3.h" />
     <ClInclude Include="Object\Camera.h" />
     <ClInclude Include="Object\Shadow.h" />
-    <ClInclude Include="ShaderManager.h" />
-    <ClInclude Include="SpriteAnimation.h" />
-    <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
