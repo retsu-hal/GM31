@@ -166,6 +166,9 @@ void Collider::Check()
 			a->m_Hit = true;
 			b->m_Hit = true;
 
+			objA->OnCollision(objB);
+			objB->OnCollision(objA);
+
 			//どちらもトリガーでなければ押し出す
 			if (!a->m_IsTrigger && !b->m_IsTrigger)
 			{

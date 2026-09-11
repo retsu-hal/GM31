@@ -44,14 +44,9 @@ void Manager::Uninit()
 	ImGui::DestroyContext();
 
 	
-	for (GameObject* gameObject : m_GameObjects)
-	{
-		if (gameObject != nullptr)
-		{
-			gameObject->Uninit();
-			delete gameObject;
-		}
-	}
+	for (GameObject* obj : m_GameObjects) obj->Uninit();
+	for (GameObject* obj : m_GameObjects) delete obj;
+	m_GameObjects.clear();
 	
 	if(m_Scene!=nullptr)
 	{
@@ -86,13 +81,7 @@ void Manager::Update()
 
 	if (m_Scene != nullptr)	m_Scene->Update();
 
-	for (GameObject* gameObject : m_GameObjects)
-	{
-		if (gameObject != nullptr)
-		{
-			gameObject->Update();
-		}
-	}
+	for (GameObject* gameObject : m_GameObjects) gameObject->Update();
 
 	//当たり判定（各オブジェクトのUpdateで移動し終わってから、まとめて押し出す）
 	Collider::Check();

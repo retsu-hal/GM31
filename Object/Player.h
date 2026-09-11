@@ -35,16 +35,6 @@ public:
 
 	void OnCollision(GameObject* other) override;
 
-	XMMATRIX GetWorldMatrix() const override
-	{
-		//マトリックス設定
-		XMMATRIX  ScaleMatrix, RotMatrix, TransMatrix;
-		ScaleMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
-		RotMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y + XM_PI, m_Rotation.z);
-		TransMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
-		
-		return ScaleMatrix * RotMatrix * TransMatrix;
-	}
 };
 
 

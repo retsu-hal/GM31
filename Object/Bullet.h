@@ -1,16 +1,18 @@
 ﻿#pragma once
 #include "GameObject.h"
+
 class Bullet :public GameObject
 {
 private:
-	Vector3 m_Velocity{ 0.0f, 0.0f, 0.0f };
+	float m_Lifetime = 1.0f; // 弾の寿命（秒）
 
-	float m_Lifetime = 3.0f; // 弾の寿命（秒）
+	class Rigidbody* m_Rigidbody = nullptr;
 
 public:
 	void Init() override;
 	void Update() override;
+	void OnCollision(GameObject* other) override;
 
-	void SetVelocity(const Vector3& velocity) { m_Velocity = velocity; }
+	void SetVelocity(const Vector3& velocity);
 };
 

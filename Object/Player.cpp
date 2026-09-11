@@ -77,7 +77,6 @@ void Player::Update()
 
 
 	float dt = Manager::GetDeltaTime();
-	Vector3 bulletoffset = { m_Position.x, m_Position.y + m_Scale.y, m_Position.z };
 	CAMERA* camera = Manager::GetGameObject<CAMERA>();
 	Vector3 forward = camera->GetForward();
 	Vector3 right = camera->GetRight();
@@ -100,7 +99,7 @@ void Player::Update()
 		m_Rigidbody->AddVelocity(moveDir * m_Speed * dt);
 
 		//移動方向に回転
-		m_Rotation.y = -atan2f(moveDir.x, -moveDir.z);
+		m_Rotation.y = atan2f(moveDir.x, moveDir.z);
 		SetAnimation("Run");
 	}
 	else
@@ -124,10 +123,12 @@ void Player::Update()
 
 
 	//弾発射
-	if (Input::GetMouseTrigger(Input::MOUSE_LEFT))
+	if (Input::GetMousePress(Input::MOUSE_LEFT))
 	{
+		Vector3 spawnPos = m_Position + GetForward() * 0.5f + Vector3(0.0f, 1.0f, 0.0f);
+		
 		Bullet* bullet = Manager::AddGameObject<Bullet>();
-		bullet->SetPosition(bulletoffset);
+		bullet->SetPosition(spawnPos);
 		bullet->SetVelocity(GetForward()*10.0f);
 	}
 
