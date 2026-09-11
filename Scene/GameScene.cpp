@@ -28,7 +28,7 @@
 //==============================================================================
 //マクロ宣言
 //==============================================================================
-#define ENEMY_COUNT 5
+#define ENEMY_COUNT 1
 #define TREE_COUNT 5
 //==============================================================================
 //プロトタイプ宣言
@@ -57,12 +57,12 @@ void GameScene::Init()
 	Manager::AddGameObject<Player>();
 
 	////敵の生成
-	//for (int i = 0; i < ENEMY_COUNT; i++)
-	//{
-	//	Vector3 pos = { (float)(rand() % 40 - 20),0.0f,(float)(rand() % 40 - 20) };
-	//	pos.y = meshField->GetHeight(pos);	// 起伏の上に足を置く
-	//	Manager::AddGameObject<Enemy>()->SetPosition(pos);
-	//}
+	for (int i = 0; i < ENEMY_COUNT; i++)
+	{
+		Vector3 pos = { (float)(rand() % 40 - 20),0.0f,(float)(rand() % 40 - 20) };
+		pos.y = meshField->GetHeight(pos);	// 起伏の上に足を置く
+		Manager::AddGameObject<Enemy>()->SetPosition(pos);
+	}
 
 
 	//木の生成

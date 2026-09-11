@@ -46,7 +46,6 @@ void Bullet::Update()
 
 		if (lenght < 1.5f)
 		{
-			enemy->Shake(m_Velocity * 0.01f);
 			enemy->AddDamage(1);
 			SetDestroy();
 			Vector3 pos = enemy->GetPosition();

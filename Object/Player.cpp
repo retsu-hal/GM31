@@ -9,7 +9,6 @@
 #include "Collider.h"
 #include "Audio.h"
 #include "Shadow.h"
-#include "MeshField.h"
 #include "Rigidbody.h"
 
 #define SHADOW_OFFSET_Y	(0.01f)		// 影を地面から浮かせる量（Zファイティング回避）
@@ -97,11 +96,11 @@ void Player::Update()
 
 	if (moveDir.x!=0.0f || moveDir.z!=0.0f)
 	{
+		moveDir.normalize();
 		m_Rigidbody->AddVelocity(moveDir * m_Speed * dt);
 
 		//移動方向に回転
-		Vector3 dir = m_Rigidbody->GetVelocity();
-		m_Rotation.y = -atan2f(dir.x, -dir.z);
+		m_Rotation.y = -atan2f(moveDir.x, -moveDir.z);
 		SetAnimation("Run");
 	}
 	else
@@ -123,9 +122,6 @@ void Player::Update()
 	if (m_HitTimer > 0.0f) m_HitTimer -= dt;
 	if (m_HitTimer < 0.0f) m_HitTimer = 0.0f;
 
-	// 地形の高さ（MeshFieldのないシーンでは従来通り y = 0 を床にする）
-	MeshField* meshField = Manager::GetGameObject<MeshField>();
-	float height = meshField ? meshField->GetHeight(m_Position) : 0.0f;
 
 	//弾発射
 	if (Input::GetMouseTrigger(Input::MOUSE_LEFT))
@@ -139,7 +135,7 @@ void Player::Update()
 	if (m_Shadow)
 	{
 		Vector3 ShadowPos = m_Position;
-		ShadowPos.y = height + SHADOW_OFFSET_Y;
+		ShadowPos.y =  SHADOW_OFFSET_Y;
 		m_Shadow->SetPosition(ShadowPos);
 	}
 	

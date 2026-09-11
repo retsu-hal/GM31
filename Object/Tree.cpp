@@ -31,6 +31,6 @@ void Tree::Init()
 
 	BoxCollider* collider = AddComponent<BoxCollider>(this);
 	collider->SetSize({1.0f, 7.0f, 1.0f});
-	collider->SetOffset({ 0.0f, 2.0f, 0.0f });	
+	collider->SetOffset({ 0.0f, 3.5f, 0.0f });	
 	collider->SetStatic(true);
 }
