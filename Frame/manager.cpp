@@ -9,6 +9,8 @@
 #include "ModelRenderer.h"
 #include "ShaderManager.h"
 #include "TextureManager.h"
+#include "Collider.h"
+#include "Gizmo.h"
 
 
 //staticメンバー変数はcppで定義する必要がある
@@ -61,6 +63,7 @@ void Manager::Uninit()
 	ShaderManager::Unload();
 	TextureManager::Unload();
 
+	Gizmo::Uninit();
 	Renderer::Uninit();
 	Input::Uninit();
 	Audio::UninitMaster();
@@ -68,13 +71,18 @@ void Manager::Uninit()
 
 void Manager::Update()
 {
-
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
 	float  dt =GetDeltaTime();
 	Input::Update();
+
+#if _DEBUG
+	//F1でコライダー表示のON/OFF
+	if (Input::GetKeyTrigger(VK_F1)) Gizmo::SetEnable(!Gizmo::IsEnable());
+#endif
+
 
 	if (m_Scene != nullptr)	m_Scene->Update();
 
@@ -85,6 +93,9 @@ void Manager::Update()
 			gameObject->Update();
 		}
 	}
+
+	//当たり判定（各オブジェクトのUpdateで移動し終わってから、まとめて押し出す）
+	Collider::Check();
 
 	//ゲームオブジェクトの削除　【ラムダ式】
 	m_GameObjects.remove_if([](GameObject* object)
@@ -130,6 +141,7 @@ void Manager::Draw()
 {
 	Renderer::Begin();
 
+
 	
 
 	//Z値計算
@@ -170,6 +182,9 @@ void Manager::Draw()
 		}
 	}
 	
+	//デバッグ表示（ImGui::Render より前に線をためる）
+	Collider::DrawGizmo();
+	Gizmo::Draw();
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

@@ -48,13 +48,11 @@ void CAMERA::Update()
 
 void CAMERA::Draw()
 {
-	XMMATRIX projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(m_Fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 1.0f, 1000.0f);
-	m_ProjectionMatrix = projection;
-	Renderer::SetProjectionMatrix(projection);
+	m_ProjectionMatrix = XMMatrixPerspectiveFovLH(XMConvertToRadians(m_Fov), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 1.0f, 1000.0f);
+	Renderer::SetProjectionMatrix(m_ProjectionMatrix);
     
     XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
 	m_ViewMatrix= XMMatrixLookAtLH(XMLoadFloat3((XMFLOAT3*)&m_Position), XMLoadFloat3((XMFLOAT3*)&m_Target), XMLoadFloat3(&up));
-	
 	
 	Renderer::SetViewMatrix(m_ViewMatrix);
 }

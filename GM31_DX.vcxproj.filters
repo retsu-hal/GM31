@@ -86,9 +86,6 @@
     <Filter Include="オブジェクトファイル\Score">
       <UniqueIdentifier>{863f8cc6-0fae-4ef6-9cc7-7805b53493af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="オブジェクトファイル\Collision">
-      <UniqueIdentifier>{5f511db4-68df-4ebd-8af6-fd6ef84828f1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="フレームファイル\Audio">
       <UniqueIdentifier>{320a1787-153d-4c3b-af66-0584da9c7802}</UniqueIdentifier>
     </Filter>
@@ -97,6 +94,9 @@
     </Filter>
     <Filter Include="オブジェクトファイル\Shadow">
       <UniqueIdentifier>{ef2ff7a8-e0b5-48ad-bd5d-861030818b85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="フレームファイル\Debug">
+      <UniqueIdentifier>{6b1c04d2-9a3f-4d58-b2e7-5c0f8ad13e91}</UniqueIdentifier>
     </Filter>
     <Filter Include="フレームファイル\Math">
       <UniqueIdentifier>{f4fa97a3-1fc3-4e22-a4a3-97fda756845e}</UniqueIdentifier>
@@ -112,6 +112,9 @@
     </Filter>
     <Filter Include="フレームファイル\SpriteAnimation">
       <UniqueIdentifier>{9862d49d-b4b6-451d-8248-1063aa895bd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="オブジェクトファイル\Collider">
+      <UniqueIdentifier>{5f511db4-68df-4ebd-8af6-fd6ef84828f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -202,8 +205,8 @@
     <ClCompile Include="Object\Score.cpp">
       <Filter>オブジェクトファイル\Score</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Collision.cpp">
-      <Filter>オブジェクトファイル\Collision</Filter>
+    <ClCompile Include="Object\Collider.cpp">
+      <Filter>オブジェクトファイル\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Frame\audio.cpp">
       <Filter>フレームファイル\Audio</Filter>
@@ -216,6 +219,9 @@
     </ClCompile>
     <ClCompile Include="Object\MeshField.cpp">
       <Filter>オブジェクトファイル\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame\Gizmo.cpp">
+      <Filter>フレームファイル\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Frame\Profiler.cpp">
       <Filter>フレームファイル\Math</Filter>
@@ -330,8 +336,8 @@
     <ClInclude Include="Object\Score.h">
       <Filter>オブジェクトファイル\Score</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Collision.h">
-      <Filter>オブジェクトファイル\Collision</Filter>
+    <ClInclude Include="Object\Collider.h">
+      <Filter>オブジェクトファイル\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Frame\audio.h">
       <Filter>フレームファイル\Audio</Filter>
@@ -347,6 +353,9 @@
     </ClInclude>
     <ClInclude Include="Frame\Vector3.h">
       <Filter>フレームファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame\Gizmo.h">
+      <Filter>フレームファイル\Debug</Filter>
     </ClInclude>
     <ClInclude Include="Frame\Profiler.h">
       <Filter>フレームファイル\Math</Filter>

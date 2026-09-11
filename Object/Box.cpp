@@ -15,6 +15,7 @@
 #include "renderer.h"
 #include "Box.h"
 #include "ModelRenderer.h"
+#include "Collider.h"
 //==============================================================================
 //マクロ宣言
 //==============================================================================
@@ -37,6 +38,11 @@ void Box::Init()
 	m_Scale = { 1.0f, 1.0f, 1.0f };
 
 	AddComponent<ModelRenderer>(this)->Load("asset\\model\\box.obj");
+
+	BoxCollider* collider = AddComponent<BoxCollider>(this);
+	collider->SetSize({2.0f, 2.0f, 2.0f});
+	collider->SetOffset({ 0.0f, 1.0f, 0.0f });
+	collider->SetStatic(true);
 }
 
 

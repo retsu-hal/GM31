@@ -7,7 +7,6 @@
 class CAMERA : public GameObject
 {
 private:
-	XMMATRIX m_ProjectionMatrix;	
 
 	Vector3 m_Shake{ 0.0f, 0.0f, 0.0f };
 	float m_ShakeTime = 0.0f;
@@ -18,6 +17,7 @@ public:
 	float  m_Fov;					// カメラの視野角
 	float m_MoveSpeed;
 	XMMATRIX m_ViewMatrix;		// ビュー行列
+	XMMATRIX m_ProjectionMatrix;	// 射影行列
 
 public:
 	void Init() override;

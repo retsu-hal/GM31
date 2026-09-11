@@ -31,6 +31,9 @@ public:
 	void SetScale(const Vector3& scale) { m_Scale = scale; }
 	Vector3 GetScale() const { return m_Scale; }
 	void SetDestroy() { m_Destroy = true; }
+	bool IsDestroyed() const { return m_Destroy; }	
+	virtual void OnCollision(GameObject* other) {}
+	virtual void OnPushed(const Vector3& push) {}
 	int GetLayer() { return m_Layer ; }
 	float GetCameraZ() const { return m_CameraZ; }
 	void CalcCameraZ(Vector3 CameraPos, Vector3 CameraForward)
@@ -39,6 +42,7 @@ public:
 		m_CameraZ = Vector3::dot(dir, CameraForward);	//内積
 	}
 
+	virtual ~GameObject() {}
 	virtual void Init() {};
 	virtual void Uninit() 
 	{
@@ -50,6 +54,7 @@ public:
 				delete component;
 			}
 		}
+		m_Components.clear();
 	};
 
 	virtual void Update() 
@@ -81,6 +86,17 @@ public:
 		component->Init();
 		m_Components.push_back(component);	
 		return component;
+	}
+
+	template<typename T>
+	T* GetComponent()
+	{
+		for (Component* component : m_Components)
+		{
+			T* result = dynamic_cast<T*>(component);
+			if (result) return result;
+		}
+		return nullptr;
 	}
 
 	virtual Vector3 GetForward() 

@@ -36,6 +36,9 @@ public:
 
 	void SetAnimation(const char* AnimationName);
 
+	void OnCollision(GameObject* other) override;
+	void OnPushed(const Vector3& push) override;
+
 	XMMATRIX GetWorldMatrix() const override
 	{
 		//マトリックス設定

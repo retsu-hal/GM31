@@ -4,11 +4,9 @@
 #include "Camera.h"
 #include "manager.h"
 #include "animationModel.h"
-#include "Bullet.h"
-#include "Tree.h"
-#include "Box.h"
-#include "Collision.h"
 #include "Enemy.h"
+#include "Bullet.h"
+#include "Collider.h"
 #include "Audio.h"
 #include "Shadow.h"
 #include "MeshField.h"
@@ -33,7 +31,11 @@ void Player::Init()
 
 	m_AnimationName = "Idle";
 	m_NextAnimationName = "Idle";
-
+	
+	CapsuleCollider*collider = AddComponent<CapsuleCollider>(this);
+	collider->SetRadius(40.0f);
+	collider->SetHeight(180.0f);
+	collider->SetOffset({ 0.0f, 90.0f, 0.0f });
 
 	//SE
 	m_JumpSE = AddComponent<Audio>(this);
@@ -86,7 +88,6 @@ void Player::Update()
 
 	
 
-	Vector3 oldPosition = m_Position;
 
 	float dt = Manager::GetDeltaTime();
 	Vector3 bulletoffset = { m_Position.x, m_Position.y + m_Scale.y, m_Position.z };
@@ -140,12 +141,10 @@ void Player::Update()
 
 
 	//ジャンプ
-	if (Input::GetKeyTrigger(VK_SPACE))
+	if (Input::GetKeyTrigger(VK_SPACE)&&m_Ground)
 	{
 		m_Velocity.y += m_jumpPower;
-
-		//ジャンプSE
-		m_JumpSE->Play();
+		m_JumpSE->Play();		//ジャンプSE
 	}
 
 		//重力
@@ -172,66 +171,9 @@ void Player::Update()
 			m_Ground = true;
 	}
 
-	//木の当たり判定
-	auto trees = Manager::GetGameObjects<Tree>();
-	for (auto tree : trees)
-	{
-		Vector3 pushVector;
-		if (Collision::Circle2D(m_Position, m_Scale.x * 0.5f, tree->GetPosition(), 1.0f, pushVector))
-		{
-			m_Position += pushVector;
-			float dot = m_Velocity.x * (pushVector.x) + m_Velocity.z * (pushVector.z);
-		}
-	}
-
-	//boxとの当たり判定
-	auto boxes = Manager::GetGameObjects<Box>();
-	for (auto box : boxes)
-	{
-		Vector3 pushVector;
-		bool onBoxTop = false;	// Collision::AABB は非衝突時でも false を書き込むので m_Ground を直接渡さない
-
-		Vector3 playerCenter = { m_Position.x, m_Position.y + m_Scale.y, m_Position.z };
-		Vector3 playerSize   = { m_Scale.x, m_Scale.y * 2.0f, m_Scale.z };
-
-		Vector3 boxPos = box->GetPosition();
-		Vector3 boxScl = box->GetScale();
-		Vector3 boxCenter = { boxPos.x, boxPos.y + boxScl.y, boxPos.z };
-		Vector3 boxSize   = { boxScl.x * 2.0f, boxScl.y * 2.0f, boxScl.z * 2.0f };
-
-		if (Collision::AABB(playerCenter, playerSize, boxCenter, boxSize, pushVector, onBoxTop))
-		{
-			m_Position += pushVector;
-			if (pushVector.x != 0.0f) m_Velocity.x = 0.0f;
-			if (pushVector.y != 0.0f) m_Velocity.y = 0.0f;
-			if (pushVector.z != 0.0f) m_Velocity.z = 0.0f;
-			if (onBoxTop) m_Ground = true;
-		}
-	}
-
-	//敵との当たり判定
-	auto enemies = Manager::GetGameObjects<Enemy>();
-	for (auto enemy : enemies)
-	{
-		Vector3 pushVector;
-		if (Collision::Circle2D(m_Position, m_Scale.x * 0.5f, enemy->GetPosition(), enemy->GetScale().x * 0.5f, pushVector))
-		{
-			if(m_HitTimer <= 0.0f)
-			{
-				enemy->SetPosition(enemy->GetPosition() - pushVector);
-				m_HitTimer = 1.0f;
-			}
-		}
-	}
-
 	//
 	if(m_HitTimer>0.0f) m_HitTimer -= dt;
 	if(m_HitTimer<0.0f) m_HitTimer = 0.0f;
-
-	if (!oldGraund && m_Ground)
-	{
-
-	}
 
 	//弾発射
 	if (Input::GetMouseTrigger(Input::MOUSE_LEFT))
@@ -240,8 +182,6 @@ void Player::Update()
 		bullet->SetPosition(bulletoffset);
 		bullet->SetVelocity(GetForward()*10.0f);
 	}
-
-
 
 	//影移動（地面と同一平面だとZファイティングするので少し浮かせる）
 	if (m_Shadow)
@@ -286,5 +226,39 @@ void Player::SetAnimation(const char* AnimationName)
 		m_NextAnimationFrame = 0;
 
 		m_Blend = 0.0f;
+	}
+}
+
+void Player::OnCollision(GameObject* other)
+{
+	if (dynamic_cast<Enemy*>(other) && m_HitTimer <= 0.0f) m_HitTimer = 1.0f;
+}
+
+void Player::OnPushed(const Vector3& push)
+{
+	//上に押し戻された＝何かの上に乗った
+	if (push.y > 0.0f && m_Velocity.y < 0.0f)
+	{
+		m_Velocity.y = 0.0f;
+		m_Ground = true;
+	}
+	//下に押し戻された＝頭をぶつけた
+	else if (push.y < 0.0f && m_Velocity.y > 0.0f)
+	{
+		m_Velocity.y = 0.0f;
+	}
+
+	//横に押し戻された：壁に向かう速度だけ消す（壁に沿って滑れる）
+	float len = sqrtf(push.x * push.x + push.z * push.z);
+	if (len > 0.0001f)
+	{
+		float nx = push.x / len;
+		float nz = push.z / len;
+		float dot = m_Velocity.x * nx + m_Velocity.z * nz;
+		if (dot < 0.0f)
+		{
+			m_Velocity.x -= nx * dot;
+			m_Velocity.z -= nz * dot;
+		}
 	}
 }

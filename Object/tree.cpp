@@ -14,6 +14,7 @@
 #include "Tree.h"
 #include  "BillboardRenderer.h"
 #include "SpriteAnimation.h"
+#include "Collider.h"
 //==============================================================================
 //初期化処理
 //==============================================================================
@@ -27,4 +28,9 @@ void Tree::Init()
 	renderer->SetMode(BillboardMode::AxisY);		// Y軸だけ回転する
 	renderer->SetAnchorBottom(true);					// 足元を原点にする
 	renderer->SetSize(7.0f, 7.0f);
+
+	BoxCollider* collider = AddComponent<BoxCollider>(this);
+	collider->SetSize(m_Scale);
+	collider->SetOffset({ 0.0f, 1.0f, 0.0f });	
+	collider->SetStatic(true);
 }

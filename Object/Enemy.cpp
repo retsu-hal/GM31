@@ -17,7 +17,7 @@
 #include "ModelRenderer.h"
 #include "Player.h"
 #include "Box.h"
-#include "Collision.h"
+#include "Collider.h"
 #include "Tree.h"
 #include "Explosion.h"
 #include "Camera.h"
@@ -120,47 +120,7 @@ void Enemy::Update()
 		m_Ground = true;
 	}
 
-	//------------------------------------------------------------
-	// boxとの当たり判定（側面に当たったらジャンプして上に乗る）
-	//------------------------------------------------------------
-	auto boxes = Manager::GetGameObjects<Box>();
-	for (auto box : boxes)
-	{
-		Vector3 pushVector;
-		bool onBoxTop = false;
-
-		Vector3 enemyCenter = { m_Position.x, m_Position.y + m_Scale.y, m_Position.z };
-		Vector3 enemySize = { m_Scale.x, m_Scale.y * 2.0f, m_Scale.z };
-
-		Vector3 boxPos = box->GetPosition();
-		Vector3 boxScl = box->GetScale();
-		Vector3 boxCenter = { boxPos.x, boxPos.y + boxScl.y, boxPos.z };
-		Vector3 boxSize = { boxScl.x * 2.0f, boxScl.y * 2.0f, boxScl.z * 2.0f };
-
-		if (Collision::AABB(enemyCenter, enemySize, boxCenter, boxSize, pushVector, onBoxTop))
-		{
-			// めり込みを解消する（ボックスの上に乗れるようにする）
-			m_Position += pushVector;
-
-			if (onBoxTop)
-			{
-				// 上面に着地して乗る（ボックスの上に立つ）
-				m_Velocity.y = 0.0f;
-				m_Ground = true;
-			}
-			else if (pushVector.y != 0.0f)
-			{
-				// 下面に当たった（天井）→縦速度を止める
-				m_Velocity.y = 0.0f;
-			}
-			else if (m_Ground)
-			{
-				// 接地中に側面へ当たった→ボックスに乗ろうとジャンプ
-				m_Velocity.y = 16.0f;
-				m_Ground = false;
-			}
-		}
-	}
+	
 
 	//------------------------------------------------------------
 	// 着地アニメーション（空中→接地に変わった瞬間に潰す）
@@ -176,35 +136,6 @@ void Enemy::Update()
 	m_Scale.x += (1.0f - m_Scale.x) * 0.1f;
 	m_Scale.y += (1.0f - m_Scale.y) * 0.1f;
 	m_Scale.z += (1.0f - m_Scale.z) * 0.1f;
-
-	//------------------------------------------------------------
-	// エネミー同士の当たり判定
-	//------------------------------------------------------------
-	auto enemies = Manager::GetGameObjects<Enemy>();
-	for (auto other : enemies)
-	{
-		if (other == this) continue;
-		Vector3 pushVector;
-		if (Collision::Circle2D(m_Position, m_Scale.x * 0.5f, other->GetPosition(), other->GetScale().x * 0.5f, pushVector))
-		{
-			m_Position += pushVector;
-		}
-	}
-
-	//------------------------------------------------------------
-	// ツリーとの当たり判定
-	//------------------------------------------------------------
-	//木の当たり判定
-	auto trees = Manager::GetGameObjects<Tree>();
-	for (auto tree : trees)
-	{
-		Vector3 pushVector;
-		if (Collision::Circle2D(m_Position, m_Scale.x * 0.5f, tree->GetPosition(), 1.0f, pushVector))
-		{
-			m_Position += pushVector;
-			float dot = m_Velocity.x * (pushVector.x) + m_Velocity.z * (pushVector.z);
-		}
-	}
 
 	//シェイク（位置に加算し続けるとずれたままになるのでオフセットとして持つ）
 	m_ShakeTime += dt;
