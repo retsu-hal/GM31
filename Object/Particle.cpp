@@ -11,8 +11,8 @@
 //インクルード
 //==============================================================================
 #include "main.h"
-#include "manager.h"
-#include "renderer.h"
+#include "Manager.h"
+#include "Renderer.h"
 #include "Particle.h"
 #include "Camera.h"
 

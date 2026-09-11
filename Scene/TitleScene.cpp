@@ -11,8 +11,8 @@
 //インクルード
 //==============================================================================
 #include "main.h"
-#include "manager.h"
-#include "input.h"
+#include "Manager.h"
+#include "Input.h"
 #include "Polygon2D.h"
 #include "TitleScene.h"
 #include "GameScene.h"

@@ -1,4 +1,4 @@
-/*==============================================================================
+﻿/*==============================================================================
 
 [ShaderManager.cpp]
 														Author :Watanabe Retsu
@@ -13,7 +13,7 @@
 //インクルード
 //==============================================================================
 #include "main.h"
-#include "renderer.h"
+#include "Renderer.h"
 #include "ShaderManager.h"
 
 std::unordered_map<std::string, ShaderSet> ShaderManager::m_Pool;

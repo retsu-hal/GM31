@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <vector>
-#include "component.h"
+#include "Component.h"
 #include "Vector3.h"
 
 //判定用の形データ

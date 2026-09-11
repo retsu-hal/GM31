@@ -1,6 +1,6 @@
 ﻿#include "main.h"
-#include "renderer.h"
-#include "manager.h"
+#include "Renderer.h"
+#include "Manager.h"
 #include "Shadow.h"
 #include "MeshField.h"
 

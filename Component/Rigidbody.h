@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "component.h"
+#include "Component.h"
 #include "Vector3.h"
 
 class Rigidbody : public Component
@@ -13,7 +13,6 @@ private:
 	bool  m_IsGrounded = false;		
 	float m_GroundHeight = 0.0f;
 
-public:
 public:
 	using Component::Component;
 

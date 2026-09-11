@@ -1,5 +1,5 @@
 ﻿#include "main.h"
-#include "renderer.h"
+#include "Renderer.h"
 #include "Cube.h"
 
 

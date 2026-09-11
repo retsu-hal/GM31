@@ -1,5 +1,5 @@
-#include "main.h"
-#include "manager.h"
+﻿#include "main.h"
+#include "Manager.h"
 #include "GameObject.h"
 #include "BillboardRenderer.h"
 #include "SpriteAnimation.h"

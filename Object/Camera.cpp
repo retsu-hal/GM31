@@ -1,4 +1,4 @@
-﻿#include "manager.h"
+﻿#include "Manager.h"
 #include "Camera.h"
 #include "Player.h"
 

@@ -11,7 +11,7 @@
 //インクルード
 //==============================================================================
 #include "main.h"
-#include "renderer.h"
+#include "Renderer.h"
 #include "Manager.h"
 #include "Enemy.h"
 #include "ModelRenderer.h"

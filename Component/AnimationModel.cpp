@@ -1,6 +1,6 @@
 ﻿#include "main.h"
-#include "renderer.h"
-#include "animationModel.h"
+#include "Renderer.h"
+#include "AnimationModel.h"
 #include "ShaderManager.h"
 #include "GameObject.h"
 

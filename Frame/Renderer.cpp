@@ -1,6 +1,6 @@
 ﻿
 #include "main.h"
-#include "renderer.h"
+#include "Renderer.h"
 #include <io.h>
 
 

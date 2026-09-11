@@ -11,10 +11,10 @@
 //インクルード
 //==============================================================================
 #include "main.h"
-#include "renderer.h"
+#include "Renderer.h"
 #include "Bullet.h"
 #include "Enemy.h"
-#include "manager.h"
+#include "Manager.h"
 #include "ModelRenderer.h"
 #include "Explosion.h"
 #include "Score.h"

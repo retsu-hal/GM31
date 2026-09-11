@@ -11,7 +11,7 @@
 //インクルード
 //==============================================================================
 #include "main.h"
-#include "manager.h"
+#include "Manager.h"
 #include "Camera.h"
 #include "Field.h"
 #include "MeshField.h"

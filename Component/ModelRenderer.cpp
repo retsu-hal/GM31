@@ -5,8 +5,8 @@
 #pragma comment(lib, "shlwapi.lib")
 
 #include "main.h"
-#include "renderer.h"
-#include "modelRenderer.h"
+#include "Renderer.h"
+#include "ModelRenderer.h"
 #include "ShaderManager.h"
 #include "GameObject.h"
 

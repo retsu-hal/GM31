@@ -1,5 +1,5 @@
-#pragma once
-#include "component.h"
+﻿#pragma once
+#include "Component.h"
 
 class BillboardRenderer;
 

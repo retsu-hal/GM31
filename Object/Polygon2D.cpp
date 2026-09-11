@@ -1,5 +1,5 @@
 ﻿#include "main.h"
-#include "renderer.h"
+#include "Renderer.h"
 #include "Polygon2D.h"
 
 void Polygon2D::Init(float x, float y, float width, float height,const WCHAR* TextureName)

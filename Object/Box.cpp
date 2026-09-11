@@ -12,7 +12,7 @@
 //インクルード
 //==============================================================================
 #include "main.h"
-#include "renderer.h"
+#include "Renderer.h"
 #include "Box.h"
 #include "ModelRenderer.h"
 #include "Collider.h"

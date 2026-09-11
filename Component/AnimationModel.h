@@ -8,7 +8,7 @@
 #include "assimp/matrix4x4.h"
 #pragma comment (lib, "assimp-vc143-mt.lib")
 
-#include "component.h"
+#include "Component.h"
 
 
 //変形後頂点構造体

@@ -1,6 +1,6 @@
 ﻿
 #include "main.h"
-#include "input.h"
+#include "Input.h"
 
 #include <windowsx.h>
 

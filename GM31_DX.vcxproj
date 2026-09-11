@@ -77,7 +77,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)Frame;$(ProjectDir)Object;$(ProjectDir)Scene;$(ProjectDir);C:\Users\retsu\Documents\2026_hal\GM31\GM31_DX\imgui-master\imgui-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Frame;$(ProjectDir)Component;$(ProjectDir)Object;$(ProjectDir)Scene;$(ProjectDir);C:\Users\retsu\Documents\2026_hal\GM31\GM31_DX\imgui-master\imgui-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -93,7 +93,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)Frame;$(ProjectDir)Object;$(ProjectDir)Scene;$(ProjectDir);C:\Users\retsu\Documents\2026_hal\GM31\GM31_DX\imgui-master\imgui-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Frame;$(ProjectDir)Component;$(ProjectDir)Object;$(ProjectDir)Scene;$(ProjectDir);C:\Users\retsu\Documents\2026_hal\GM31\GM31_DX\imgui-master\imgui-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -107,7 +107,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)Frame;$(ProjectDir)Object;$(ProjectDir)Scene;$(ProjectDir);C:\Users\retsu\Documents\2026_hal\GM31\GM31_DX\imgui-master\imgui-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Frame;$(ProjectDir)Component;$(ProjectDir)Object;$(ProjectDir)Scene;$(ProjectDir);C:\Users\retsu\Documents\2026_hal\GM31\GM31_DX\imgui-master\imgui-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -124,7 +124,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)Frame;$(ProjectDir)Object;$(ProjectDir)Scene;$(ProjectDir);C:\Users\retsu\Documents\2026_hal\GM31\GM31_DX\imgui-master\imgui-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Frame;$(ProjectDir)Component;$(ProjectDir)Object;$(ProjectDir)Scene;$(ProjectDir);C:\Users\retsu\Documents\2026_hal\GM31\GM31_DX\imgui-master\imgui-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -132,93 +132,93 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Frame\animationModel.cpp" />
-    <ClCompile Include="Frame\audio.cpp" />
     <ClCompile Include="Frame\Gizmo.cpp" />
+    <ClCompile Include="Frame\Input.cpp" />
+    <ClCompile Include="Frame\Manager.cpp" />
     <ClCompile Include="Frame\Profiler.cpp" />
+    <ClCompile Include="Frame\Renderer.cpp" />
     <ClCompile Include="Frame\ShaderManager.cpp" />
-    <ClCompile Include="Frame\SpriteAnimation.cpp" />
     <ClCompile Include="Frame\TextureManager.cpp" />
-    <ClCompile Include="Object\BillboardRenderer.cpp" />
+    <ClCompile Include="Component\AnimationModel.cpp" />
+    <ClCompile Include="Component\Audio.cpp" />
+    <ClCompile Include="Component\BillboardRenderer.cpp" />
+    <ClCompile Include="Component\Collider.cpp" />
+    <ClCompile Include="Component\ModelRenderer.cpp" />
+    <ClCompile Include="Component\Rigidbody.cpp" />
+    <ClCompile Include="Component\SpriteAnimation.cpp" />
     <ClCompile Include="Object\Box.cpp" />
     <ClCompile Include="Object\Bullet.cpp" />
     <ClCompile Include="Object\Camera.cpp" />
-    <ClCompile Include="Object\Collider.cpp" />
     <ClCompile Include="Object\Cube.cpp" />
     <ClCompile Include="Object\Enemy.cpp" />
     <ClCompile Include="Object\Explosion.cpp" />
     <ClCompile Include="Object\Field.cpp" />
     <ClCompile Include="Object\MeshField.cpp" />
-    <ClCompile Include="Rigidbody.cpp" />
+    <ClCompile Include="Object\Particle.cpp" />
+    <ClCompile Include="Object\Player.cpp" />
+    <ClCompile Include="Object\Polygon2D.cpp" />
+    <ClCompile Include="Object\Score.cpp" />
+    <ClCompile Include="Object\Shadow.cpp" />
+    <ClCompile Include="Object\Sky.cpp" />
+    <ClCompile Include="Object\Tree.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
-    <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp" />
-    <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="Scene\ResultScene.cpp" />
+    <ClCompile Include="Scene\TitleScene.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="imgui-master\imgui-master\imgui.cpp" />
     <ClCompile Include="imgui-master\imgui-master\imgui_demo.cpp" />
     <ClCompile Include="imgui-master\imgui-master\imgui_draw.cpp" />
     <ClCompile Include="imgui-master\imgui-master\imgui_tables.cpp" />
     <ClCompile Include="imgui-master\imgui-master\imgui_widgets.cpp" />
-    <ClCompile Include="Frame\input.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Frame\manager.cpp" />
-    <ClCompile Include="Frame\modelRenderer.cpp" />
-    <ClCompile Include="Object\Particle.cpp" />
-    <ClCompile Include="Object\Player.cpp" />
-    <ClCompile Include="Object\Polygon2D.cpp" />
-    <ClCompile Include="Frame\renderer.cpp" />
-    <ClCompile Include="Scene\ResultScene.cpp" />
-    <ClCompile Include="Object\Score.cpp" />
-    <ClCompile Include="Object\Sky.cpp" />
-    <ClCompile Include="Scene\TitleScene.cpp" />
-    <ClCompile Include="Object\tree.cpp" />
-    <ClCompile Include="Object\Shadow.cpp" />
+    <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp" />
+    <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_win32.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Frame\animationModel.h" />
-    <ClInclude Include="Frame\audio.h" />
+    <ClInclude Include="Frame\Component.h" />
+    <ClInclude Include="Frame\GameObject.h" />
     <ClInclude Include="Frame\Gizmo.h" />
+    <ClInclude Include="Frame\Input.h" />
+    <ClInclude Include="Frame\Manager.h" />
     <ClInclude Include="Frame\Profiler.h" />
+    <ClInclude Include="Frame\Renderer.h" />
+    <ClInclude Include="Frame\Scene.h" />
     <ClInclude Include="Frame\ShaderManager.h" />
-    <ClInclude Include="Frame\SpriteAnimation.h" />
     <ClInclude Include="Frame\TextureManager.h" />
-    <ClInclude Include="Object\BillboardRenderer.h" />
+    <ClInclude Include="Frame\Vector3.h" />
+    <ClInclude Include="Component\AnimationModel.h" />
+    <ClInclude Include="Component\Audio.h" />
+    <ClInclude Include="Component\BillboardRenderer.h" />
+    <ClInclude Include="Component\Collider.h" />
+    <ClInclude Include="Component\ModelRenderer.h" />
+    <ClInclude Include="Component\Rigidbody.h" />
+    <ClInclude Include="Component\SpriteAnimation.h" />
     <ClInclude Include="Object\Box.h" />
     <ClInclude Include="Object\Bullet.h" />
-    <ClInclude Include="Object\Collider.h" />
-    <ClInclude Include="Frame\component.h" />
+    <ClInclude Include="Object\Camera.h" />
     <ClInclude Include="Object\Cube.h" />
     <ClInclude Include="Object\Enemy.h" />
     <ClInclude Include="Object\Explosion.h" />
     <ClInclude Include="Object\Field.h" />
-    <ClInclude Include="Object\GameObject.h" />
     <ClInclude Include="Object\MeshField.h" />
-    <ClInclude Include="Rigidbody.h" />
+    <ClInclude Include="Object\Particle.h" />
+    <ClInclude Include="Object\Player.h" />
+    <ClInclude Include="Object\Polygon2D.h" />
+    <ClInclude Include="Object\Score.h" />
+    <ClInclude Include="Object\Shadow.h" />
+    <ClInclude Include="Object\Sky.h" />
+    <ClInclude Include="Object\Tree.h" />
     <ClInclude Include="Scene\GameScene.h" />
-    <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_dx11.h" />
-    <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_win32.h" />
+    <ClInclude Include="Scene\ResultScene.h" />
+    <ClInclude Include="Scene\TitleScene.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="imgui-master\imgui-master\imconfig.h" />
     <ClInclude Include="imgui-master\imgui-master\imgui.h" />
     <ClInclude Include="imgui-master\imgui-master\imgui_internal.h" />
     <ClInclude Include="imgui-master\imgui-master\imstb_rectpack.h" />
     <ClInclude Include="imgui-master\imgui-master\imstb_textedit.h" />
     <ClInclude Include="imgui-master\imgui-master\imstb_truetype.h" />
-    <ClInclude Include="Frame\input.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="Frame\manager.h" />
-    <ClInclude Include="Frame\modelRenderer.h" />
-    <ClInclude Include="Object\Particle.h" />
-    <ClInclude Include="Object\Player.h" />
-    <ClInclude Include="Object\Polygon2D.h" />
-    <ClInclude Include="Frame\renderer.h" />
-    <ClInclude Include="Scene\ResultScene.h" />
-    <ClInclude Include="Scene\Scene.h" />
-    <ClInclude Include="Object\Score.h" />
-    <ClInclude Include="Object\Sky.h" />
-    <ClInclude Include="Scene\TitleScene.h" />
-    <ClInclude Include="Object\tree.h" />
-    <ClInclude Include="Frame\Vector3.h" />
-    <ClInclude Include="Object\Camera.h" />
-    <ClInclude Include="Object\Shadow.h" />
+    <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_dx11.h" />
+    <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_win32.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

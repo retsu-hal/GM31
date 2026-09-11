@@ -1,5 +1,5 @@
 ﻿#include "main.h"
-#include "manager.h"
+#include "Manager.h"
 #include "Camera.h"
 #include "Gizmo.h"
 

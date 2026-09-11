@@ -11,7 +11,7 @@
 //インクルード
 //==============================================================================
 #include "main.h"
-#include "renderer.h"
+#include "Renderer.h"
 #include "Explosion.h"
 #include "BillboardRenderer.h"
 #include "SpriteAnimation.h"

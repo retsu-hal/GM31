@@ -45,7 +45,7 @@ struct MODEL
 };
 
 
-#include "component.h"
+#include "Component.h"
 #include <string>
 #include <unordered_map>
 

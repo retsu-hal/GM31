@@ -12,11 +12,11 @@
 //インクルード
 //==============================================================================
 #include "main.h"
-#include "renderer.h"
+#include "Renderer.h"
 #include "Sky.h"
 #include "ModelRenderer.h"
-#include "camera.h"
-#include "manager.h"
+#include "Camera.h"
+#include "Manager.h"
 
 //==============================================================================
 //マクロ宣言

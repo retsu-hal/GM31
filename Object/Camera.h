@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "main.h"
-#include "renderer.h"
+#include "Renderer.h"
 #include "Vector3.h"
 #include "GameObject.h"
 class CAMERA : public GameObject

@@ -1,5 +1,5 @@
 ﻿#include "main.h"
-#include "renderer.h"
+#include "Renderer.h"
 #include "Field.h"
 #include "Component.h"
 #include "Audio.h"

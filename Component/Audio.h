@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include <xaudio2.h>
-#include "component.h"
+#include "Component.h"
 
 
 class Audio : public Component

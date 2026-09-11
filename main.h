@@ -13,7 +13,7 @@
 #include <d3d11.h>
 #pragma comment (lib, "d3d11.lib")
 
-#include "input.h"
+#include "Input.h"
 
 #include <DirectXMath.h>
 using namespace DirectX;
