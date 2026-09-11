@@ -95,9 +95,6 @@
     <Filter Include="オブジェクトファイル\Shadow">
       <UniqueIdentifier>{ef2ff7a8-e0b5-48ad-bd5d-861030818b85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="フレームファイル\Debug">
-      <UniqueIdentifier>{6b1c04d2-9a3f-4d58-b2e7-5c0f8ad13e91}</UniqueIdentifier>
-    </Filter>
     <Filter Include="フレームファイル\Math">
       <UniqueIdentifier>{f4fa97a3-1fc3-4e22-a4a3-97fda756845e}</UniqueIdentifier>
     </Filter>
@@ -113,7 +110,13 @@
     <Filter Include="フレームファイル\SpriteAnimation">
       <UniqueIdentifier>{9862d49d-b4b6-451d-8248-1063aa895bd2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="オブジェクトファイル\Collider">
+    <Filter Include="フレームファイル\Gizmo">
+      <UniqueIdentifier>{6b1c04d2-9a3f-4d58-b2e7-5c0f8ad13e91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="フレームファイル\Rigidbody">
+      <UniqueIdentifier>{82eef37f-8779-4688-a008-a23200705282}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="フレームファイル\Collider">
       <UniqueIdentifier>{5f511db4-68df-4ebd-8af6-fd6ef84828f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -206,7 +209,7 @@
       <Filter>オブジェクトファイル\Score</Filter>
     </ClCompile>
     <ClCompile Include="Object\Collider.cpp">
-      <Filter>オブジェクトファイル\Collider</Filter>
+      <Filter>フレームファイル\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Frame\audio.cpp">
       <Filter>フレームファイル\Audio</Filter>
@@ -221,7 +224,7 @@
       <Filter>オブジェクトファイル\Field</Filter>
     </ClCompile>
     <ClCompile Include="Frame\Gizmo.cpp">
-      <Filter>フレームファイル\Debug</Filter>
+      <Filter>フレームファイル\Gizmo</Filter>
     </ClCompile>
     <ClCompile Include="Frame\Profiler.cpp">
       <Filter>フレームファイル\Math</Filter>
@@ -234,6 +237,9 @@
     </ClCompile>
     <ClCompile Include="Frame\TextureManager.cpp">
       <Filter>フレームファイル\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigidbody.cpp">
+      <Filter>フレームファイル\Rigidbody</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -337,7 +343,7 @@
       <Filter>オブジェクトファイル\Score</Filter>
     </ClInclude>
     <ClInclude Include="Object\Collider.h">
-      <Filter>オブジェクトファイル\Collider</Filter>
+      <Filter>フレームファイル\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Frame\audio.h">
       <Filter>フレームファイル\Audio</Filter>
@@ -355,7 +361,7 @@
       <Filter>フレームファイル\Math</Filter>
     </ClInclude>
     <ClInclude Include="Frame\Gizmo.h">
-      <Filter>フレームファイル\Debug</Filter>
+      <Filter>フレームファイル\Gizmo</Filter>
     </ClInclude>
     <ClInclude Include="Frame\Profiler.h">
       <Filter>フレームファイル\Math</Filter>
@@ -368,6 +374,9 @@
     </ClInclude>
     <ClInclude Include="Frame\TextureManager.h">
       <Filter>フレームファイル\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>フレームファイル\Rigidbody</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

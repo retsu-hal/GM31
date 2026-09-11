@@ -8,12 +8,9 @@
 class Player : public GameObject
 {
 private:
-	Vector3 m_Velocity;
+	class Rigidbody* m_Rigidbody = nullptr;
 	float m_Speed ;
 	float m_jumpPower ;
-	float m_Gravity;
-	float m_Friction = 5.0f;
-	bool m_Ground = true;
 	float m_MoveAnimation = 0.0f;
 	float m_HitTimer = 0.0f;
 	class Audio* m_JumpSE = nullptr;
@@ -37,7 +34,6 @@ public:
 	void SetAnimation(const char* AnimationName);
 
 	void OnCollision(GameObject* other) override;
-	void OnPushed(const Vector3& push) override;
 
 	XMMATRIX GetWorldMatrix() const override
 	{

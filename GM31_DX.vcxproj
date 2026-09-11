@@ -149,6 +149,7 @@
     <ClCompile Include="Object\Explosion.cpp" />
     <ClCompile Include="Object\Field.cpp" />
     <ClCompile Include="Object\MeshField.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_win32.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="Object\Field.h" />
     <ClInclude Include="Object\GameObject.h" />
     <ClInclude Include="Object\MeshField.h" />
+    <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_dx11.h" />
     <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_win32.h" />

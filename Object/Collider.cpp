@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Collider.h"
 #include "Gizmo.h"
+#include "Rigidbody.h"
 
 std::vector<Collider*> Collider::m_List;
 
@@ -123,6 +124,18 @@ static bool Hit(const ColliderShape& a, const ColliderShape& b, Vector3& push)
 	return true;
 }
 
+//位置を押し戻して、Rigidbody とオブジェクトに知らせる
+static void Push(GameObject* obj, const Vector3& push)
+{
+	obj->SetPosition(obj->GetPosition() + push);
+
+	if (Rigidbody* rb = obj->GetComponent<Rigidbody>())
+		rb->OnPushed(push);
+
+	obj->OnPushed(push);	//独自の反応をしたいオブジェクト用
+}
+
+
 //=============================================================
 // 全体の判定
 //=============================================================
@@ -156,23 +169,12 @@ void Collider::Check()
 			//どちらもトリガーでなければ押し出す
 			if (!a->m_IsTrigger && !b->m_IsTrigger)
 			{
-				if (b->m_IsStatic)
-				{
-					objA->SetPosition(objA->GetPosition() + push);
-					objA->OnPushed(push);
-				}
-				else if (a->m_IsStatic)
-				{
-					objB->SetPosition(objB->GetPosition() - push);
-					objB->OnPushed(push * -1.0f);
-				}
+				if (b->m_IsStatic)      Push(objA, push);
+				else if (a->m_IsStatic) Push(objB, push * -1.0f);
 				else	//両方動くなら半分ずつ
 				{
-					Vector3 half = push * 0.5f;
-					objA->SetPosition(objA->GetPosition() + half);
-					objB->SetPosition(objB->GetPosition() - half);
-					objA->OnPushed(half);
-					objB->OnPushed(half * -1.0f);
+					Push(objA, push * 0.5f);
+					Push(objB, push * -0.5f);
 				}
 			}
 		}

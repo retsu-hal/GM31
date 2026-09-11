@@ -30,7 +30,7 @@ void Tree::Init()
 	renderer->SetSize(7.0f, 7.0f);
 
 	BoxCollider* collider = AddComponent<BoxCollider>(this);
-	collider->SetSize(m_Scale);
-	collider->SetOffset({ 0.0f, 1.0f, 0.0f });	
+	collider->SetSize({1.0f, 7.0f, 1.0f});
+	collider->SetOffset({ 0.0f, 2.0f, 0.0f });	
 	collider->SetStatic(true);
 }

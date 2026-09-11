@@ -10,6 +10,7 @@
 #include "Audio.h"
 #include "Shadow.h"
 #include "MeshField.h"
+#include "Rigidbody.h"
 
 #define SHADOW_OFFSET_Y	(0.01f)		// 影を地面から浮かせる量（Zファイティング回避）
 
@@ -19,10 +20,8 @@ void Player::Init()
 	m_Layer = 1;
 	m_Position = { 0.0f, 1.0f, 0.0f };
 	m_Scale = { 0.01f, 0.01f, 0.01f };
-	m_Velocity = { 0.0f, 0.0f, 0.0f };
 	m_Speed = 50.0f;
 	m_jumpPower = 16.0f;
-	m_Gravity = 40.0f;
 
 	m_AnimationModel = AddComponent<AnimationModel>(this);
 	m_AnimationModel->Load("asset\\model\\Akai.fbx");
@@ -36,6 +35,10 @@ void Player::Init()
 	collider->SetRadius(40.0f);
 	collider->SetHeight(180.0f);
 	collider->SetOffset({ 0.0f, 90.0f, 0.0f });
+
+	m_Rigidbody = AddComponent<Rigidbody>(this);
+	m_Rigidbody->SetGravity(40.0f);
+	m_Rigidbody->SetDrag(5.0f);
 
 	//SE
 	m_JumpSE = AddComponent<Audio>(this);
@@ -67,72 +70,39 @@ void Player::Update()
 	ImGui::Text("Scale: (%.2f, %.2f, %.2f)", m_Scale.x, m_Scale.y, m_Scale.z);
 	ImGui::Text("state: %s", m_NextAnimationName.c_str());
 	ImGui::Text("Hit Timer: %.2f", m_HitTimer);
-	ImGui::Separator();
-	ImGui::Text("Anim : %s(%d) -> %s(%d)",
-		m_AnimationName.c_str(), m_AnimationFrame,
-		m_NextAnimationName.c_str(), m_NextAnimationFrame);
-	ImGui::Text("Blend: %.2f", m_Blend);
-	ImGui::Text("Found: cur=%d next=%d",
-		m_AnimationModel->HasAnimation(m_AnimationName.c_str()),
-		m_AnimationModel->HasAnimation(m_NextAnimationName.c_str()));
-	ImGui::Text("Bone : %d / matched cur=%d next=%d",
-		m_AnimationModel->GetBoneNum(),
-		m_AnimationModel->GetMatchedBoneNum1(),
-		m_AnimationModel->GetMatchedBoneNum2());
-	ImGui::Separator();
 	ImGui::SliderFloat("Speed", &m_Speed, 0.0f, 100.0f);
 	ImGui::SliderFloat("Jump Power", &m_jumpPower, 0.0f, 100.0f);
-	ImGui::SliderFloat("Gravity", &m_Gravity, 0.0f, 100.0f);
-	ImGui::End();
+	float gravity = m_Rigidbody->GetGravity();
+	if (ImGui::SliderFloat("Gravity", &gravity, 0.0f, 100.0f)) m_Rigidbody->SetGravity(gravity);	ImGui::End();
 #endif // _DEBUG
-
-	
 
 
 	float dt = Manager::GetDeltaTime();
 	Vector3 bulletoffset = { m_Position.x, m_Position.y + m_Scale.y, m_Position.z };
-
 	CAMERA* camera = Manager::GetGameObject<CAMERA>();
 	Vector3 forward = camera->GetForward();
 	Vector3 right = camera->GetRight();
-
 	forward.y = 0.0f;
 	forward.normalize();
-
 	right.y = 0.0f;
 	right.normalize();
 
-	bool move = false;
+	Vector3 moveDir = { 0.0f, 0.0f, 0.0f };
 
 	//入力による加速
-	if (Input::GetKeyPress('W')) 
+	if (Input::GetKeyPress('W')) moveDir += forward;
+	if (Input::GetKeyPress('S')) moveDir -= forward;
+	if (Input::GetKeyPress('D')) moveDir += right;
+	if (Input::GetKeyPress('A')) moveDir -= right;
+
+	if (moveDir.x!=0.0f || moveDir.z!=0.0f)
 	{
-		m_Velocity += forward * m_Speed * dt; 
-		move = true;
-	}
+		m_Rigidbody->AddVelocity(moveDir * m_Speed * dt);
 
-	if (Input::GetKeyPress('S')) 
-	{ 
-		m_Velocity -= forward * m_Speed * dt; 
-		move = true;
-	}
-
-	if (Input::GetKeyPress('D')) 
-	{ 
-		m_Velocity += right * m_Speed * dt; 
-		move = true;
-	}
-	if (Input::GetKeyPress('A')) 
-	{ 
-		m_Velocity -= right * m_Speed * dt; 
-		move = true;
-	}
-
-	if (move)
-	{
+		//移動方向に回転
+		Vector3 dir = m_Rigidbody->GetVelocity();
+		m_Rotation.y = -atan2f(dir.x, -dir.z);
 		SetAnimation("Run");
-		// 移動方向に回転
-		m_Rotation.y = -atan2f(m_Velocity.x, -m_Velocity.z);
 	}
 	else
 	{
@@ -141,39 +111,21 @@ void Player::Update()
 
 
 	//ジャンプ
-	if (Input::GetKeyTrigger(VK_SPACE)&&m_Ground)
+	if (Input::GetKeyTrigger(VK_SPACE)&&m_Rigidbody->IsGrounded())
 	{
-		m_Velocity.y += m_jumpPower;
+		m_Rigidbody->AddVelocity({ 0.0f, m_jumpPower, 0.0f });
 		m_JumpSE->Play();		//ジャンプSE
 	}
 
-		//重力
-	m_Velocity.y += -m_Gravity * dt;
+	GameObject::Update();
 
-	m_Position += m_Velocity * dt;
-
-	//抵抗力
-	m_Velocity.x += -m_Velocity.x * m_Friction * dt;
-	m_Velocity.z += -m_Velocity.z * m_Friction	 * dt;
-
-	bool oldGraund = m_Ground;
-	m_Ground = false;
+	//無敵時間
+	if (m_HitTimer > 0.0f) m_HitTimer -= dt;
+	if (m_HitTimer < 0.0f) m_HitTimer = 0.0f;
 
 	// 地形の高さ（MeshFieldのないシーンでは従来通り y = 0 を床にする）
 	MeshField* meshField = Manager::GetGameObject<MeshField>();
 	float height = meshField ? meshField->GetHeight(m_Position) : 0.0f;
-
-	//地面に衝突
-	if (m_Position.y < height)
-	{
-			m_Position.y = height;
-			m_Velocity.y = 0.0f;
-			m_Ground = true;
-	}
-
-	//
-	if(m_HitTimer>0.0f) m_HitTimer -= dt;
-	if(m_HitTimer<0.0f) m_HitTimer = 0.0f;
 
 	//弾発射
 	if (Input::GetMouseTrigger(Input::MOUSE_LEFT))
@@ -197,7 +149,6 @@ void Player::Update()
 	m_Blend += 0.1f;
 	if (m_Blend > 1.0f) m_Blend = 1.0f;
 
-	GameObject::Update();
 }
 
 void Player::Draw()
@@ -210,7 +161,7 @@ void Player::Draw()
 	}
 
 	m_AnimationModel->Update(m_AnimationName.c_str(), m_AnimationFrame, m_NextAnimationName.c_str(), m_NextAnimationFrame, m_Blend);
-
+	
 	GameObject::Draw();
 }
 
@@ -234,31 +185,3 @@ void Player::OnCollision(GameObject* other)
 	if (dynamic_cast<Enemy*>(other) && m_HitTimer <= 0.0f) m_HitTimer = 1.0f;
 }
 
-void Player::OnPushed(const Vector3& push)
-{
-	//上に押し戻された＝何かの上に乗った
-	if (push.y > 0.0f && m_Velocity.y < 0.0f)
-	{
-		m_Velocity.y = 0.0f;
-		m_Ground = true;
-	}
-	//下に押し戻された＝頭をぶつけた
-	else if (push.y < 0.0f && m_Velocity.y > 0.0f)
-	{
-		m_Velocity.y = 0.0f;
-	}
-
-	//横に押し戻された：壁に向かう速度だけ消す（壁に沿って滑れる）
-	float len = sqrtf(push.x * push.x + push.z * push.z);
-	if (len > 0.0001f)
-	{
-		float nx = push.x / len;
-		float nz = push.z / len;
-		float dot = m_Velocity.x * nx + m_Velocity.z * nz;
-		if (dot < 0.0f)
-		{
-			m_Velocity.x -= nx * dot;
-			m_Velocity.z -= nz * dot;
-		}
-	}
-}
