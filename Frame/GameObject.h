@@ -14,13 +14,6 @@ protected://外部からアクセスできないが、継承したクラスか�
 	int m_Layer = 1;	// レイヤー番号
 	float m_CameraZ;	//ソート用Z値
 
-	ID3D11Buffer*							m_vertexBuffer=nullptr;					// 頂点バッファ
-	ID3D11InputLayout*					m_VertexLayout=nullptr;				// 頂点レイアウト
-	ID3D11VertexShader*				m_VertexShader=nullptr;				// 頂点シェーダー
-	ID3D11PixelShader*					m_PixelShader=nullptr;					// ピクセルシェーダー	
-	ID3D11Buffer*							m_indexBuffer=nullptr;					// インデックスバッファ
-	ID3D11ShaderResourceView*  m_Texture=nullptr;							// テクスチャ
-
 	std::list<Component*> m_Components;
 
 public:

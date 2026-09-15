@@ -135,6 +135,7 @@
     <ClCompile Include="Frame\Gizmo.cpp" />
     <ClCompile Include="Frame\Input.cpp" />
     <ClCompile Include="Frame\Manager.cpp" />
+    <ClCompile Include="Frame\Mesh.cpp" />
     <ClCompile Include="Frame\Profiler.cpp" />
     <ClCompile Include="Frame\Renderer.cpp" />
     <ClCompile Include="Frame\ShaderManager.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Frame\Gizmo.h" />
     <ClInclude Include="Frame\Input.h" />
     <ClInclude Include="Frame\Manager.h" />
+    <ClInclude Include="Frame\Mesh.h" />
     <ClInclude Include="Frame\Profiler.h" />
     <ClInclude Include="Frame\Renderer.h" />
     <ClInclude Include="Frame\Scene.h" />

@@ -41,12 +41,6 @@ public:
 		return gameObject;
 	}
 
-	static void RemoveGameObject(GameObject* gameobject)
-	{
-		m_GameObjects.remove(gameobject);
-		delete gameobject;
-	}
-
 	template<typename T>
 	static T* GetGameObject()
 	{

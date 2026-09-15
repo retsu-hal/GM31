@@ -1,5 +1,7 @@
 ﻿#include "main.h"
 #include "Renderer.h"
+#include "ShaderManager.h"
+#include "TextureManager.h"
 #include "Cube.h"
 
 
@@ -8,12 +10,11 @@ void CUBE::Init()
 {
 	m_Position = { 0.0f, 10.0f, 0.0f };
 	m_Scale = { 1.0f, 1.0f, 1.0f };
-	m_Velocity = { 0.0f, 0.0f, 0.0f };
 	m_RotSpeed = { 0.1f, 0.0f, 0.1f };
 
 	static const XMFLOAT4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	static const CUBE::Vertex3D vertexData[] =
+	static const VERTEX_3D vertex[] =
 	{
 		// Position                      Normal                TexCoord
 		// 上面 (Y+)　サイコロ（１）
@@ -52,19 +53,8 @@ void CUBE::Init()
 		{ {-1.0f, -1.0f,  1.0f }, { -1.0f, 0.0f,  0.0f }, color, {  0.5f, 0.666f } },
 		{ {-1.0f, -1.0f, -1.0f }, { -1.0f, 0.0f,  0.0f }, color, { 0.75f, 0.666f } },
 	};
-	Vertex3D vertex[24];
 
-	// vertex配列へコピー
-	memcpy(vertex, vertexData, sizeof(vertexData));
-
-	// 頂点バッファ生成
-	D3D11_BUFFER_DESC bd{};
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(VERTEX_3D) * 24;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-
-	// インデックスバッファ生成
+	// 面ごとに四角形（頂点4つ）を三角形2枚に張る
 	WORD index[36];
 	for (int i = 0; i < 6; i++)
 	{
@@ -76,91 +66,31 @@ void CUBE::Init()
 		index[i * 6 + 4] = base + 1;
 		index[i * 6 + 5] = base + 3;
 	}
-	
-	{
-		D3D11_BUFFER_DESC ibd{};
-		ibd.Usage = D3D11_USAGE_DEFAULT;
-		ibd.ByteWidth = sizeof(WORD) * 36;
-		ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
-		D3D11_SUBRESOURCE_DATA isd{};
-		isd.pSysMem = index;
+	m_Mesh.CreateVertex(vertex, _countof(vertex));
+	m_Mesh.CreateIndex(index, _countof(index));
 
-		Renderer::GetDevice()->CreateBuffer(&ibd, &isd, &m_indexBuffer);
-
-	}
-
-	D3D11_SUBRESOURCE_DATA sd{};
-	sd.pSysMem = vertex;
-
-	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_vertexBuffer);
-	//シェーダー読み込み
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
-
-	//テクスチャ読み込み
-	TexMetadata metadata;
-	ScratchImage image;
-	LoadFromWICFile(L"asset\\texture\\dice.jpg", WIC_FLAGS_NONE, &metadata, image);//テクスチャは変更可
-	CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(),
-		image.GetImageCount(), metadata, &m_Texture);
-	assert(m_Texture);//読み込み失敗時にダイアログを表示
-}
-
-void CUBE::Uninit()
-{
-	m_vertexBuffer->Release();
-
-	m_VertexLayout->Release();
-	m_VertexShader->Release();
-	m_PixelShader->Release();
-	m_indexBuffer->Release();
-	m_Texture->Release();
+	m_Shader = ShaderManager::Load("shader\\unlitTextureVS.cso", "shader\\unlitTexturePS.cso");
+	m_Texture = TextureManager::Load(L"asset\\texture\\dice.jpg");
 }
 
 void CUBE::Update()
 {
-	m_Rotation.x += m_RotSpeed.x;
-	m_Rotation.y += m_RotSpeed.y;
-	m_Rotation.z += m_RotSpeed.z;
+	m_Rotation += m_RotSpeed;
+
+	GameObject::Update();
 }
 
 void CUBE::Draw()
 {
-	//入力レイアウト設定
-	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+	m_Shader->Set();
 
-	//シェーダー設定
-	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
+	Renderer::SetWorldMatrix(GetWorldMatrix());
+	Renderer::SetTextureMaterial();
+	Renderer::SetTexture(m_Texture);
 
-	//マトリックス設定
-	XMMATRIX WorldMatrix, ScaleMatrix, RotMatrix, TransMatrix;
-	ScaleMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
-	RotMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
-	TransMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
-	WorldMatrix = ScaleMatrix * RotMatrix * TransMatrix;
+	m_Mesh.Bind(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	m_Mesh.Draw();
 
-	Renderer::SetWorldMatrix(WorldMatrix);
-
-	//マテリアル設定
-	MATERIAL material{};
-	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	material.TextureEnable = true;			//true:テクスチャを使用する、false:テクスチャを使用しない
-	Renderer::SetMaterial(material);
-
-
-	//テクスチャ設定
-	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
-
-	//頂点バッファ設定
-	UINT stride = sizeof(VERTEX_3D);
-	UINT offset = 0;
-	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
-	Renderer::GetDeviceContext()->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R16_UINT, 0);
-	//プリミティブトポロジ設定
-	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	//描画
-	Renderer::GetDeviceContext()->DrawIndexed(36, 0, 0);
+	GameObject::Draw();
 }

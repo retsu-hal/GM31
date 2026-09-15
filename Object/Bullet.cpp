@@ -45,8 +45,7 @@ void Bullet::Update()
 {
 	float dt = Manager::GetDeltaTime();
 
-	m_Position += m_Rigidbody->GetVelocity() * dt;
-
+	//移動は Rigidbody が行うのでここでは寿命だけ見る
 	m_Lifetime -= dt;
 	if (m_Lifetime <= 0.0f)
 	{

@@ -80,6 +80,8 @@ public:
 	static void SetViewMatrix(XMMATRIX ViewMatrix);
 	static void SetProjectionMatrix(XMMATRIX ProjectionMatrix);
 	static void SetMaterial(MATERIAL Material);
+	static void SetTextureMaterial(const XMFLOAT4& Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));	//テクスチャを使うマテリアルの簡易設定
+	static void SetTexture(ID3D11ShaderResourceView* Texture);
 	static void SetLight(LIGHT Light);
 
 	static ID3D11Device* GetDevice( void ){ return m_Device; }

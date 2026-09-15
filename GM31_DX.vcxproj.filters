@@ -37,6 +37,9 @@
     <ClCompile Include="Frame\Profiler.cpp">
       <Filter>Frame</Filter>
     </ClCompile>
+    <ClCompile Include="Frame\Mesh.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
     <ClCompile Include="Frame\Renderer.cpp">
       <Filter>Frame</Filter>
     </ClCompile>
@@ -163,6 +166,9 @@
       <Filter>Frame</Filter>
     </ClInclude>
     <ClInclude Include="Frame\Renderer.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame\Mesh.h">
       <Filter>Frame</Filter>
     </ClInclude>
     <ClInclude Include="Frame\Scene.h">

@@ -12,6 +12,7 @@
 #include "Rigidbody.h"
 
 #define SHADOW_OFFSET_Y	(0.01f)		// 影を地面から浮かせる量（Zファイティング回避）
+#define BULLET_SPEED	(20.0f)		// 弾の速さ
 
 
 void Player::Init()
@@ -129,7 +130,7 @@ void Player::Update()
 		
 		Bullet* bullet = Manager::AddGameObject<Bullet>();
 		bullet->SetPosition(spawnPos);
-		bullet->SetVelocity(GetForward()*10.0f);
+		bullet->SetVelocity(GetForward() * BULLET_SPEED);
 	}
 
 	//影移動（地面と同一平面だとZファイティングするので少し浮かせる）

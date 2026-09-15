@@ -363,6 +363,20 @@ void Renderer::SetMaterial( MATERIAL Material )
 	m_DeviceContext->UpdateSubresource( m_MaterialBuffer, 0, NULL, &Material, 0, 0 );
 }
 
+//テクスチャ付きマテリアルの設定（DiffuseとTextureEnableだけ指定する定番パターン）
+void Renderer::SetTextureMaterial(const XMFLOAT4& Diffuse)
+{
+	MATERIAL material{};
+	material.Diffuse = Diffuse;
+	material.TextureEnable = TRUE;
+	SetMaterial(material);
+}
+
+void Renderer::SetTexture(ID3D11ShaderResourceView* Texture)
+{
+	m_DeviceContext->PSSetShaderResources(0, 1, &Texture);
+}
+
 void Renderer::SetLight( LIGHT Light )
 {
 	m_DeviceContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
