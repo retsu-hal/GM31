@@ -21,6 +21,7 @@
 #include "Sky.h"
 #include "Box.h"
 #include "Score.h"
+#include "Wave.h"
 
 #include "GameScene.h"
 #include "ResultScene.h"
@@ -49,6 +50,8 @@ void GameScene::Init()
 
 	//Manager::AddGameObject<FIELD>();
 	MeshField* meshField = Manager::AddGameObject<MeshField>();
+
+	Manager::AddGameObject<Wave>();
 
 	Box* box = Manager::AddGameObject<Box>();
 	box->SetPosition({ 2.0f, 0.0f, -3.0f });

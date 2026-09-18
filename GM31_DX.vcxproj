@@ -172,6 +172,7 @@
     <ClCompile Include="imgui-master\imgui-master\imgui_widgets.cpp" />
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="Wave.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Frame\Component.h" />
@@ -219,6 +220,7 @@
     <ClInclude Include="imgui-master\imgui-master\imstb_truetype.h" />
     <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_dx11.h" />
     <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_win32.h" />
+    <ClInclude Include="Wave.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

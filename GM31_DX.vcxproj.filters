@@ -142,14 +142,12 @@
     <ClCompile Include="imgui-master\imgui-master\backends\imgui_impl_win32.cpp">
       <Filter>imgui\backends</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Wave.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Frame\Component.h">
-      <Filter>Frame</Filter>
-    </ClInclude>
-    <ClInclude Include="Frame\GameObject.h">
-      <Filter>Frame</Filter>
-    </ClInclude>
     <ClInclude Include="Frame\Gizmo.h">
       <Filter>Frame</Filter>
     </ClInclude>
@@ -163,9 +161,6 @@
       <Filter>Frame</Filter>
     </ClInclude>
     <ClInclude Include="Frame\Renderer.h">
-      <Filter>Frame</Filter>
-    </ClInclude>
-    <ClInclude Include="Frame\Scene.h">
       <Filter>Frame</Filter>
     </ClInclude>
     <ClInclude Include="Frame\ShaderManager.h">
@@ -276,6 +271,19 @@
     <ClInclude Include="imgui-master\imgui-master\backends\imgui_impl_win32.h">
       <Filter>imgui\backends</Filter>
     </ClInclude>
+    <ClInclude Include="main.h" />
+    <ClInclude Include="Frame\Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame\Component.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame\GameObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Wave.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -291,6 +299,9 @@
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="shader\fieldVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\SkinVS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>
