@@ -181,3 +181,13 @@ void Manager::Draw()
 
 	Renderer::End();
 }
+
+GameObject* Manager::FindGameObjectByID(unsigned int id)
+{
+	if (id == 0) return nullptr;
+	for (GameObject* object : m_GameObjects)
+	{
+		if (object->GetID() == id && !object->IsDestroyed()) return object;
+	}
+	return nullptr;
+}

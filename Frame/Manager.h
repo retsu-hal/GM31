@@ -3,10 +3,10 @@
 
 #include "main.h"
 #include "Profiler.h"
+#include "GameObject.h"	// RemoveGameObject で delete するので完全な型が必要
 #include <typeinfo>
 
 // 前方宣言
-class GameObject;
 class Scene;
 
 class Manager
@@ -27,13 +27,16 @@ public:
 	static void Draw();
 	static float GetDeltaTime() { return m_DeltaTime; }
 
+	static const std::list<GameObject*>& GetAllGameObjects() { return m_GameObjects; }
+	static GameObject* FindGameObjectByID(unsigned int id);
+
 	template<typename T>
 	static T* AddGameObject()
 	{
 		T* gameObject = nullptr;
 		{
-			ScopedTimer timer(typeid(T).name());
 			gameObject = new T();
+			gameObject->SetName(TypeName(typeid(T).name()));	
 			gameObject->Init();
 		}
 		m_GameObjects.push_back(gameObject);

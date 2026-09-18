@@ -17,6 +17,7 @@ public:
 	using Component::Component;
 
 	void Update() override;
+	void OnInspectorGUI() override;
 	void OnPushed(const Vector3& push);	
 
 	void SetVelocity(const Vector3& velocity) { m_Velocity = velocity; }

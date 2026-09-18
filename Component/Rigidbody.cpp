@@ -53,6 +53,15 @@ void Rigidbody::Update()
 	m_GameObject->SetPosition(pos);
 }
 
+void Rigidbody::OnInspectorGUI()
+{
+	ImGui::DragFloat3("Velocity", &m_Velocity.x, 0.1f);
+	ImGui::DragFloat("Gravity", &m_Gravity, 0.1f);
+	ImGui::DragFloat("Drag", &m_Drag, 0.1f);
+	ImGui::Checkbox("Use Gravity", &m_UseGravity);
+	ImGui::Text("Grounded: %s", m_IsGrounded ? "true" : "false");
+}
+
 void Rigidbody::OnPushed(const Vector3& push)
 {
 	//上に押し戻された：何かの上に乗った
