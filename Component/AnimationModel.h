@@ -10,6 +10,7 @@
 
 #include "Component.h"
 
+#define MAX_BONE 256
 
 //変形後頂点構造体
 struct DEFORM_VERTEX
@@ -27,6 +28,7 @@ struct BONE
 	aiMatrix4x4 Matrix;
 	aiMatrix4x4 AnimationMatrix;
 	aiMatrix4x4 OffsetMatrix;
+	int Index = 0;
 };
 
 //前方宣言
@@ -55,6 +57,8 @@ private:
 
 	const ShaderSet* m_Shader = nullptr;
 
+	ID3D11Buffer* m_BoneBuffer = nullptr;
+
 public:
 	using Component::Component;
 
@@ -66,6 +70,7 @@ public:
 	void Draw() override;
 
 	void SetShader(const char* vsFile, const char* psFile);
+
 
 	//----- デバッグ用 -----
 	bool HasAnimation(const char* Name) const;

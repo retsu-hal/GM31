@@ -2,7 +2,15 @@
 
 
 
-
+struct VERTEX_SKIN
+{
+	XMFLOAT3 Position;
+	XMFLOAT3 Normal;
+	XMFLOAT4 Diffuse;
+	XMFLOAT2 TexCoord;
+	UINT           BoneIndex[4];
+	XMFLOAT4 BoneWeight;
+};
 
 struct VERTEX_3D
 {
