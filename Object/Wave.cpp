@@ -127,13 +127,13 @@ void Wave::Init()
     }
 
     // シェーダー読込
-    Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\fieldVS.cso");
-    Renderer::CreatePixelShader(&m_PixelShader, "shader\\fieldPS.cso");
+    Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\WaveVS.cso");
+    Renderer::CreatePixelShader(&m_PixelShader, "shader\\WavePS.cso");
 
     // テクスチャ読み込み
     TexMetadata metadata;
     ScratchImage image;
-    LoadFromWICFile(L"asset\\texture\\water.jpg", WIC_FLAGS_NONE, &metadata, image);
+    LoadFromWICFile(L"asset\\model\\sky.jpg", WIC_FLAGS_NONE, &metadata, image);
     CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(), image.GetImageCount(), metadata, &m_Texture);
     assert(m_Texture);
 

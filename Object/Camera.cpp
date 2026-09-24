@@ -55,4 +55,6 @@ void CAMERA::Draw()
 	m_ViewMatrix= XMMatrixLookAtLH(XMLoadFloat3((XMFLOAT3*)&m_Position), XMLoadFloat3((XMFLOAT3*)&m_Target), XMLoadFloat3(&up));
 	
 	Renderer::SetViewMatrix(m_ViewMatrix);
+
+	Renderer::SetCameraPosition(m_Position);
 }

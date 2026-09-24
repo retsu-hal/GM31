@@ -71,6 +71,8 @@ struct VS_IN
 struct PS_IN
 {
 	float4 Position		: SV_POSITION;
+    float4 WorldPosition : POSITION;
+    float4 Normal : NORMAL0;
 	float4 Diffuse		: COLOR0;
 	float2 TexCoord		: TEXCOORD0;
 };

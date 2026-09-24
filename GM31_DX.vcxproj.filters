@@ -143,7 +143,7 @@
       <Filter>imgui\backends</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Wave.cpp">
+    <ClCompile Include="Object\Wave.cpp">
       <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
@@ -281,7 +281,7 @@
     <ClInclude Include="Frame\GameObject.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="Wave.h">
+    <ClInclude Include="Object\Wave.h">
       <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
@@ -302,6 +302,12 @@
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="shader\SkinVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\WavePS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\WaveVS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>

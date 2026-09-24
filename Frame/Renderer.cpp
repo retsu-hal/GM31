@@ -1,6 +1,7 @@
 ﻿
 #include "main.h"
 #include "Renderer.h"
+
 #include <io.h>
 
 
@@ -17,6 +18,8 @@ ID3D11Buffer*			Renderer::m_ViewBuffer{};
 ID3D11Buffer*			Renderer::m_ProjectionBuffer{};
 ID3D11Buffer*			Renderer::m_MaterialBuffer{};
 ID3D11Buffer*			Renderer::m_LightBuffer{};
+ID3D11Buffer*			Renderer::m_CameraBuffer{};
+
 
 
 ID3D11DepthStencilState* Renderer::m_DepthStateEnable{};
@@ -227,6 +230,10 @@ void Renderer::Init()
 	m_DeviceContext->VSSetConstantBuffers( 4, 1, &m_LightBuffer );
 	m_DeviceContext->PSSetConstantBuffers( 4, 1, &m_LightBuffer );
 
+	bufferDesc.ByteWidth = sizeof(XMFLOAT4);
+	m_Device->CreateBuffer( &bufferDesc, NULL, &m_CameraBuffer );
+	m_DeviceContext->VSSetConstantBuffers( 5, 1, &m_CameraBuffer );
+	m_DeviceContext->PSSetConstantBuffers(5, 1, &m_CameraBuffer);
 
 
 
@@ -367,9 +374,16 @@ void Renderer::SetLight( LIGHT Light )
 {
 	m_DeviceContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
 }
+void Renderer::SetCameraPosition(Vector3 CameraPosition)
+{
+	XMFLOAT4 CameraPos;
+	CameraPos.x = CameraPosition.x;
+	CameraPos.y = CameraPosition.y;
+	CameraPos.z = CameraPosition.z;
+	CameraPos.w = 1.0f;
 
-
-
+	m_DeviceContext->UpdateSubresource(m_CameraBuffer, 0, NULL, &CameraPos, 0, 0);
+}
 
 
 void Renderer::CreateVertexShader( ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName )
