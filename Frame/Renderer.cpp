@@ -168,8 +168,10 @@ void Renderer::Init()
 	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	// アルファは「上に重ねる」計算にする。ZERO だとテクスチャのアルファがそのまま書き込まれて、
+	// オフスクリーンを ImGui で貼ったときに PNG の半透明部分が透けて見えてしまう
 	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_INV_SRC_ALPHA;
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
@@ -322,7 +324,7 @@ void Renderer::Begin()
 	viewport.MaxDepth = 1.0f;
 	m_DeviceContext->RSSetViewports(1, &viewport);
 
-	float clearColor[4] = { 0.0f, 0.5f, 1.0f, 0.1f };
+	float clearColor[4] = { 0.0f, 0.5f, 1.0f, 1.0f };	// アルファは 1（不透明）にしておく
 	m_DeviceContext->ClearRenderTargetView( m_SceneRenderTargetView, clearColor );
 	m_DeviceContext->ClearDepthStencilView( m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
