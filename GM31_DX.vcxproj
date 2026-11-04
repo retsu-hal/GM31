@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Frame\Editor.cpp" />
     <ClCompile Include="Frame\Gizmo.cpp" />
     <ClCompile Include="Frame\Input.cpp" />
     <ClCompile Include="Frame\Manager.cpp" />
@@ -177,6 +178,7 @@
   <ItemGroup>
     <ClInclude Include="Frame\Component.h" />
     <ClInclude Include="Frame\GameObject.h" />
+    <ClInclude Include="Frame\Editor.h" />
     <ClInclude Include="Frame\Gizmo.h" />
     <ClInclude Include="Frame\Input.h" />
     <ClInclude Include="Frame\Manager.h" />

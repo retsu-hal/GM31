@@ -135,6 +135,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_ACTIVATEAPP:
         break;
 
+	case WM_SIZE:
+		//ウィンドウの大きさに合わせてバックバッファを作り直す（エディターを広く使えるように）
+		if (wParam != SIZE_MINIMIZED) Renderer::Resize(LOWORD(lParam), HIWORD(lParam));
+		break;
+
     case WM_SYSKEYDOWN:
     case WM_KEYUP:
     case WM_SYSKEYUP:

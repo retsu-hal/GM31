@@ -58,6 +58,13 @@ private:
 	static ID3D11RenderTargetView* m_RenderTargetView;
 	static ID3D11DepthStencilView* m_DepthStencilView;
 
+	// エディターの Scene ビュー用オフスクリーン（ゲーム画面はいったんここに描く）
+	static ID3D11RenderTargetView*   m_SceneRenderTargetView;
+	static ID3D11ShaderResourceView* m_SceneShaderResourceView;
+
+	static UINT m_BackBufferWidth;	// ウィンドウ（スワップチェーン）の大きさ
+	static UINT m_BackBufferHeight;
+
 	static ID3D11Buffer*			m_WorldBuffer;
 	static ID3D11Buffer*			m_ViewBuffer;
 	static ID3D11Buffer*			m_ProjectionBuffer;
@@ -79,8 +86,14 @@ private:
 public:
 	static void Init();
 	static void Uninit();
-	static void Begin();
+	static void Begin();		// ゲーム画面の描画開始（オフスクリーンに描く）
+	static void BeginBackBuffer();	// ウィンドウ（バックバッファ）への描画開始。ImGui はこっち
 	static void End();
+	static void Resize(UINT Width, UINT Height);	// ウィンドウサイズが変わったとき
+
+	static ID3D11ShaderResourceView* GetSceneTexture() { return m_SceneShaderResourceView; }
+	static UINT GetBackBufferWidth() { return m_BackBufferWidth; }
+	static UINT GetBackBufferHeight() { return m_BackBufferHeight; }
 
 	static void SetDepthEnable(bool Enable);
 	static void SetAddEnable(bool Enable);

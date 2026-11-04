@@ -40,6 +40,8 @@ private:
 
 	static bool m_FirstUpdate;		// 初回のみ移動量を0にする
 
+	static bool m_GameViewFocused;	// エディターの Scene ビューがゲーム入力を受け付けているか
+
 public:
 	static void Init();
 	static void Uninit();
@@ -71,4 +73,9 @@ public:
 	static void SetMouseVisible(bool Visible);
 	static bool IsMouseVisible();
 	static bool IsMouseConnected();
+
+	// --- エディター連携 ---
+	// ImGui の上にマウスがあるとゲームにはマウス入力を渡さないが、
+	// Scene ビュー（ゲーム画面）の上だけは渡したいので、エディターから毎フレーム教えてもらう
+	static void SetGameViewFocused(bool Focused) { m_GameViewFocused = Focused; }
 };

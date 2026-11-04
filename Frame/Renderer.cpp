@@ -12,6 +12,10 @@ ID3D11DeviceContext*    Renderer::m_DeviceContext{};
 IDXGISwapChain*         Renderer::m_SwapChain{};
 ID3D11RenderTargetView* Renderer::m_RenderTargetView{};
 ID3D11DepthStencilView* Renderer::m_DepthStencilView{};
+ID3D11RenderTargetView*   Renderer::m_SceneRenderTargetView{};
+ID3D11ShaderResourceView* Renderer::m_SceneShaderResourceView{};
+UINT Renderer::m_BackBufferWidth = SCREEN_WIDTH;
+UINT Renderer::m_BackBufferHeight = SCREEN_HEIGHT;
 
 ID3D11Buffer*			Renderer::m_WorldBuffer{};
 ID3D11Buffer*			Renderer::m_ViewBuffer{};
@@ -103,7 +107,27 @@ void Renderer::Init()
 	depthStencile->Release();
 
 
-	m_DeviceContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencilView);
+	// Scene ビュー用のオフスクリーンレンダーターゲット（ゲーム解像度で固定）
+	{
+		D3D11_TEXTURE2D_DESC sceneDesc{};
+		sceneDesc.Width = SCREEN_WIDTH;
+		sceneDesc.Height = SCREEN_HEIGHT;
+		sceneDesc.MipLevels = 1;
+		sceneDesc.ArraySize = 1;
+		sceneDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		sceneDesc.SampleDesc.Count = 1;
+		sceneDesc.Usage = D3D11_USAGE_DEFAULT;
+		sceneDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+
+		ID3D11Texture2D* sceneTexture{};
+		m_Device->CreateTexture2D(&sceneDesc, NULL, &sceneTexture);
+		m_Device->CreateRenderTargetView(sceneTexture, NULL, &m_SceneRenderTargetView);
+		m_Device->CreateShaderResourceView(sceneTexture, NULL, &m_SceneShaderResourceView);
+		sceneTexture->Release();
+	}
+
+
+	m_DeviceContext->OMSetRenderTargets(1, &m_SceneRenderTargetView, m_DepthStencilView);
 
 
 
@@ -272,6 +296,9 @@ void Renderer::Uninit()
 
 
 	m_DeviceContext->ClearState();
+	if (m_SceneShaderResourceView) { m_SceneShaderResourceView->Release(); m_SceneShaderResourceView = nullptr; }
+	if (m_SceneRenderTargetView)   { m_SceneRenderTargetView->Release();   m_SceneRenderTargetView = nullptr; }
+	if (m_DepthStencilView)        { m_DepthStencilView->Release();        m_DepthStencilView = nullptr; }
 	m_RenderTargetView->Release();
 	m_SwapChain->Release();
 	m_DeviceContext->Release();
@@ -284,9 +311,61 @@ void Renderer::Uninit()
 
 void Renderer::Begin()
 {
+	// ゲーム画面はオフスクリーン（ゲーム解像度）に描く
+	// → エディターでは Scene ビューに、ゲームモードではウィンドウ全体に貼り付ける
+	m_DeviceContext->OMSetRenderTargets(1, &m_SceneRenderTargetView, m_DepthStencilView);
+
+	D3D11_VIEWPORT viewport{};
+	viewport.Width = (FLOAT)SCREEN_WIDTH;
+	viewport.Height = (FLOAT)SCREEN_HEIGHT;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+	m_DeviceContext->RSSetViewports(1, &viewport);
+
 	float clearColor[4] = { 0.0f, 0.5f, 1.0f, 0.1f };
-	m_DeviceContext->ClearRenderTargetView( m_RenderTargetView, clearColor );
+	m_DeviceContext->ClearRenderTargetView( m_SceneRenderTargetView, clearColor );
 	m_DeviceContext->ClearDepthStencilView( m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+}
+
+
+
+void Renderer::BeginBackBuffer()
+{
+	// ImGui（エディター）はウィンドウの大きさのバックバッファに描く。深度は使わない
+	m_DeviceContext->OMSetRenderTargets(1, &m_RenderTargetView, nullptr);
+
+	D3D11_VIEWPORT viewport{};
+	viewport.Width = (FLOAT)m_BackBufferWidth;
+	viewport.Height = (FLOAT)m_BackBufferHeight;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+	m_DeviceContext->RSSetViewports(1, &viewport);
+
+	float clearColor[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
+	m_DeviceContext->ClearRenderTargetView(m_RenderTargetView, clearColor);
+}
+
+
+
+void Renderer::Resize(UINT Width, UINT Height)
+{
+	if (m_SwapChain == nullptr || Width == 0 || Height == 0) return;	// 初期化前・最小化中
+	if (Width == m_BackBufferWidth && Height == m_BackBufferHeight) return;
+
+	// バックバッファを参照しているものを全部外してからサイズを変える
+	m_DeviceContext->OMSetRenderTargets(0, nullptr, nullptr);
+	m_RenderTargetView->Release();
+	m_RenderTargetView = nullptr;
+
+	m_SwapChain->ResizeBuffers(0, Width, Height, DXGI_FORMAT_UNKNOWN, 0);
+
+	ID3D11Texture2D* renderTarget{};
+	m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&renderTarget);
+	m_Device->CreateRenderTargetView(renderTarget, NULL, &m_RenderTargetView);
+	renderTarget->Release();
+
+	m_BackBufferWidth = Width;
+	m_BackBufferHeight = Height;
 }
 
 

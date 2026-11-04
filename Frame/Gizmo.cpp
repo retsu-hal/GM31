@@ -28,13 +28,13 @@ static XMVECTOR ToClip(const Vector3& p, const XMMATRIX& viewProj)
 }
 
 //クリップ座標 → 画面座標（ピクセル）
-static ImVec2 ToScreen(XMVECTOR clip, const ImGuiViewport* vp)
+static ImVec2 ToScreen(XMVECTOR clip, const ImVec2& pos, const ImVec2& size)
 {
 	float w = XMVectorGetW(clip);
 	float x = XMVectorGetX(clip) / w;
 	float y = XMVectorGetY(clip) / w;
-	return ImVec2(vp->Pos.x + (x * 0.5f + 0.5f) * vp->Size.x,
-		vp->Pos.y + (-y * 0.5f + 0.5f) * vp->Size.y);
+	return ImVec2(pos.x + (x * 0.5f + 0.5f) * size.x,
+		pos.y + (-y * 0.5f + 0.5f) * size.y);
 }
 
 //=============================================================
@@ -49,7 +49,7 @@ void Gizmo::Uninit()
 //=============================================================
 // ためた線と文字を ImGui に描かせる
 //=============================================================
-void Gizmo::Draw()
+void Gizmo::DrawSettingsWindow()
 {
 #if _DEBUG
 	ImGui::Begin("Gizmo");
@@ -58,13 +58,14 @@ void Gizmo::Draw()
 	ImGui::Text("Lines: %d", (int)m_Lines.size());
 	ImGui::End();
 #endif
+}
 
+void Gizmo::Draw(ImDrawList* drawList, const ImVec2& pos, const ImVec2& size)
+{
 	CAMERA* camera = Manager::GetGameObject<CAMERA>();
-	if (m_Enable && camera)
+	if (m_Enable && camera && drawList)
 	{
 		XMMATRIX viewProj = camera->GetViewMatrix() * camera->GetProjectionMatrix();
-		ImDrawList* drawList = ImGui::GetBackgroundDrawList();	//ImGuiのウィンドウより奥に描く
-		const ImGuiViewport* vp = ImGui::GetMainViewport();
 
 		for (const Line& line : m_Lines)
 		{
@@ -78,14 +79,14 @@ void Gizmo::Draw()
 			if (za < 0.0f)      a = XMVectorLerp(a, b, za / (za - zb));
 			else if (zb < 0.0f) b = XMVectorLerp(b, a, zb / (zb - za));
 
-			drawList->AddLine(ToScreen(a, vp), ToScreen(b, vp), line.Color, m_Thickness);
+			drawList->AddLine(ToScreen(a, pos, size), ToScreen(b, pos, size), line.Color, m_Thickness);
 		}
 
 		for (const Label& label : m_Labels)
 		{
 			XMVECTOR p = ToClip(label.Position, viewProj);
 			if (XMVectorGetZ(p) < 0.0f) continue;	//カメラの後ろ
-			drawList->AddText(ToScreen(p, vp), label.Color, label.Text.c_str());
+			drawList->AddText(ToScreen(p, pos, size), label.Color, label.Text.c_str());
 		}
 	}
 

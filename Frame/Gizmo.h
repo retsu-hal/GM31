@@ -31,7 +31,10 @@ private:
 public:
 	static void Init() {}
 	static void Uninit();
-	static void Draw();		//ImGui::NewFrame と ImGui::Render の間で呼ぶ
+	//ためた線と文字を drawList に描いて捨てる（ImGui::NewFrame と ImGui::Render の間で呼ぶ）
+	//pos / size はゲーム画面が貼られている画面上の矩形（エディターなら Scene ビューの中）
+	static void Draw(ImDrawList* drawList, const ImVec2& pos, const ImVec2& size);
+	static void DrawSettingsWindow();	//表示切り替えなどの設定ウィンドウ
 
 	static void SetEnable(bool enable) { m_Enable = enable; }
 	static bool IsEnable() { return m_Enable; }

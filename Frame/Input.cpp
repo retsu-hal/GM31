@@ -368,6 +368,7 @@ BYTE Input::m_KeyState[256];
 bool Input::m_OldMouseButton[Input::MOUSE_BUTTON_MAX];
 bool Input::m_MouseButton[Input::MOUSE_BUTTON_MAX];
 
+bool Input::m_GameViewFocused = false;
 int  Input::m_MouseX = 0;
 int  Input::m_MouseY = 0;
 int  Input::m_MouseMoveX = 0;
@@ -465,18 +466,34 @@ void Input::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam)
 //======================================================================
 // キーボード
 //======================================================================
+//ImGui の入力欄に文字を打っている間はゲームにキーを渡さない
+static bool ImGuiWantsKeyboard()
+{
+	return ImGui::GetCurrentContext() && ImGui::GetIO().WantTextInput;
+}
+
+//ImGui のウィンドウ上ならマウスはゲームに渡さない（Scene ビューの上は例外）
+static bool ImGuiWantsMouse(bool gameViewFocused)
+{
+	if (gameViewFocused) return false;
+	return ImGui::GetCurrentContext() && ImGui::GetIO().WantCaptureMouse;
+}
+
 bool Input::GetKeyPress(BYTE KeyCode)
 {
+	if (ImGuiWantsKeyboard()) return false;
 	return (m_KeyState[KeyCode] & 0x80) != 0;
 }
 
 bool Input::GetKeyTrigger(BYTE KeyCode)
 {
+	if (ImGuiWantsKeyboard()) return false;
 	return ((m_KeyState[KeyCode] & 0x80) && !(m_OldKeyState[KeyCode] & 0x80));
 }
 
 bool Input::GetKeyRelease(BYTE KeyCode)
 {
+	if (ImGuiWantsKeyboard()) return false;
 	return (!(m_KeyState[KeyCode] & 0x80) && (m_OldKeyState[KeyCode] & 0x80));
 }
 
@@ -486,19 +503,19 @@ bool Input::GetKeyRelease(BYTE KeyCode)
 //======================================================================
 bool Input::GetMousePress(MOUSE_BUTTON Button)
 {
-	if (ImGui::GetCurrentContext() && ImGui::GetIO().WantCaptureMouse) return false;
+	if (ImGuiWantsMouse(m_GameViewFocused)) return false;
 	return m_MouseButton[Button];
 }
 
 bool Input::GetMouseTrigger(MOUSE_BUTTON Button)
 {
-	if (ImGui::GetCurrentContext() && ImGui::GetIO().WantCaptureMouse) return false;
+	if (ImGuiWantsMouse(m_GameViewFocused)) return false;
 	return (m_MouseButton[Button] && !m_OldMouseButton[Button]);
 }
 
 bool Input::GetMouseRelease(MOUSE_BUTTON Button)
 {
-	if (ImGui::GetCurrentContext() && ImGui::GetIO().WantCaptureMouse) return false;
+	if (ImGuiWantsMouse(m_GameViewFocused)) return false;
 	return (!m_MouseButton[Button] && m_OldMouseButton[Button]);
 }
 

@@ -25,6 +25,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Frame\Editor.cpp">
+      <Filter>Frame</Filter>
+    </ClCompile>
     <ClCompile Include="Frame\Gizmo.cpp">
       <Filter>Frame</Filter>
     </ClCompile>
@@ -148,6 +151,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Frame\Editor.h">
+      <Filter>Frame</Filter>
+    </ClInclude>
     <ClInclude Include="Frame\Gizmo.h">
       <Filter>Frame</Filter>
     </ClInclude>

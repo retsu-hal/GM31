@@ -11,6 +11,7 @@
 #include "TextureManager.h"
 #include "Collider.h"
 #include "Gizmo.h"
+#include "Editor.h"
 
 
 //staticメンバー変数はcppで定義する必要がある
@@ -32,6 +33,7 @@ void Manager::Init()
 	ImGui::StyleColorsDark();
 	ImGui_ImplWin32_Init(GetWindow());
 	ImGui_ImplDX11_Init(Renderer::GetDevice(), Renderer::GetDeviceContext());
+	Editor::Init();	// docking 有効化・配色・フォント
 
 	ChangeScene<TitleScene>();
 }
@@ -39,6 +41,7 @@ void Manager::Init()
 
 void Manager::Uninit()
 {
+	Editor::Uninit();
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
@@ -78,13 +81,19 @@ void Manager::Update()
 	if (Input::GetKeyTrigger(VK_F1)) Gizmo::SetEnable(!Gizmo::IsEnable());
 #endif
 
+	//エディター（メニューバーと DockSpace は他のウィンドウより先に出す）
+	Editor::BeginFrame();
 
-	if (m_Scene != nullptr)	m_Scene->Update();
+	//エディターで一時停止中はゲームを進めない（Step で 1 フレームだけ進む）
+	if (Editor::ShouldUpdateGame())
+	{
+		if (m_Scene != nullptr)	m_Scene->Update();
 
-	for (GameObject* gameObject : m_GameObjects) gameObject->Update();
+		for (GameObject* gameObject : m_GameObjects) gameObject->Update();
 
-	//当たり判定（各オブジェクトのUpdateで移動し終わってから、まとめて押し出す）
-	Collider::Check();
+		//当たり判定（各オブジェクトのUpdateで移動し終わってから、まとめて押し出す）
+		Collider::Check();
+	}
 
 	//ゲームオブジェクトの削除　【ラムダ式】
 	m_GameObjects.remove_if([](GameObject* object)
@@ -121,6 +130,8 @@ void Manager::Update()
 				m_Scene->Init();
 			}
 			Profiler::Dump();
+			Editor::Log("Scene loaded: %s (%d objects)", TypeName(typeid(*m_Scene).name()).c_str(), (int)m_GameObjects.size());
+			Editor::Select(nullptr);
 			m_NextScene = nullptr;
 		}
 	}
@@ -173,7 +184,11 @@ void Manager::Draw()
 	
 	//デバッグ表示（ImGui::Render より前に線をためる）
 	Collider::DrawGizmo();
-	Gizmo::Draw();
+
+	//ここからウィンドウ（バックバッファ）に ImGui を描く
+	//ゲーム画面はエディターの Scene ビュー（非表示ならウィンドウ全体）に貼られる
+	Renderer::BeginBackBuffer();
+	Editor::Draw();
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
